@@ -1,0 +1,198 @@
+.main-header{
+    z-index: 10;
+    margin: 0;
+    position: fixed;
+    width: 100%;
+    height: 3.5rem;
+    background-color: rgba(20, 20, 20, 1);
+    /*color: rgb(20, 20, 20);*/
+}
+
+
+.main-nav {
+    position: static;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+#nav-title {
+    display: inline-block;
+    font-family: 'Lora', serif;
+    margin-left: 1rem;
+    font-size: 1.7rem;
+    color: #beffff;
+    text-shadow: 1px 1px 0px #050;
+    /* text-shadow: 1px 1px 1.5px gray, -1px -1px 0px rgba(255, 255, 255, 0.4); */
+
+}
+
+#nav-menu {
+    display: inline-block;
+    width: 3rem;
+    height: 3rem;    
+    color: #0a020a;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 3px;
+    border: 2px solid #beffff; 
+    font-family: 'Lato', sans-serif;
+    outline: none;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+
+#nav-menu:active {
+    /*border: 3px solid rgba(250, 250, 250, 0.5);*/
+}
+
+.nav-items {
+    z-index: 20;
+    position: fixed;
+    display: block;
+    left: 0;
+    top: 0rem;
+    font-size: 1.05rem;
+    width: 12rem;
+    height: calc(100vh);
+    padding: 0;
+    margin: 0;
+    /*padding-top: calc(50vh - 6rem);*/
+    padding-top: 1rem;
+    color: aliceblue;
+    background-color: rgb(30, 30, 30);
+    transform: translate(-15rem);
+    transition: visibility 0.25s ease-in, transform 0.25s ease-in;
+    visibility: hidden;
+    }
+#nav-backdrop{
+    z-index: 20;
+}
+.nav-items.show {
+    visibility: visible;
+    transform: translate(0rem);
+}
+
+
+
+.nav-item {
+    font-family: 'Raleway', sans-serif;
+    display: block;
+    background-color: rgba(219, 244, 251, 0); 
+    color: aliceblue;
+    padding: 0.75rem 0.7rem;
+    text-align: left;
+    font-size: 1.05rem;
+    /*margin: 0 auto;*/
+    width: 100%;
+    cursor: pointer;
+    opacity: 1;
+    text-transform: uppercase;
+    /*border-bottom: solid 1px #beffff;*/
+    border: none;
+
+}
+
+.nav-item:focus {
+    -webkit-box-shadow: 0px 0px 1px 2px #FFFFFF, 0px 0px 2px 3px #969696, 0px 0px 3px 5px #000000;
+    box-shadow: 0px 0px 1px 2px #FFFFFF, 0px 0px 2px 3px #969696, 0px 0px 3px 5px #000000;
+    /*padding-right: 2.5rem;*/
+}
+
+.projects-items{
+    display: none;
+    border-top: solid 1px #beffff;
+    border-bottom: solid 1px #beffff;
+    width: 100%;
+    background-color: #333;
+    font-size: 1rem;
+}
+.projects-items.show{
+    display: block;
+}
+.projects-item{
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    color: aliceblue;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    width: 100%;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    text-align: left;
+}
+.nav-item.current {
+    color: #fbe16a;
+}
+
+/*breakpoints*/
+
+@media screen and (min-width: 780px) {
+    .main-header{
+        /*background-color: rgba(67, 67, 71, 0.05);*/
+        /*-webkit-box-shadow: 0px 1.5px 0px 0px rgba(255, 255, 255, 0); box-shadow: 0px 1.5px 0px 0px rgba(255, 255, 255, 0);*/
+        text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.507);
+        /*height: 5.75rem;*/
+        /*padding-top: 2rem;*/
+        /*padding-bottom: 2rem;*/
+        transition: all 0.15s ease-in;
+        /*background: linear-gradient(180deg, rgba(29, 29, 31, 0.801), transparent);*/
+    }
+
+    .main-nav{
+        position: static;
+        width: 100%;
+        /*max-width: 40rem;*/
+        padding: 0 1.5rem;
+        padding-right: 0.8rem;
+        /*justify-content: space-between;*/
+    }
+    #nav-title{
+        left: 0;
+        /*font-size: 2.3rem;*/
+        transition: all 0.15s ease-in;
+    }
+
+    
+
+
+    .nav-margin{
+
+    }
+    #nav-menu{
+        /*display: none;*/
+    }
+    .nav-items{
+        /*transition: visibility 0s ease-in, transform 0s ease-in;*/
+        /*visibility: visible;*/
+        top: 3.5rem;
+        /*opacity: 1;*/
+        /*transform: translate(0);*/
+    }
+    #nav-backdrop{
+        display: none;
+    }
+    .nav-items li{
+        /*display: inline;*/
+    }
+    .nav-item{
+        /*display: inline;*/
+        /*padding: 0.9rem 0rem;*/
+        /*margin: 0 0.9rem;*/
+
+    }
+    .nav-item:focus{
+        /*padding-right: 0.3rem;*/
+
+    }
+}
+@media screen and (min-width: 1100px) {
+    .main-nav {
+        /*max-width: 80rem;*/
+    }
+}

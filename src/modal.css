@@ -1,0 +1,235 @@
+#add-backdrop{
+    /*visibility: visible;*/
+    /*opacity: 1;*/
+}    
+.modal-container{
+    position: relative;
+    /*display: none;*/
+    display: block;
+    /*position: fixed;*/
+
+    width: (100% - 1rem);
+    max-width: 40rem;
+    /*margin: calc(50vh - 13.4rem) calc(50vw - 50%);*/
+    margin: calc(33vh - 6.5rem) calc(50vw - 50%);
+    padding: 2rem 1rem;
+    background-color: #EEE9E3;
+    -webkit-box-shadow: 0 0 0 3px #555;
+    box-shadow: 0 0 0 3px #555;
+    border-radius: 5px;
+    /*overflow: hidden;*/
+    overflow-y: auto;
+    max-height: calc(100vh - 2rem);
+}
+
+#add-content {
+    transform: translateY(-1000px);
+    transition: transform 0.3s ease-in-out;
+}
+
+#add-content.show {
+    transform: translateY(0px);
+}
+
+#delete-modal, #delete-all-modal {
+    position: relative;
+    top: 8%;
+}
+
+.modal-container:focus{
+    -webkit-box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
+    box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
+}
+
+.modal__close {
+    /*z-index: 102;*/
+    display: inline-block;
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    right: 0;
+    padding: 0.9rem;
+    /*margin-left: calc(95% - 2.7rem);*/
+    /*margin-right: 0;*/
+    margin-top: -2.2rem;
+}
+
+
+
+.modal__close svg, .modal__close-png {
+    width: 100%;
+    height: 100%;
+    filter: invert(13%) sepia(12%) saturate(1874%) hue-rotate(330deg) brightness(99%) contrast(87%);
+}
+
+.modal__close svg:hover, .modal__close-png:hover {
+    filter: invert(13%) sepia(12%) saturate(1874%) hue-rotate(330deg) brightness(0%) contrast(87%);   
+}
+
+.modal__close image {
+    width: 100%;
+    height: 100%;
+}
+
+.modal-header {
+    /*display: inline-block; */
+    margin: 0 auto;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+.text-field {
+    position: relative;
+    display: block;
+    width: 85%;
+    max-width: 26rem;
+    height: 2.8rem;
+    margin: 1rem auto;
+    border: solid 1.5px #888; 
+    border-radius: 5px;
+    padding-left: 0.6rem;
+    font-size: 1.05rem;
+    /*right: 0.5rem; */
+    font-family: 'Roboto', sans-serif;
+}
+
+.text-field:focus {
+    background-color: #fcfae0;
+}
+
+.text-field.invalid {
+    background-color: #fcc;
+}
+
+.modal-error-message{
+    position: relative;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    font-size: 1.0rem;
+    width: 85%;
+    max-width: 26rem;
+    margin: 0.8rem auto;
+
+    color: rgb(140, 20, 20);
+}
+
+.checkbox-container{
+    /*position: relative;*/
+    /*right: 2%;*/
+    width: 85%;
+    max-width: 26rem;
+    height: 2.8rem;
+    padding: 0.8rem 0;
+    margin: 1rem auto;
+
+}
+
+
+
+.form-checkbox{
+    width: 1.05rem;
+    height: 1.05rem;
+    margin: 0;
+}
+.form-label{
+    position: relative;
+    font-size: 1.05rem;   
+    bottom: 0.2rem;
+}
+
+.form-label:hover{
+    text-shadow: 0 0 0.1px #111;
+}
+
+#add-submit{
+    display: block;
+    width: 82%;
+    max-width: 16rem;
+    height: 3rem;
+    font-size: 1.3rem;
+    font-family: 'Roboto', sans-serif;
+    margin: 1rem auto;
+    background-color: #3d2922;
+    color: #EEE9E3;
+    outline: none;
+    border: 2px solid #888;
+    border-radius: 5px;
+}
+
+#add-submit:hover {
+    background-color: #4d3932;
+    color: #FEF9F3;
+    text-shadow: 0 0 0.2px #111;
+}
+
+
+.modal-paragraph {
+    width: 90%;
+    max-width: 28.5rem;
+    margin: 1.5rem auto;
+    text-align: center;
+}
+
+#remove-all{
+    text-transform: uppercase;
+    color: #922;
+    text-shadow: 0 0 0.2px #922;
+}
+
+#delete-all-warning{
+    font-size: 1rem;
+    color: #922;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 2rem auto;
+    margin-bottom: 1rem;
+    width: 85%;
+    max-width: 20rem;
+}
+
+#delete-modal-button, #delete-all-modal-button {
+    position: relative;
+    margin: 0 auto;
+    left: 0.5rem;
+    background-color: #af0b0b;
+    color: white;
+    width: 42%;
+    border: none;
+}
+
+#delete-modal-button:hover, #delete-all-modal-button:hover {
+    background-color: #bf1b1b; 
+    /*color: #111;*/
+    text-shadow: 1px 1px 0 #111;
+}
+
+
+#cancel-modal-button, #cancel-all-modal-button {
+    position: relative;
+    margin: 0 auto;
+    margin-right: 1rem;
+    padding: 0.2rem 0.3rem;
+    right: 0.3rem;
+    width: 42%;
+    background-color: #c0c0c0;
+    color: #141414;
+    border: none;
+    font-size: 1rem;
+}
+
+#cancel-modal-button:hover, #cancel-all-modal-button:hover {
+    background-color: #b0b0b0;
+    text-shadow: 0 0 0.1px #111;
+}
+
+@media screen and (min-width: 650px){
+    .modal-container{
+        margin: calc(33vh - 6.5rem) calc(50vw - 20rem);
+    }
+}   

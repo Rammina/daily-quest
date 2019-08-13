@@ -3,7 +3,7 @@
 	width: 100%;
 	min-height: 25rem;
 	height: 100%;
-	background-color: aliceblue;
+	background-color: #444;
 	transition: padding-left 0.25s ease-in;
 
 	/*padding: 1rem 0;*/
@@ -32,7 +32,7 @@
 }
 
 #tasklist-header {
-	display: none;
+	/* display: none; */
 	font-size: 2.3rem;
 	margin-bottom: 1rem;
 	text-shadow: 1px 1px 0px #050;
@@ -40,11 +40,10 @@
 #tasklist-header-break{
 	display: block;
 }
-#tasklist-paragraph{
+#tasklist-paragraph{ 
 	font-size: 1.15rem;
-
 	margin-bottom: 2rem;
-
+	color: aliceblue;
 	/*text-shadow: 1px 1px 0px #111;*/
 }
 
@@ -63,11 +62,7 @@
 #tasklist-header, #tasklist-paragraph{
 	margin: 0 auto;
 	margin-bottom: 1rem;
-	color: #111;
-	width: 100%;
 	text-align: center;
-	
-
 }
 .tasklist-group-container{
 	z-index: 5;
@@ -93,7 +88,7 @@
 	text-align: center;
 	font-size: 1.9rem;
 	margin-bottom: 1rem;
-	color: #efe;
+	color: aliceblue;
 }
 .tasklist-add-button{
 	width: 3rem;

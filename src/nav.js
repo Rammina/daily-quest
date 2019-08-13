@@ -17,9 +17,7 @@ class Navigation {
             <ul class="nav-items" id="navbarResponsive">
             	<li><button id="projects-button" class="nav-item" aria-expanded="false" href="#">Projects</button>
             		<ul class="projects-items">
-            			<li><button class="projects-item">Default</button></li>
-            			<li><button class="projects-item">WebDev</button></li>
-            			<li><button class="projects-item">Hobbies</button></li>
+						
             		</ul>
             	</li>
                 <li><button class="nav-item" aria-expanded="false">Due Today</button></li>

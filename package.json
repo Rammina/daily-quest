@@ -1,29 +1,35 @@
 {
-  "name": "restaurant-1",
+  "name": "library-1-copy",
   "version": "1.0.0",
-  "description": "Restaurant ( webpack project )",
+  "description": "resume template",
+  "main": "index.js",
   "scripts": {
-    "server": "node server.js",
-    "dev": "webpack-dev-server --config webpack.config.js --hot",
-    "watch": "webpack --watch",
-    "build": "webpack"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.production.config.js",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rammina/library-1.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rammina/library-1/issues"
+  },
+  "homepage": "https://github.com/Rammina/library-1#readme",
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
-    "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "clean-webpack-plugin": "^3.0.0",
-    "express": "^4.17.1",
     "file-loader": "^4.1.0",
     "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.39.1",
+    "mini-css-extract-plugin": "^0.8.0",
+    "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-middleware": "^3.7.0",
     "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
@@ -31,14 +37,5 @@
     "handlebars": "^4.1.2",
     "handlebars-loader": "^1.7.1",
     "style-loader": "^0.23.1"
-  },
-  "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Rammina/restaurant-1.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Rammina/restaurant-1/issues"
-  },
-  "homepage": "https://github.com/Rammina/restaurant-1#readme"
+  }
 }

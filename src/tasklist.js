@@ -14,24 +14,12 @@ class Tasklist {
 		tasklistSection.insertAdjacentHTML("beforeend", `
 				<div id="tasklist-content">
                 	<div id="tasklist-text">
-                    	<h1 id="tasklist-header">:3</h1>
+                    	<h1 id="tasklist-header"></h1>
                     	<p id="tasklist-paragraph">Check your Projects for tasks you have to finish. The Due Today section contains urgent tasks. Do your best!</p>
 	                    <button id="tasklist-button">View Menu</button>
                 	</div>
 	            </div>
-<div class="tasklist-group-container">
-	<div class="tasklist-group-content">
-		<h2 class="tasklist-group-header">Default</h2>
-		<button class="tasklist-add-button">+</button>
-		<ul class="tasklist-tasks">
-			<li class="tasklist-task">
-				<span><input class="tasklist-checkbox" type="checkbox" name="finished"></span>
-				<span>eat dinner</span>
-				<span>08/09/19</span>
-			</li>
-		</ul>
-	</div>
-</div>
+
 		`);
 		tasklistSection.style.display = "block";
 		document.querySelector("main").appendChild(tasklistSection);

@@ -72,6 +72,10 @@ class Navigation {
 			projectbutton.setAttribute("aria-expanded", "false");
 		}
 
+		title.addEventListener("click", function(){
+			Tasklist.hideTasklist();
+		});
+
 		menubutton.addEventListener("click", function(){
 			if((menubutton.getAttribute("aria-expanded")) === "false") {
 				showMenu();
@@ -112,6 +116,21 @@ class Navigation {
 		document.querySelector(".projects-items").appendChild(projectElement);
 
 	}	
+	static showMenu(){
+		document.querySelector(".nav-items").classList.add("show");
+		document.getElementById("nav-menu").setAttribute("aria-expanded", "true");
+		document.getElementById("nav-backdrop").classList.add("show");
+		document.getElementById("tasklist-container").classList.add("show-menu");
+		if(document.querySelector(".tasklist-group-container")) {
+			document.querySelector(".tasklist-group-container").classList.add("show-menu");			
+
+		}
+	}
+	static showProject(){
+		document.querySelector(".projects-items").classList.add("show");
+		document.getElementById("projects-button").setAttribute("aria-expanded", "true");
+		
+	}
 	
 }
 

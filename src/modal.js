@@ -14,22 +14,32 @@ class Modal {
                         <input id="add-title-field" class="text-field" type="text" name="title" placeholder="Task Title" required="true">
                     </div>
                     <div>
-                        <input id="add-description-field" class="text-field" type="text" name="description" placeholder="Task Description" required="true">
+                        <textarea id="add-description-field" class="text-field" name="description" placeholder="Task Description" required="true"></textarea>
                     </div>
                     <div>
-                        <input id="add-date-field" class="text-field" type="number" name="pages" placeholder="Pages">
+                        <input id="add-date-field" class="text-field" type="text" name="date" placeholder="Task Deadline" onfocus="(this.type='datetime-local')" onblur="if(this.value===''){(this.type='text')}">
                     </div>
                     
-                    <div class="checkbox-container">
-                        <input class="form-checkbox" type="checkbox" name="read-checkbox" id="read-checkbox">
-                        <label class="form-label" for="read-checkbox">Read</label>
+                    <div class="select-container">
+                        <label class="form-label" for="add-priority-menu">Task Priority:</label>
+                        <select class="form-select" name="priority" id="add-priority-menu">
+                            <option value="">--Choose a priority level--</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                        
                         
                     </div>
-                    <input type="submit" class="form-submit" id="add-submit" value="Add This add">
+                    <input type="submit" class="form-submit" id="add-submit" value="Add This Task">
                 </form>
             
             </section>
 			`);
+        modal.getElementById("add-submit").addEventListener("click", function(event){
+            event.preventDefault();
+                // Find a way to get rid of mutual dependence between modules
+        });
 		document.getElementById("content").appendChild(modal);
 
 		// Effects

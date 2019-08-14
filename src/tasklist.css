@@ -51,9 +51,10 @@
 #tasklist-paragraph-container {
 	position: relative;
 	-webkit-box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #FFC9B8, 0px 0px 3px 2px #ffc580; 
-box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #FFC9B8, 0px 0px 3px 2px #ffc580;
+	box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #FFC9B8, 0px 0px 3px 2px #ffc580;
 	border-radius: 20px;
 	margin: 0 auto;
+	padding: 2rem 0;
 	bottom: 6rem;
 	background-color: rgba(28, 52, 78, 0.95);
 }
@@ -61,12 +62,22 @@ box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #FFC9B8, 0px 0px 3px 2px #f
 #tasklist-paragraph{
 	z-index: 2;
 	font-size: 1.15rem;
-	margin-bottom: 3rem;
 	color: rgb(255, 254, 240);
 	padding: 0 0.5rem;
-	padding-top: 2.05rem;
 	text-align: center;
+
 	/*text-shadow: 1px 1px 0px #111;*/
+}
+
+.tasklist-paragraph-button{
+	color: #ffc580;
+	background-color: inherit;
+	outline: none;
+	border: none;
+	font-size: inherit;
+	font-family: 'Raleway', sans-serif;
+	text-decoration: underline;
+	/*text-transform: uppercase;*/
 }
 
 #tasklist-button{
@@ -156,7 +167,11 @@ box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #FFC9B8, 0px 0px 3px 2px #f
 
 }
 
-
+@media screen and (min-width: 550px) {
+	#tasklist-paragraph-container{
+		padding: 2.5rem 1rem;
+	}
+}
 
 @media screen and (min-width: 650px) {
 	#tasklist-header-break{
@@ -182,5 +197,13 @@ box-shadow: 0px 0px 0px 1px #fff9b5, 0px 0px 0px 2px #FFC9B8, 0px 0px 3px 2px #f
 	}
 	#tasklist-header {
 		font-size: 3.2rem;
+	}
+}
+
+/*maximum width breakpoints*/
+/*Line breaks hidden on mobile*/
+@media screen and (max-width: 450px) {
+	.linebreak-hide-mobile{
+		display: none;
 	}
 }

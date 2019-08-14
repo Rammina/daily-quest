@@ -18,7 +18,7 @@ class Tasklist {
 
 						</div>
 						<div id="tasklist-paragraph-container">
-							<p id="tasklist-paragraph">Check your Projects for tasks you have to finish. The Due Today section contains urgent tasks. Do your best!</p>
+							<p id="tasklist-paragraph">Check your <button id="tasklist-projects-button" class="tasklist-paragraph-button"> Projects</button> for tasks you have to finish. <br class="linebreak-hide-mobile"> The <button id="tasklist-due-today-button" class="tasklist-paragraph-button">Due Today</button> section contains urgent tasks. <br class="linebreak-hide-mobile"> Do your best!</p>
 						</div>
                 	</div>
 	            </div>
@@ -48,6 +48,7 @@ class Tasklist {
 		// Get rid of any existing group container if there are any
 		// This is done to prevent any duplicates or stacking
 		if(document.querySelector(".tasklist-group-container")) {
+
 			tasklistSection.removeChild(document.querySelector(".tasklist-group-container"));
 		}
 
@@ -84,11 +85,20 @@ class Tasklist {
 		function openAddModal() {
 			Modal.renderAddModal();
 		}
+		
 
 		content.querySelector(".tasklist-add-button").addEventListener("click", function(){
 			openAddModal();
+
 		});
 		tasklistSection.appendChild(content);
+	}
+
+	static hideTasklist(){
+		let tasklistSection = document.getElementById("tasklist-container");
+		if(document.querySelector(".tasklist-group-container")) {
+			tasklistSection.removeChild(document.querySelector(".tasklist-group-container"));
+		}
 	}
 	remove(){
 		let tasklistSection = document.getElementById("tasklist-container");

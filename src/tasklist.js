@@ -2,26 +2,40 @@ import '!style-loader!css-loader!./tasklist.css';
 
 import Modal from './modal.js';
 
+// import ChatBubble from './images/chat-bubble.png';
+import RoboImage from './images/yumemi.png';
+
+
 class Tasklist {
 	render(){
 		let tasklistSection = document.createElement("section");
-		// tasklistSection.style.background = `url(${PizzatasklistBg})`;
-		// tasklistSection.style.backgroundSize = 'cover';
-		// tasklistSection.style.backgroundRepeat = 'no-repeat';
-		// tasklistSection.style.backgroundPosition = '50% 0%';
-		// tasklistSection.classList.add("slider-section");
 		tasklistSection.id = "tasklist-container";
 		tasklistSection.insertAdjacentHTML("beforeend", `
 				<div id="tasklist-content">
                 	<div id="tasklist-text">
-                    	<h1 id="tasklist-header"></h1>
-                    	<p id="tasklist-paragraph">Check your Projects for tasks you have to finish. The Due Today section contains urgent tasks. Do your best!</p>
-	                    <button id="tasklist-button">View Menu</button>
+						
+						<div id="tasklist-girl-container">
+
+						</div>
+						<div id="tasklist-paragraph-container">
+							<p id="tasklist-paragraph">Check your Projects for tasks you have to finish. The Due Today section contains urgent tasks. Do your best!</p>
+						</div>
                 	</div>
 	            </div>
 
 		`);
 		tasklistSection.style.display = "block";
+		// let paragraphContainer = tasklistSection.querySelector("#tasklist-paragraph-container");
+		// paragraphContainer.style.background = `url(${ChatBubble})`;
+		// paragraphContainer.style.backgroundSize = 'cover';
+		// paragraphContainer.style.backgroundRepeat = 'no-repeat';
+		// paragraphContainer.style.backgroundPosition = '50% 50%';
+
+		let girlContainer = tasklistSection.querySelector("#tasklist-girl-container");
+		girlContainer.style.background = `url(${RoboImage})`;
+		girlContainer.style.backgroundSize = 'contain';
+		girlContainer.style.backgroundRepeat = 'no-repeat';
+		girlContainer.style.backgroundPosition = '50% 50%';
 		document.querySelector("main").appendChild(tasklistSection);
 
 	}

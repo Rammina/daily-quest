@@ -69,7 +69,7 @@
     color: aliceblue;
     background-color: rgb(30, 30, 30);
     transform: translate(-15rem);
-    transition: visibility 0.25s ease-in, transform 0.25s ease-in;
+    transition: visibility 0.2s ease-in, transform 0.2s ease-in;
     visibility: hidden;
     }
 #nav-backdrop{

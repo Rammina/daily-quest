@@ -23,7 +23,7 @@ class Modal {
                     <div class="select-container">
                         <label class="form-label" for="add-priority-menu">Task Priority:</label>
                         <select class="form-select" name="priority" id="add-priority-menu">
-                            <option value="">--Choose a priority level--</option>
+                            <option value="">--Priority Level--</option>
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
@@ -36,7 +36,7 @@ class Modal {
             
             </section>
 			`);
-        modal.getElementById("add-submit").addEventListener("click", function(event){
+        modal.querySelector("#add-submit").addEventListener("click", function(event){
             event.preventDefault();
                 // Find a way to get rid of mutual dependence between modules
         });

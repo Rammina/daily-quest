@@ -75,8 +75,10 @@ class Tasklist {
 		}
 		content.insertAdjacentHTML("beforeend", `			
 	<div class="tasklist-group-content">
-		<h2 class="tasklist-group-header">${projectTitle}</h2>
-		<button class="tasklist-add-button">+</button>
+		<div class="tasklist-spine">
+			<h2 class="tasklist-group-header">${projectTitle}</h2>
+			<button class="tasklist-add-button">+</button>
+		</div>
 		<ul class="tasklist-tasks">
 			${tasksElement}
 		</ul>

@@ -2,6 +2,10 @@ import '!style-loader!css-loader!./nav.css';
 
 import Tasklist from './tasklist.js';
 
+
+import HamburgerIcon from './images/hamburger-icon.png';
+
+
 class Navigation {
 	render(){
 		let navbar = document.createElement("header");
@@ -9,7 +13,7 @@ class Navigation {
 		navbar.insertAdjacentHTML("beforeend", `
 			<nav class="main-nav">
             <!--  The anchor tag needs to link to the page top-->
-            <button id="nav-menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarResponsive"></button>
+            <button id="nav-menu" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarResponsive"><img id="nav-menu-img" src="${HamburgerIcon}" alt="Hamburger Icon"></button>
             <a href="#" id="nav-title">Daily Quest</a>
 
             
@@ -40,6 +44,7 @@ class Navigation {
 		let projectitems = document.querySelector(".projects-items");
 
 		let tasklistContainer = document.getElementById("tasklist-container");
+		
 		
 
 		function showMenu() {

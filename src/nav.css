@@ -28,7 +28,7 @@
     bottom: 0.1rem;
     font-family: 'Cormorant Garamond', serif;
     margin-left: 1rem;
-    font-size: 2.5rem;
+    font-size: 2.1rem;
     color: #beffff;
     text-shadow: 1px 1px 0px #050;
     /* text-shadow: 1px 1px 1.5px gray, -1px -1px 0px rgba(255, 255, 255, 0.4); */
@@ -38,19 +38,38 @@
 #nav-menu {
     display: inline-block;
     width: 3rem;
-    height: 3rem;    
+    height: 3rem;
+    /* padding: 0.125rem;     */
     color: #0a020a;
     background-color: rgba(0, 0, 0, 0);
-    border-radius: 3px;
+    border-radius: 5px;
     border: 2px solid #beffff; 
     font-family: 'Lato', sans-serif;
     outline: none;
     vertical-align: middle;
     text-transform: uppercase;
+    /* filter: invert(95%) sepia(3%) saturate(6314%) hue-rotate(164deg) brightness(106%) contrast(109%); */
 }
 
 #nav-menu:active {
     /*border: 3px solid rgba(250, 250, 250, 0.5);*/
+}
+
+#nav-menu:focus {
+
+}
+
+#nav-menu[aria-expanded="true"] {
+    -webkit-box-shadow: 0px 0px 0px 0.5px #fff9b5, 0px 0px 0px 1px #FFC9B8, 0px 0px 1px 1px #ffc580; 
+    box-shadow: 0px 0px 0px 0.5px #fff9b5, 0px 0px 0px 1px #FFC9B8, 0px 0px 1px 1px #ffc580;
+    background-color: rgba(255, 255, 255, 0.103);
+}
+
+#nav-menu-img {
+    position: relative; 
+    width: 2.75rem;
+    height: 2.75rem;
+    top: 0.03rem;
 }
 
 .nav-items {
@@ -71,16 +90,16 @@
     transform: translate(-15rem);
     transition: visibility 0.2s ease-in, transform 0.2s ease-in;
     visibility: hidden;
-    }
+}
+
 #nav-backdrop{
     z-index: 20;
 }
+
 .nav-items.show {
     visibility: visible;
     transform: translate(0rem);
 }
-
-
 
 .nav-item {
     font-family: 'Raleway', sans-serif;
@@ -145,7 +164,6 @@
         transition: all 0.15s ease-in;
         /*background: linear-gradient(180deg, rgba(29, 29, 31, 0.801), transparent);*/
     }
-
     .main-nav{
         position: static;
         width: 100%;
@@ -156,11 +174,9 @@
     }
     #nav-title{
         left: 0;
+        font-size: 2.5rem;
         transition: all 0.15s ease-in;
     }
-
-    
-
 
     .nav-margin{
 

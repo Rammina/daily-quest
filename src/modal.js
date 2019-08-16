@@ -1,6 +1,9 @@
 import '!style-loader!css-loader!./modal.css';
 
 class Modal {
+    static deleteModal(modal){
+        document.getElementById("content").removeChild(modal);
+    }
 	static renderAddModal(){
 		// let taskContainer = document.getElementById("tasklist-container");
 		let modal = document.createElement("div");
@@ -8,6 +11,7 @@ class Modal {
 		modal.classList.add("backdrop");
 		modal.insertAdjacentHTML("beforeend", `
 			<section class="modal-container" id="add-content" tabindex="-1" role="dialog" aria-hidden="true">
+                <button id="add-modal-close">x</button>
                 <h1 class="modal-header">Add a Task</h1>
                 <form id="add-form">
                     <div>
@@ -17,7 +21,7 @@ class Modal {
                         <textarea id="add-description-field" class="text-field" name="description" placeholder="Task Description" required="true"></textarea>
                     </div>
                     <div>
-                        <input id="add-date-field" class="text-field" type="text" name="date" placeholder="Task Deadline" onfocus="(this.type='datetime-local')" onblur="if(this.value===''){(this.type='text')}">
+                        <input id="add-deadline-field" class="text-field" type="text" name="date" placeholder="Task Deadline" onfocus="(this.type='datetime-local')" onblur="if(this.value===''){(this.type='text')}">
                     </div>
                     
                     <div class="select-container">
@@ -36,17 +40,41 @@ class Modal {
             
             </section>
 			`);
-        modal.querySelector("#add-submit").addEventListener("click", function(event){
-            event.preventDefault();
-                // Find a way to get rid of mutual dependence between modules
-        });
 		document.getElementById("content").appendChild(modal);
 
+        // Assigning variable names to elements
+
+        let backdrop = document.getElementById("add-backdrop");
+        let sectionContainer = document.getElementById("add-content");
+        let submit = document.getElementById("add-submit");
+        let closeButton = document.getElementById("add-modal-close");
+
 		// Effects
-		document.getElementById("add-backdrop").classList.add("show");
-		document.getElementById("add-content").classList.add("show");
-		console.log("modal is added to the Dom");
+		backdrop.classList.add("show");
+        sectionContainer.classList.add("show");
+
+        // event listeners
+        backdrop.addEventListener("click", function(event){
+            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+        closeButton.addEventListener("click", function(event){
+            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+        console.log("modal is added to the Dom");
 	}
+    static retrieveTaskData(){
+        let task = {};
+        task.title = document.getElementById("add-title-field").value;
+        task.description = document.getElementById("add-description-field").value;
+        task.deadline = document.getElementById("add-deadline-field").value;
+        task.priority = document.getElementById("add-priority-menu").value;
+
+        return task;
+    }
 
 }
 

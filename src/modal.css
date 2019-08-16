@@ -1,6 +1,9 @@
 #add-backdrop{
     /*visibility: visible;*/
     /*opacity: 1;*/
+    background-color: rgba(0, 0, 0, 0.6);
+    padding-right: 0.3rem;
+    padding-left: 0.3rem;
 }    
 .modal-container{
     position: relative;
@@ -12,14 +15,16 @@
     max-width: 40rem;
     /*margin: calc(50vh - 13.4rem) calc(50vw - 50%);*/
     margin: calc(33vh - 6.5rem) calc(50vw - 50%);
-    padding: 2rem 1rem;
-    background-color: #EEE9E3;
+    padding: 2rem 0.5rem;
+    background-color: #333;
     -webkit-box-shadow: 0 0 0 3px #555;
-    box-shadow: 0 0 0 3px #555;
+    box-shadow: 0 0 0 2px #beffff;
     border-radius: 5px;
     /*overflow: hidden;*/
     overflow-y: auto;
     max-height: calc(100vh - 2rem);
+    color: aliceblue;
+    font-family: 'Raleway', sans-serif;
 }
 
 #add-content {
@@ -41,14 +46,19 @@
     box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
 }
 
-.modal__close {
+#add-modal-close {
     /*z-index: 102;*/
     display: inline-block;
     position: absolute;
     width: 3rem;
     height: 3rem;
     right: 0;
-    padding: 0.9rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 2.2rem;
+    color: aliceblue;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    /*padding: 0.9rem;*/
     /*margin-left: calc(95% - 2.7rem);*/
     /*margin-right: 0;*/
     margin-top: -2.2rem;
@@ -77,7 +87,7 @@
     margin-bottom: 1.5rem;
     text-align: center;
     font-size: 1.6rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
 
 .text-field {
@@ -167,10 +177,10 @@
     max-width: 16rem;
     height: 3rem;
     font-size: 1.3rem;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Raleway', sans-serif;
     margin: 1rem auto;
-    background-color: #3d2922;
-    color: #EEE9E3;
+    background-color: #dfd;
+    color: #111;
     outline: none;
     border: 2px solid #888;
     border-radius: 5px;

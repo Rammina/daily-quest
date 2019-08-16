@@ -39,6 +39,31 @@ class Tasklist {
 		document.querySelector("main").appendChild(tasklistSection);
 
 	}
+	// task is an object that contains information about a task
+	static renderTask(task){
+
+		let taskElement = `
+				<li class="tasklist-task">
+					<span><input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}"></span>
+					<span>${task.title}</span>
+					<span>${task.deadline}</span>
+				</li>
+		`;
+
+		// Check if the container exists before inserting
+		// If it is not, just make a new one first then insert
+		let taskContainer = document.querySelector(".tasklist-tasks");
+		if(taskContainer) {
+			taskContainer.insertAdjacentHTML("afterbegin", taskElement);
+		}
+		else{
+			taskContainer = document.createElement("ul");
+			taskContainer.classList.add("tasklist-tasks");
+			taskContainer.insertAdjacentHTML("afterbegin", taskElement);
+
+			document.querySelector(".tasklist-group-container").insertAdjacentHTML("afterbegin", taskContainer);
+		}
+	}
 	// The arguments are:
 	// the title of the project ( used as a header )
 	// The data structure ( an array of objects(tasks) )
@@ -84,8 +109,16 @@ class Tasklist {
 		</ul>
 	</div>
 			`);
+
 		function openAddModal() {
 			Modal.renderAddModal();
+
+			// Handle the rendering upon submitting a task
+			document.getElementById("add-submit").addEventListener("click", function(event){
+				event.preventDefault();
+				Tasklist.renderTask(Modal.retrieveTaskData());
+				Modal.deleteModal(document.getElementById("add-backdrop"));
+			});
 		}
 		
 

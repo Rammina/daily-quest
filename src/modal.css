@@ -97,7 +97,8 @@
     max-width: 26rem;
     height: 2.8rem;
     margin: 1rem auto;
-    border: solid 1.5px #888; 
+    background-color: #eee;
+    border: solid 1.5px #beffff; 
     border-radius: 5px;
     padding-left: 0.6rem;
     font-size: 1.05rem;
@@ -109,6 +110,8 @@
 
 .text-field:focus {
     background-color: #fcfae0;
+    -webkit-box-shadow: inset 0px 0px 0.5px 1px #FFFFFF, inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000;
+    box-shadow: inset 0px 0px 0.5px 1px #FFFFFF, inset 0px 0px 1px 2px #969696, inset 0px 0px 2px 3px #000000;
 }
 
 .text-field.invalid {
@@ -182,14 +185,12 @@
     background-color: #dfd;
     color: #111;
     outline: none;
-    border: 2px solid #888;
     border-radius: 5px;
 }
 
 #add-submit:hover {
-    background-color: #4d3932;
-    color: #FEF9F3;
-    text-shadow: 0 0 0.2px #111;
+    border: 1px solid #beffff;
+    background-color: rgb(175, 224, 175);
 }
 
 

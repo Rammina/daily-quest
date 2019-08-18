@@ -113,11 +113,15 @@
 }
 .datetime-field{
     margin: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
     display: inline-block;
     margin-left: 0;
     max-width: 12.5rem;
 
+}
+#add-date-field{
+
+    margin-bottom: 1rem;
 }
 #add-time-field{
     /*display: inline;*/
@@ -141,16 +145,17 @@
 }
 
 .modal-error-message{
+    display: block;
     position: relative;
     bottom: 0.5rem;
     left: 0.5rem;
     font-size: 1.0rem;
-    width: 85%;
+    /*width: 85%;*/
     max-width: 26rem;
     margin: 0.8rem auto;
 
 
-    color: rgb(140, 20, 20);
+    color: rgb(255, 190, 190);
 }
 
 .select-container, .date-time-container{
@@ -278,7 +283,11 @@
     background-color: #b0b0b0;
     text-shadow: 0 0 0.1px #111;
 }
-
+@media screen and (min-width: 511px){
+    #add-date-field{    
+        margin-bottom: 0rem;
+    }
+}
 @media screen and (min-width: 650px){
     .modal-container{
         margin: calc(33vh - 6.5rem) calc(50vw - 20rem);

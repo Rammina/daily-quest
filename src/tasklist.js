@@ -143,12 +143,31 @@ class Tasklist {
 		function openAddModal() {
 			Modal.renderAddModal();
 
+			
+			// Add listeners to each input field
+			let requiredAddInputs = document.querySelectorAll(".add-modal-required");
+			for (let input of requiredAddInputs){
+				input.addEventListener("blur", function(){
+					if(Modal.emptyFieldError(input)) {return true;}
+
+					// Restrict the date field to only accept dates from today onwards
+					if(input === dateField) {
+						Modal.validAddDate(input);
+					}
+				});				
+			}
+
 			// Handle the rendering upon submitting a task
 			document.getElementById("add-submit").addEventListener("click", function(event){
 				event.preventDefault();
 				// Check if the form values are valid before running
-				Tasklist.renderTask(Modal.retrieveTaskData());
-				Modal.deleteModal(document.getElementById("add-backdrop"));
+				if(Modal.validAddForm()) {
+					// Submit if valid
+					Tasklist.renderTask(Modal.retrieveTaskData());	
+					Modal.deleteModal(document.getElementById("add-backdrop"));
+				}
+				
+				
 			});
 		}
 		

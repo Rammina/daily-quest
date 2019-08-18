@@ -1,4 +1,4 @@
-import {format} from 'date-fns';
+import {format, isBefore} from 'date-fns';
 
 import '!style-loader!css-loader!./modal.css';
 
@@ -11,26 +11,30 @@ class Modal {
 		let modal = document.createElement("div");
 		modal.id = "add-backdrop";
 		modal.classList.add("backdrop");
+
+        // Retrieve current date just to use it As a limiter
+        // Today becomes the minimum date
+        let today = format(new Date(), 'YYYY-MM-DD');
 		modal.insertAdjacentHTML("beforeend", `
 			<section class="modal-container" id="add-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button id="add-modal-close">x</button>
                 <h1 class="modal-header">Add a Task</h1>
                 <form id="add-form">
                     <div>
-                        <input id="add-title-field" class="text-field" type="text" name="title" placeholder="Task Title" required="true">
+                        <input id="add-title-field" class="add-modal-required text-field" type="text" name="title" placeholder="Task Title" maxlength="40" required="true">
                     </div>
                     <div>
-                        <textarea id="add-description-field" class="text-field" name="description" placeholder="Task Description" required="true"></textarea>
+                        <textarea id="add-description-field" class="add-modal-required text-field" name="description" placeholder="Task Description" maxlength="200" required="true"></textarea>
                     </div>
                     <div class="date-time-container">
                         <label id="date-label" class="form-label" for="add-date-field">Task Deadline:</label>
-                        <input id="add-date-field" class="datetime-field text-field" type="text" placeholder="Date" name="date" onfocus="(this.type='date')" required="true">
+                        <input id="add-date-field" class="add-modal-required datetime-field text-field" type="text" placeholder="Date" name="date" onfocus="(this.type='date')" required="true" min="${today}">
                         <input id="add-time-field" class="datetime-field text-field" type="text" placeholder="Time (optional)" name="time" onfocus="(this.type='time')">
                     </div>
                     
                     <div class="select-container">
                         <label class="form-label" for="add-priority-menu">Task Priority:</label>
-                        <select class="form-select" name="priority" id="add-priority-menu">
+                        <select class="add-modal-required form-select" name="priority" id="add-priority-menu">
                             <option value="">--Priority Level--</option>
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
@@ -71,39 +75,69 @@ class Modal {
         });
         console.log("modal is added to the Dom");
 	}
-    /*static validAddForm(){
+    static emptyFieldError(field){
+            let parent = field.parentElement;
+            let errorMessage = parent.querySelector(".modal-error-message.empty-error");
+            if(errorMessage) {
+                parent.removeChild(errorMessage);
+            }
+            if(field.value) {
+                return false;
+            }
+            
+            parent.insertAdjacentHTML("beforeend", `
+                <span class="modal-error-message empty-error">Please fill out this field.</span>
+            `);
+            return true;
+
+    }
+    static validAddDate(dateField){
+        let today = format(new Date(), 'YYYY-MM-DD');
+        let parent = dateField.parentElement;
+        let errorMessage = parent.querySelector(".modal-error-message.before-today-error");
+
+        // delete any date error messages
+        if(errorMessage) {
+            parent.removeChild(errorMessage);            
+        }
+
+        if(isBefore(today, dateField.value)) {
+            return true;
+        }
+        else{
+            parent.insertAdjacentHTML("beforeend", `
+               <span class="modal-error-message before-today-error">This date has passed already.</span> 
+            `);
+            return false;    
+        }
         
-            // Assigning variable names to field elements
-            let titleField = document.getElementById("add-title-field");
-            let descriptionField = document.getElementById("add-description-field");
-            let dateField = document.getElementById("add-date-field");
-            let priorityField = document.getElementById("add-priority-menu");
+    }
+    static validAddForm(){
+        
+        // Assigning variable names to field elements
+        let titleField = document.getElementById("add-title-field");
+        let descriptionField = document.getElementById("add-description-field");
+        let dateField = document.getElementById("add-date-field");
+        let priorityField = document.getElementById("add-priority-menu");
 
-            // Place them all inside an array for easy iteration
-            let requiredFields = [titleField, descriptionField, dateField, priorityField];
-            function noEmptyRequiredFields() {
-            // If the field is empty, inserts an error message <span>, and returns true
-            // Otherwise it returns false and does nothing
-            function emptyFieldError(field) {
-                if(field.value) {
+        // Place them all inside an array for easy iteration
+        let requiredFields = [titleField, descriptionField, dateField, priorityField];
+        // If the field is empty, inserts an error message <span>, and returns true
+        // Otherwise it returns false and does nothing
+        let errors = 0;
 
-                    return false;
-                }
-                field.insertAdjacentHTML("beforeend", `
-                    <span class="modal-error-message">Please fill up this field.</span>
-                    `);
-                return true;
+        // Run all error checks for each required field
+        for (let field of requiredFields){
+            if(Modal.emptyFieldError(field)) {
+                errors++;
             }
+        }
 
-            // Check if empty field errors are
-            let 
-
-            for (let field of requiredFields){
-                
-            }
-
-            }
-    }*/
+        if(errors > 0) {
+            return false;
+        }
+        return true;
+    }
     static retrieveTaskData(){
         let task = {};
         task.title = document.getElementById("add-title-field").value;

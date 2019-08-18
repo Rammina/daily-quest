@@ -56,10 +56,14 @@ class Tasklist {
 			taskElement.classList.add("low");
 		}
 		taskElement.insertAdjacentHTML("beforeend", `
-					<span><input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}"></span>
-					<span>${task.title}</span>
-					<span>${task.date}</span>
-					<span class="span-hide-mobile">${task.time}</span>
+			<span class="checkbox-title-span">
+				<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
+				<span class="tasklist-title">${task.title}</span>
+			</span>
+			<span class="date-time-span">
+				<span class="tasklist-date">${task.date} </span>
+				<span class="span-hide-mobile"> - ${task.time}</span>
+			</span>
 		`);
 		
 		// Check if the container exists before inserting
@@ -103,32 +107,44 @@ class Tasklist {
 
 		// Generate a list item for every task
 		for (let task of projectTasks){
+			if(task.priority === undefined){
+				task.priority = "low";
+			}
+			if(task.time === undefined){
+				task.time = "11:59PM";
+			}
 			tasksElement += `
-			<li class="tasklist-task">
-				<span><input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}"></span>
-				<span>${task.title}</span>
-				<span>${task.date}</span>
-				<span class="span-hide-mobile">${task.time}</span>
+			<li class="tasklist-task ${task.priority}">
+				<span class="checkbox-title-span">
+					<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
+					<span class="tasklist-title">${task.title}</span>
+				</span>
+				<span class="date-time-span">
+					<span class="tasklist-date">${task.date} </span>
+					<span class="span-hide-mobile"> - ${task.time}</span>
+				</span>
 			</li>
-			`;
+		`;
 		}
 		content.insertAdjacentHTML("beforeend", `			
-	<div class="tasklist-group-content">
-		<div class="tasklist-spine">
-			<h2 class="tasklist-group-header">${projectTitle}</h2>
-			<button class="tasklist-add-button">+</button>
-		</div>
-		<ul class="tasklist-tasks">
-			${tasksElement}
-		</ul>
-	</div>
-			`);
+			<div class="tasklist-group-content">
+				<div class="tasklist-spine">
+					<h2 class="tasklist-group-header">${projectTitle}</h2>
+					<button class="tasklist-add-button">+</button>
+				</div>
+				<ul class="tasklist-tasks">
+					${tasksElement}
+				</ul>
+			</div>
+		`);
+
+		
 
 		function openAddModal() {
 			Modal.renderAddModal();
 
 			// Handle the rendering upon submitting a task
-			document.getElementById("add-submit").addEventListener("submit", function(event){
+			document.getElementById("add-submit").addEventListener("click", function(event){
 				event.preventDefault();
 				// Check if the form values are valid before running
 				Tasklist.renderTask(Modal.retrieveTaskData());

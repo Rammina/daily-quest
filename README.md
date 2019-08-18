@@ -1,2 +1,2 @@
-# daily-quest
-Daily Quest ( Todo list )
+# restaurant-1
+Restaurant ( webpack project )

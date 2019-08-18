@@ -191,9 +191,6 @@
         /*opacity: 1;*/
         /*transform: translate(0);*/
     }
-    #nav-backdrop{
-        display: none;
-    }
     .nav-items li{
         /*display: inline;*/
     }
@@ -208,6 +205,13 @@
 
     }
 }
+
+@media screen and (min-width: 950px) {
+    #nav-backdrop{
+        display: none;
+    }
+}
+
 @media screen and (min-width: 1100px) {
     .main-nav {
         /*max-width: 80rem;*/

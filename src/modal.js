@@ -1,3 +1,5 @@
+import {format} from 'date-fns';
+
 import '!style-loader!css-loader!./modal.css';
 
 class Modal {
@@ -20,8 +22,10 @@ class Modal {
                     <div>
                         <textarea id="add-description-field" class="text-field" name="description" placeholder="Task Description" required="true"></textarea>
                     </div>
-                    <div>
-                        <input id="add-deadline-field" class="text-field" type="text" name="date" placeholder="Task Deadline" onfocus="(this.type='datetime-local')" onblur="if(this.value===''){(this.type='text')}">
+                    <div class="date-time-container">
+                        <label id="date-label" class="form-label" for="add-date-field">Task Deadline:</label>
+                        <input id="add-date-field" class="datetime-field text-field" type="text" placeholder="Date" name="date" onfocus="(this.type='date')" required="true">
+                        <input id="add-time-field" class="datetime-field text-field" type="text" placeholder="Time (optional)" name="time" onfocus="(this.type='time')">
                     </div>
                     
                     <div class="select-container">
@@ -52,6 +56,7 @@ class Modal {
 		// Effects
 		backdrop.classList.add("show");
         sectionContainer.classList.add("show");
+        sectionContainer.focus();
 
         // event listeners
         backdrop.addEventListener("click", function(event){
@@ -66,11 +71,54 @@ class Modal {
         });
         console.log("modal is added to the Dom");
 	}
+    /*static validAddForm(){
+        
+            // Assigning variable names to field elements
+            let titleField = document.getElementById("add-title-field");
+            let descriptionField = document.getElementById("add-description-field");
+            let dateField = document.getElementById("add-date-field");
+            let priorityField = document.getElementById("add-priority-menu");
+
+            // Place them all inside an array for easy iteration
+            let requiredFields = [titleField, descriptionField, dateField, priorityField];
+            function noEmptyRequiredFields() {
+            // If the field is empty, inserts an error message <span>, and returns true
+            // Otherwise it returns false and does nothing
+            function emptyFieldError(field) {
+                if(field.value) {
+
+                    return false;
+                }
+                field.insertAdjacentHTML("beforeend", `
+                    <span class="modal-error-message">Please fill up this field.</span>
+                    `);
+                return true;
+            }
+
+            // Check if empty field errors are
+            let 
+
+            for (let field of requiredFields){
+                
+            }
+
+            }
+    }*/
     static retrieveTaskData(){
         let task = {};
         task.title = document.getElementById("add-title-field").value;
         task.description = document.getElementById("add-description-field").value;
-        task.deadline = document.getElementById("add-deadline-field").value;
+        task.date = format(document.getElementById("add-date-field").value, 'MM/DD/YYYY');
+        // Check if time is empty, If so give it a default value of
+        if(document.getElementById("add-time-field").value) {
+            // Do something that lets me convert time into a date structure
+            // concatenate The date value To the time value
+            let datetime = new Date(`${document.getElementById("add-date-field").value}T${document.getElementById("add-time-field").value}`);
+            task.time = format(datetime, 'HH:mmA');
+        }
+        else{
+            task.time = "11:59PM";
+        }
         task.priority = document.getElementById("add-priority-menu").value;
 
         return task;

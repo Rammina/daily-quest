@@ -42,26 +42,39 @@ class Tasklist {
 	// task is an object that contains information about a task
 	static renderTask(task){
 
-		let taskElement = `
-				<li class="tasklist-task">
+		let taskElement = document.createElement("li");
+		taskElement.classList.add("tasklist-task");
+
+		// Check the priority of the task and give it the appropriate class
+		if(task.priority === 'high') {			
+			taskElement.classList.add("high");
+		}
+		else if(task.priority === 'medium') {			
+			taskElement.classList.add("medium");
+		}
+		else if(task.priority === 'low'){
+			taskElement.classList.add("low");
+		}
+		taskElement.insertAdjacentHTML("beforeend", `
 					<span><input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}"></span>
 					<span>${task.title}</span>
-					<span>${task.deadline}</span>
-				</li>
-		`;
-
+					<span>${task.date}</span>
+					<span class="span-hide-mobile">${task.time}</span>
+		`);
+		
 		// Check if the container exists before inserting
 		// If it is not, just make a new one first then insert
 		let taskContainer = document.querySelector(".tasklist-tasks");
 		if(taskContainer) {
-			taskContainer.insertAdjacentHTML("afterbegin", taskElement);
+			taskContainer.insertBefore(taskElement, taskContainer.firstChild);
 		}
 		else{
 			taskContainer = document.createElement("ul");
 			taskContainer.classList.add("tasklist-tasks");
-			taskContainer.insertAdjacentHTML("afterbegin", taskElement);
+			taskContainer.insertBefore(taskElement, taskContainer.firstChild);
 
-			document.querySelector(".tasklist-group-container").insertAdjacentHTML("afterbegin", taskContainer);
+			let groupContainer = document.querySelector(".tasklist-group-container");
+			groupContainer.insertBefore(taskContainer, groupContainer.firstChild);
 		}
 	}
 	// The arguments are:
@@ -94,7 +107,8 @@ class Tasklist {
 			<li class="tasklist-task">
 				<span><input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}"></span>
 				<span>${task.title}</span>
-				<span>${task.deadline}</span>
+				<span>${task.date}</span>
+				<span class="span-hide-mobile">${task.time}</span>
 			</li>
 			`;
 		}
@@ -114,8 +128,9 @@ class Tasklist {
 			Modal.renderAddModal();
 
 			// Handle the rendering upon submitting a task
-			document.getElementById("add-submit").addEventListener("click", function(event){
+			document.getElementById("add-submit").addEventListener("submit", function(event){
 				event.preventDefault();
+				// Check if the form values are valid before running
 				Tasklist.renderTask(Modal.retrieveTaskData());
 				Modal.deleteModal(document.getElementById("add-backdrop"));
 			});

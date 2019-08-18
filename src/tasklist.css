@@ -183,7 +183,7 @@
 	font-size: 1.1rem;
 	border-bottom: 1px solid rgba(20, 20, 20, 0.5);
 	padding: 0 1rem;
-	background-color: #ffc;
+	background-color: #ffd;
 }
 .tasklist-task.high{
 	background-color: #fcc;
@@ -193,9 +193,6 @@
 }
 .tasklist-task.low{
 	background-color: #ffd;
-}
-.tasklist-task.low{
-	background-color: #dfd;
 }
 .tasklist-checkbox{
 	 width: 2.5rem;
@@ -235,6 +232,7 @@
 	.tasklist-tasks {
 		padding-top: 6rem;
 	}
+
 }
 
 @media screen and (min-width: 1000px) {
@@ -264,6 +262,12 @@
 /*Line breaks hidden on mobile*/
 @media screen and (max-width: 450px) {
 	.linebreak-hide-mobile{
+		display: none;
+	}
+}
+/*Hide spends on mobile*/
+@media screen and (max-width: 850px) {
+	.span-hide-mobile{
 		display: none;
 	}
 }

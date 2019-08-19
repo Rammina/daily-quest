@@ -30,7 +30,7 @@ class Modal {
                     <div class="date-time-container">
                         <label id="date-label" class="form-label" for="add-date-field">Task Deadline:</label>
                         <input id="add-date-field" class="add-modal-required datetime-field text-field" type="text" placeholder="Date" name="date" onfocus="(this.type='date')" required="true" min="${today}">
-                        <input id="add-time-field" class="datetime-field text-field" type="text" placeholder="Time (optional)" name="time" onfocus="(this.type='time')">
+                        <input id="add-time-field" class="add-modal-required datetime-field text-field" type="text" placeholder="Time (optional)" name="time" onfocus="(this.type='time')">
                     </div>
                     
                     <div class="select-container">
@@ -95,7 +95,7 @@ class Modal {
     static validAddDate(dateField){
         let yesterday = endOfYesterday();
         let parent = dateField.parentElement;
-        let errorMessage = parent.querySelector(".modal-error-message.before-yesterday-error");
+        let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
 
         // delete any date error messages
         if(errorMessage) {
@@ -111,11 +111,61 @@ class Modal {
         }
         else{
             parent.insertAdjacentHTML("beforeend", `
-               <span class="modal-error-message before-yesterday-error">This date has passed already.</span> 
+               <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span> 
             `);
             return false;    
         }
         
+    }
+    static validAddTime(timeField){
+        let dateField = document.getElementById("add-date-field");
+        let today = new Date();
+        let parent = timeField.parentElement;
+        let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
+        let inputDateTime;
+
+        function generateDateTimeError() {
+            if(errorMessage) {
+                parent.removeChild(errorMessage);
+            }
+            parent.insertAdjacentHTML("beforeend", `
+                <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
+            `);
+        }
+        // start by checking if the date is valid
+        if(dateField.value) {
+            if(Modal.validAddDate(dateField)) {
+                inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
+                if(isBefore(today, inputDateTime)) {
+                    return true;
+                }
+                else{
+                    generateDateTimeError();
+                    return false;
+                }
+            }
+            else{
+                generateDateTimeError();
+                return false;
+            }            
+
+        }
+        else{
+            let currentDate = format(new Date(), 'YYYY-MM-DD');
+            inputDateTime = new Date(`${currentDate}T${timeField.value}`);
+            if(isBefore(today, inputDateTime)) {
+                return true;
+            }
+            else{
+                generateDateTimeError();
+                return false;
+            }
+        }
+        
+        
+
+
+
     }
     static validAddForm(){
         
@@ -123,25 +173,31 @@ class Modal {
         let titleField = document.getElementById("add-title-field");
         let descriptionField = document.getElementById("add-description-field");
         let dateField = document.getElementById("add-date-field");
+        let timeField = document.getElementById("add-time-field");
         let priorityField = document.getElementById("add-priority-menu");
 
         // Place them all inside an array for easy iteration
-        let requiredFields = [titleField, descriptionField, dateField, priorityField];
+        let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
+
         // If the field is empty, inserts an error message <span>, and returns true
         // Otherwise it returns false and does nothing
         let errors = 0;
 
         // Run all error checks for each required field
-        for (let field of requiredFields){
-            // Restrict the date field to only accept dates from today onwards
+        for (let field of inputFields){
+            // Check first if it is a date field, as it is not required to be filled up
 			if(field === dateField) {
-				if(Modal.validAddDate(field)) {
-                    
-                }
-                else {
+                //Check if it is a valid date 
+				if(!(Modal.validAddDate(field))) {
                     errors++;
                 }
 			}
+            else if(field === timeField) {
+                //Check if it is a valid time
+                if(!(Modal.validAddTime(field))) {
+                    errors++;
+                }
+            }
             else if(Modal.emptyFieldError(field)) {
                 console.log("emptyError");
                 errors++;
@@ -155,6 +211,7 @@ class Modal {
     }
     static retrieveTaskData(){
         let task = {};
+        task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
 
         let today = format(new Date(), "MM/DD/YYYY");
 

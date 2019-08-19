@@ -146,14 +146,17 @@ class Tasklist {
 			
 			// Add listeners to each input field
 			let requiredAddInputs = document.querySelectorAll(".add-modal-required");
+			let dateField = document.getElementById("add-date-field");
 			for (let input of requiredAddInputs){
 				input.addEventListener("blur", function(){
-					if(Modal.emptyFieldError(input)) {return true;}
-
 					// Restrict the date field to only accept dates from today onwards
 					if(input === dateField) {
 						Modal.validAddDate(input);
+						return;
 					}
+					if(Modal.emptyFieldError(input)) {return;}
+
+					
 				});				
 			}
 

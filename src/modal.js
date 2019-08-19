@@ -1,4 +1,4 @@
-import {format, isBefore} from 'date-fns';
+import {format, endOfYesterday, isBefore} from 'date-fns';
 
 import '!style-loader!css-loader!./modal.css';
 
@@ -14,7 +14,8 @@ class Modal {
 
         // Retrieve current date just to use it As a limiter
         // Today becomes the minimum date
-        let today = format(new Date(), 'YYYY-MM-DD');
+        let today = format(new Date(), "YYYY-MM-DD");
+        let yesterday = endOfYesterday();
 		modal.insertAdjacentHTML("beforeend", `
 			<section class="modal-container" id="add-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button id="add-modal-close">x</button>
@@ -92,21 +93,25 @@ class Modal {
 
     }
     static validAddDate(dateField){
-        let today = format(new Date(), 'YYYY-MM-DD');
+        let yesterday = endOfYesterday();
         let parent = dateField.parentElement;
-        let errorMessage = parent.querySelector(".modal-error-message.before-today-error");
+        let errorMessage = parent.querySelector(".modal-error-message.before-yesterday-error");
 
         // delete any date error messages
         if(errorMessage) {
             parent.removeChild(errorMessage);            
         }
 
-        if(isBefore(today, dateField.value)) {
+        if(dateField.value === "") {
+            return true;
+        }
+
+        if(isBefore(yesterday, dateField.value)) {
             return true;
         }
         else{
             parent.insertAdjacentHTML("beforeend", `
-               <span class="modal-error-message before-today-error">This date has passed already.</span> 
+               <span class="modal-error-message before-yesterday-error">This date has passed already.</span> 
             `);
             return false;    
         }
@@ -128,7 +133,17 @@ class Modal {
 
         // Run all error checks for each required field
         for (let field of requiredFields){
-            if(Modal.emptyFieldError(field)) {
+            // Restrict the date field to only accept dates from today onwards
+			if(field === dateField) {
+				if(Modal.validAddDate(field)) {
+                    
+                }
+                else {
+                    errors++;
+                }
+			}
+            else if(Modal.emptyFieldError(field)) {
+                console.log("emptyError");
                 errors++;
             }
         }
@@ -140,9 +155,19 @@ class Modal {
     }
     static retrieveTaskData(){
         let task = {};
+
+        let today = format(new Date(), "MM/DD/YYYY");
+
         task.title = document.getElementById("add-title-field").value;
         task.description = document.getElementById("add-description-field").value;
-        task.date = format(document.getElementById("add-date-field").value, 'MM/DD/YYYY');
+
+        // Check if date is empty, If so give it a default value of
+        if(document.getElementById("add-date-field").value) {
+            task.date = format(document.getElementById("add-date-field").value, 'MM/DD/YYYY');
+        }
+        else{
+            task.date = today;
+        }
         // Check if time is empty, If so give it a default value of
         if(document.getElementById("add-time-field").value) {
             // Do something that lets me convert time into a date structure

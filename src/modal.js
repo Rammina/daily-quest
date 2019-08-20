@@ -4,7 +4,11 @@ import '!style-loader!css-loader!./modal.css';
 
 class Modal {
     static deleteModal(modal){
-        document.getElementById("content").removeChild(modal);
+        modal.classList.remove("show");
+        modal.firstElementChild.classList.remove("show");
+        setTimeout(function(){
+            document.getElementById("content").removeChild(modal);
+        }, 301); 
     }
 	static renderAddModal(){
 		// let taskContainer = document.getElementById("tasklist-container");
@@ -58,10 +62,15 @@ class Modal {
         let submit = document.getElementById("add-submit");
         let closeButton = document.getElementById("add-modal-close");
 
-		// Effects
-		backdrop.classList.add("show");
-        sectionContainer.classList.add("show");
-        sectionContainer.focus();
+        // Effects
+        setTimeout(function(){
+            backdrop.classList.add("show");
+            sectionContainer.classList.add("show");
+            setTimeout(function(){
+                sectionContainer.focus();
+            }, 301);
+        }, 0);
+		
 
         // event listeners
         backdrop.addEventListener("click", function(event){
@@ -230,7 +239,7 @@ class Modal {
             // Do something that lets me convert time into a date structure
             // concatenate The date value To the time value
             let datetime = new Date(`${document.getElementById("add-date-field").value}T${document.getElementById("add-time-field").value}`);
-            task.time = format(datetime, 'HH:mmA');
+            task.time = format(datetime, 'hh:mmA');
         }
         else{
             task.time = "11:59PM";

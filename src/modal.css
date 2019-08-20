@@ -283,13 +283,16 @@
     background-color: #b0b0b0;
     text-shadow: 0 0 0.1px #111;
 }
-@media screen and (min-width: 511px){
+@media screen and (min-width: 545px){
     #add-date-field{    
         margin-bottom: 0rem;
+    }
+    .modal-container {
+        margin: calc(48vh - 16rem) calc(50vw - 50%);
     }
 }
 @media screen and (min-width: 650px){
     .modal-container{
-        margin: calc(33vh - 6.5rem) calc(50vw - 20rem);
+        margin: calc(48vh - 16rem) calc(50vw - 20rem);
     }
 }   

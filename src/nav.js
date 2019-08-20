@@ -19,7 +19,7 @@ class Navigation {
             
             <div class="backdrop" id="nav-backdrop"></div>
             <ul class="nav-items" id="navbarResponsive">
-            	<li><button id="projects-button" class="nav-item" aria-expanded="false" href="#">Projects</button>
+            	<li><button id="projects-button" class="nav-item" aria-expanded="false" href="#">Projects <button id="add-project-button">+</button></button>
             		<ul class="projects-items">
 						
             		</ul>
@@ -70,11 +70,21 @@ class Navigation {
 		function showProject() {
 			projectitems.classList.add("show");
 			projectbutton.setAttribute("aria-expanded", "true");
+			let projectItems = document.querySelectorAll(".projects-item");
+			console.log(projectItems);
+			for(let i = 0; i < projectItems.length; i++) {
+				projectItems[i].classList.add("show");
+			}
 		}
 
 		function hideProject() {
 			projectitems.classList.remove("show");
 			projectbutton.setAttribute("aria-expanded", "false");
+			let projectItems = document.querySelectorAll(".projects-item");
+			console.log(projectItems);
+			for(let i = 0; i < projectItems.length; i++) {
+				projectItems[i].classList.remove("show");
+			}
 		}
 
 		title.addEventListener("click", function(){
@@ -119,7 +129,7 @@ class Navigation {
 			Tasklist.renderTasks(projectTitle, projectTasks);
 		});
 		document.querySelector(".projects-items").appendChild(projectElement);
-
+		// document.querySelector(".projects-item").classList.add("show");
 	}	
 	static showMenu(){
 		document.querySelector(".nav-items").classList.add("show");
@@ -135,6 +145,11 @@ class Navigation {
 		document.querySelector(".projects-items").classList.add("show");
 		document.getElementById("projects-button").setAttribute("aria-expanded", "true");
 		
+		let projectItems = document.querySelectorAll(".projects-item");
+		console.log(projectItems);
+		for(let i = 0; i < projectItems.length; i++) {
+			projectItems[i].classList.add("show");
+		}
 	}
 	
 }

@@ -98,7 +98,7 @@ class Tasklist {
 		let content = document.createElement("div");
 		content.classList.add("tasklist-group-container");
 		// Check if the navigation menu is opened
-		// Add padding necessary if so
+		// add padding necessary if so
 		if(tasklistSection.classList.contains("show-menu")){		
 			content.classList.add("show-menu");
 		}
@@ -140,23 +140,23 @@ class Tasklist {
 
 		
 
-		function openAddModal() {
-			Modal.renderAddModal();
+		function openAddTaskModal() {
+			Modal.renderAddTaskModal();
 
 			
-			// Add listeners to each input field
-			let requiredAddInputs = document.querySelectorAll(".add-modal-required");
-			let dateField = document.getElementById("add-date-field");
-			let timeField = document.getElementById("add-time-field");
-			for (let input of requiredAddInputs){
+			// add listeners to each input field
+			let requiredAddTaskInputs = document.querySelectorAll(".add-task-modal-required");
+			let dateField = document.getElementById("add-task-date-field");
+			let timeField = document.getElementById("add-task-time-field");
+			for (let input of requiredAddTaskInputs){
 				input.addEventListener("blur", function(){
 					// Restrict the date and time fields to only accept dates/times from today onwards
 					if(input === dateField) {
-						Modal.validAddDate(input);
+						Modal.validAddTaskDate(input);
 						return;
 					}
 					else if(input === timeField){
-						Modal.validAddTime(input);
+						Modal.validAddTaskTime(input);
 						return;
 					}
 					if(Modal.emptyFieldError(input)) {return;}
@@ -166,13 +166,13 @@ class Tasklist {
 			}
 
 			// Handle the rendering upon submitting a task
-			document.getElementById("add-submit").addEventListener("click", function(event){
+			document.getElementById("add-task-submit").addEventListener("click", function(event){
 				event.preventDefault();
 				// Check if the form values are valid before running
-				if(Modal.validAddForm()) {
+				if(Modal.validAddTaskForm()) {
 					// Submit if valid
 					Tasklist.renderTask(Modal.retrieveTaskData());	
-					Modal.deleteModal(document.getElementById("add-backdrop"));
+					Modal.deleteModal(document.getElementById("add-task-backdrop"));
 				}
 				
 				
@@ -181,7 +181,7 @@ class Tasklist {
 		
 
 		content.querySelector(".tasklist-add-button").addEventListener("click", function(){
-			openAddModal();
+			openAddTaskModal();
 
 		});
 		tasklistSection.appendChild(content);

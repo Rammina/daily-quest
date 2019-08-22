@@ -1,4 +1,4 @@
-#add-backdrop{
+#add-task-backdrop{
     /*visibility: visible;*/
     /*opacity: 1;*/
     background-color: rgba(0, 0, 0, 0.6);
@@ -27,13 +27,17 @@
     font-family: 'Raleway', sans-serif;
 }
 
-#add-content {
+#add-task-content {
     transform: translateY(-1000px);
     transition: transform 0.3s ease-in-out;
 }
 
-#add-content.show {
+#add-task-content.show {
     transform: translateY(0px);
+}
+
+#add-project-content{
+    margin: calc(45vh - 7.5rem) calc(50vw - 50%);
 }
 
 #delete-modal, #delete-all-modal {
@@ -46,7 +50,7 @@
     box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
 }
 
-#add-modal-close {
+#add-task-modal-close, #add-project-modal-close { 
     /*z-index: 102;*/
     display: inline-block;
     position: absolute;
@@ -119,15 +123,18 @@
     max-width: 12.5rem;
 
 }
-#add-date-field{
+#add-task-date-field{
 
     margin-bottom: 1rem;
 }
-#add-time-field{
+#add-task-time-field{
     /*display: inline;*/
     margin-bottom: 0;
 }
 
+#add-project-title-field{
+    margin-bottom: 2rem;
+}
 
 .text-field:focus {
     background-color: #fcfae0;
@@ -139,7 +146,7 @@
     background-color: #fcc;
 }
 
-#add-description-field{
+#add-task-description-field{
     padding-top: 0.5rem;
     height: 6rem;
 }
@@ -201,7 +208,7 @@
     text-shadow: 0 0 0.1px #111;
 }
 
-#add-submit{
+#add-task-submit, #add-project-submit{
     display: block;
     width: 82%;
     max-width: 16rem;
@@ -215,7 +222,7 @@
     border-radius: 5px;
 }
 
-#add-submit:hover {
+#add-task-submit:hover {
     border: 1px solid #beffff;
     background-color: rgb(175, 224, 175);
 }
@@ -284,11 +291,14 @@
     text-shadow: 0 0 0.1px #111;
 }
 @media screen and (min-width: 545px){
-    #add-date-field{    
+    #add-task-date-field{    
         margin-bottom: 0rem;
     }
     .modal-container {
         margin: calc(48vh - 16rem) calc(50vw - 50%);
+    }
+    #add-project-content{
+        margin: calc(48vh - 7.5rem) calc(50vw - 16rem);
     }
 }
 @media screen and (min-width: 650px){

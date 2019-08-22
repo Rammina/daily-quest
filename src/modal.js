@@ -3,6 +3,7 @@ import {format, endOfYesterday, isBefore} from 'date-fns';
 import '!style-loader!css-loader!./modal.css';
 
 class Modal {
+    // General helpers here
     static deleteModal(modal){
         modal.classList.remove("show");
         modal.firstElementChild.classList.remove("show");
@@ -10,10 +11,26 @@ class Modal {
             document.getElementById("content").removeChild(modal);
         }, 301); 
     }
-	static renderAddModal(){
+    static emptyFieldError(field){
+            let parent = field.parentElement;
+            let errorMessage = parent.querySelector(".modal-error-message.empty-error");
+            if(errorMessage) {
+                parent.removeChild(errorMessage);
+            }
+            if(field.value) {
+                return false;
+            }
+            
+            parent.insertAdjacentHTML("beforeend", `
+                <span class="modal-error-message empty-error">Please fill out this field.</span>
+            `);
+            return true;
+    }
+    // ***********************AddTaskModal here************** ****************************
+	static renderAddTaskModal(){
 		// let taskContainer = document.getElementById("tasklist-container");
 		let modal = document.createElement("div");
-		modal.id = "add-backdrop";
+		modal.id = "add-task-backdrop";
 		modal.classList.add("backdrop");
 
         // Retrieve current date just to use it As a limiter
@@ -21,25 +38,25 @@ class Modal {
         let today = format(new Date(), "YYYY-MM-DD");
         let yesterday = endOfYesterday();
 		modal.insertAdjacentHTML("beforeend", `
-			<section class="modal-container" id="add-content" tabindex="-1" role="dialog" aria-hidden="true">
-                <button id="add-modal-close">x</button>
+			<section class="modal-container" id="add-task-content" tabindex="-1" role="dialog" aria-hidden="true">
+                <button id="add-task-modal-close">x</button>
                 <h1 class="modal-header">Add a Task</h1>
-                <form id="add-form">
+                <form id="add-task-form">
                     <div>
-                        <input id="add-title-field" class="add-modal-required text-field" type="text" name="title" placeholder="Task Title" maxlength="40" required="true">
+                        <input id="add-task-title-field" class="add-task-modal-required text-field" type="text" name="task-title" placeholder="Task Title" maxlength="40" required="true">
                     </div>
                     <div>
-                        <textarea id="add-description-field" class="add-modal-required text-field" name="description" placeholder="Task Description" maxlength="200" required="true"></textarea>
+                        <textarea id="add-task-description-field" class="add-task-modal-required text-field" name="task-description" placeholder="Task Description" maxlength="200" required="true"></textarea>
                     </div>
                     <div class="date-time-container">
-                        <label id="date-label" class="form-label" for="add-date-field">Task Deadline:</label>
-                        <input id="add-date-field" class="add-modal-required datetime-field text-field" type="text" placeholder="Date" name="date" onfocus="(this.type='date')" required="true" min="${today}">
-                        <input id="add-time-field" class="add-modal-required datetime-field text-field" type="text" placeholder="Time (optional)" name="time" onfocus="(this.type='time')">
+                        <label id="date-label" class="form-label" for="add-task-date-field">Task Deadline:</label>
+                        <input id="add-task-date-field" class="add-task-modal-required datetime-field text-field" type="text" placeholder="Date" name="task-date" onfocus="(this.type='date')" required="true" min="${today}">
+                        <input id="add-task-time-field" class="add-task-modal-required datetime-field text-field" type="text" placeholder="Time (optional)" name="task-time" onfocus="(this.type='time')">
                     </div>
                     
                     <div class="select-container">
-                        <label class="form-label" for="add-priority-menu">Task Priority:</label>
-                        <select class="add-modal-required form-select" name="priority" id="add-priority-menu">
+                        <label class="form-label" for="add-task-priority-menu">Task Priority:</label>
+                        <select class="add-task-modal-required form-select" name="task-priority" id="add-task-priority-menu">
                             <option value="">--Priority Level--</option>
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
@@ -48,7 +65,7 @@ class Modal {
                         
                         
                     </div>
-                    <input type="submit" class="form-submit" id="add-submit" value="Add This Task">
+                    <input type="submit" class="form-submit" id="add-task-submit" value="Add This Task">
                 </form>
             
             </section>
@@ -57,15 +74,17 @@ class Modal {
 
         // Assigning variable names to elements
 
-        let backdrop = document.getElementById("add-backdrop");
-        let sectionContainer = document.getElementById("add-content");
-        let submit = document.getElementById("add-submit");
-        let closeButton = document.getElementById("add-modal-close");
+        let backdrop = document.getElementById("add-task-backdrop");
+        let sectionContainer = document.getElementById("add-task-content");
+        let submit = document.getElementById("add-task-submit");
+        let closeButton = document.getElementById("add-task-modal-close");
 
         // Effects
+        // Try making universal function for this since it is recycled
         setTimeout(function(){
             backdrop.classList.add("show");
             sectionContainer.classList.add("show");
+            sectionContainer.setAttribute("aria-hidden", "false");
             setTimeout(function(){
                 sectionContainer.focus();
             }, 301);
@@ -83,25 +102,9 @@ class Modal {
                 Modal.deleteModal(backdrop);
             }
         });
-        console.log("modal is added to the Dom");
-	}
-    static emptyFieldError(field){
-            let parent = field.parentElement;
-            let errorMessage = parent.querySelector(".modal-error-message.empty-error");
-            if(errorMessage) {
-                parent.removeChild(errorMessage);
-            }
-            if(field.value) {
-                return false;
-            }
-            
-            parent.insertAdjacentHTML("beforeend", `
-                <span class="modal-error-message empty-error">Please fill out this field.</span>
-            `);
-            return true;
-
-    }
-    static validAddDate(dateField){
+        console.log("modal is add-tasked to the Dom");
+	}    
+    static validAddTaskDate(dateField){
         let yesterday = endOfYesterday();
         let parent = dateField.parentElement;
         let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
@@ -126,8 +129,8 @@ class Modal {
         }
         
     }
-    static validAddTime(timeField){
-        let dateField = document.getElementById("add-date-field");
+    static validAddTaskTime(timeField){
+        let dateField = document.getElementById("add-task-date-field");
         let today = new Date();
         let parent = timeField.parentElement;
         let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
@@ -141,9 +144,13 @@ class Modal {
                 <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
             `);
         }
+        // Ignore or skip if time field is empty
+        if(!(timeField.value)) {
+            return true;
+        }
         // start by checking if the date is valid
         if(dateField.value) {
-            if(Modal.validAddDate(dateField)) {
+            if(Modal.validAddTaskDate(dateField)) {
                 inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
                 if(isBefore(today, inputDateTime)) {
                     return true;
@@ -176,14 +183,14 @@ class Modal {
 
 
     }
-    static validAddForm(){
+    static validAddTaskForm(){
         
         // Assigning variable names to field elements
-        let titleField = document.getElementById("add-title-field");
-        let descriptionField = document.getElementById("add-description-field");
-        let dateField = document.getElementById("add-date-field");
-        let timeField = document.getElementById("add-time-field");
-        let priorityField = document.getElementById("add-priority-menu");
+        let titleField = document.getElementById("add-task-title-field");
+        let descriptionField = document.getElementById("add-task-description-field");
+        let dateField = document.getElementById("add-task-date-field");
+        let timeField = document.getElementById("add-task-time-field");
+        let priorityField = document.getElementById("add-task-priority-menu");
 
         // Place them all inside an array for easy iteration
         let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
@@ -197,13 +204,13 @@ class Modal {
             // Check first if it is a date field, as it is not required to be filled up
 			if(field === dateField) {
                 //Check if it is a valid date 
-				if(!(Modal.validAddDate(field))) {
+				if(!(Modal.validAddTaskDate(field))) {
                     errors++;
                 }
 			}
             else if(field === timeField) {
                 //Check if it is a valid time
-                if(!(Modal.validAddTime(field))) {
+                if(!(Modal.validAddTaskTime(field))) {
                     errors++;
                 }
             }
@@ -224,31 +231,99 @@ class Modal {
 
         let today = format(new Date(), "MM/DD/YYYY");
 
-        task.title = document.getElementById("add-title-field").value;
-        task.description = document.getElementById("add-description-field").value;
+        task.title = document.getElementById("add-task-title-field").value;
+        task.description = document.getElementById("add-task-description-field").value;
 
         // Check if date is empty, If so give it a default value of
-        if(document.getElementById("add-date-field").value) {
-            task.date = format(document.getElementById("add-date-field").value, 'MM/DD/YYYY');
+        if(document.getElementById("add-task-date-field").value) {
+            task.date = format(document.getElementById("add-task-date-field").value, 'MM/DD/YYYY');
         }
         else{
             task.date = today;
         }
         // Check if time is empty, If so give it a default value of
-        if(document.getElementById("add-time-field").value) {
+        if(document.getElementById("add-task-time-field").value) {
             // Do something that lets me convert time into a date structure
             // concatenate The date value To the time value
-            let datetime = new Date(`${document.getElementById("add-date-field").value}T${document.getElementById("add-time-field").value}`);
+            let datetime = new Date(`${document.getElementById("add-task-date-field").value}T${document.getElementById("add-task-time-field").value}`);
             task.time = format(datetime, 'hh:mmA');
         }
         else{
             task.time = "11:59PM";
         }
-        task.priority = document.getElementById("add-priority-menu").value;
+        task.priority = document.getElementById("add-task-priority-menu").value;
 
         return task;
     }
+    // ***********************AddProjectModal here************** ****************************
+    static renderAddProjectModal(){
+        let modal = document.createElement("div");
+        modal.id = "add-project-backdrop";
+        modal.classList.add("backdrop");
+        modal.insertAdjacentHTML("beforeend", `
+            <section class="modal-container" id="add-project-content" tabindex="-1" role="dialog" aria-hidden="true">
+                <button id="add-project-modal-close">x</button>
+                <h1 class="modal-header">Add a Project</h1>
+                <form id="add-task-form">
+                    <div>
+                        <input id="add-project-title-field" class="add-project-modal-required text-field" type="text" name="project-title" placeholder="Project Title" maxlength="30" required="true">
+                    </div>
+                    
+                    <input type="submit" class="form-submit" id="add-project-submit" value="Add This Project">
+                </form>
+            
+            </section>
+        `);
+        document.getElementById("content").appendChild(modal);
 
+        let backdrop = document.getElementById("add-project-backdrop");
+        let sectionContainer = document.getElementById("add-project-content");
+        let submit = document.getElementById("add-project-submit");
+        let closeButton = document.getElementById("add-project-modal-close");
+
+        // Effects
+        // Try making universal function for this since it is recycled
+        setTimeout(function(){
+            backdrop.classList.add("show");
+            sectionContainer.classList.add("show");
+            sectionContainer.setAttribute("aria-hidden", "false");
+            setTimeout(function(){
+                sectionContainer.focus();
+            }, 301);
+        }, 0);
+        
+
+        // event listeners
+        backdrop.addEventListener("click", function(event){
+            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+        closeButton.addEventListener("click", function(event){
+            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+    }
+    static validAddProjectForm(){
+        
+        // Assigning variable names to field elements
+        let titleField = document.getElementById("add-project-title-field");
+
+        // If the field is empty, inserts an error message <span>, and returns true
+        // Otherwise it returns false and does nothing
+        let errors = 0;
+
+            
+        if(Modal.emptyFieldError(titleField)) {
+                console.log("emptyError");
+                errors++;
+            }
+        if(errors > 0) {
+            return false;
+        }
+        return true;
+    }
 }
 
 export default Modal;

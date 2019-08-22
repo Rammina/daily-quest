@@ -1,7 +1,7 @@
 import '!style-loader!css-loader!./nav.css';
 
 import Tasklist from './tasklist.js';
-
+import Modal from './modal.js';
 
 import HamburgerIcon from './images/hamburger-icon.png';
 
@@ -41,6 +41,7 @@ class Navigation {
 		let menuitems = document.querySelector(".nav-items");
 		let menuitem = document.querySelector(".nav-item");
 		let projectbutton = document.getElementById("projects-button");
+		let addProjectButton = document.getElementById("add-project-button");
 		let projectitems = document.querySelector(".projects-items");
 
 		let tasklistContainer = document.getElementById("tasklist-container");
@@ -118,9 +119,23 @@ class Navigation {
 			}
 		});
 
+		addProjectButton.addEventListener("click", function(){
+			Modal.renderAddProjectModal();
+
+			document.getElementById("add-project-submit").addEventListener("click", function(event){
+				event.preventDefault();
+
+				if(Modal.validAddProjectForm()) {
+					let projectTitle = document.getElementById("add-project-title-field").value;
+					Navigation.renderProject(projectTitle, []);
+					Modal.deleteModal(document.getElementById("add-project-backdrop"));
+
+				}
+			});
+		});
 
 	}
-	renderProject(projectTitle, projectTasks){
+	static renderProject(projectTitle, projectTasks){
 		let projectElement = document.createElement("li");
 		projectElement.insertAdjacentHTML("beforeend", `
 			<button class="projects-item">${projectTitle}</button>

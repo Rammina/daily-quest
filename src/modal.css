@@ -1,4 +1,4 @@
-#add-task-backdrop{
+#add-task-backdrop, #add-project-backdrop {
     /*visibility: visible;*/
     /*opacity: 1;*/
     background-color: rgba(0, 0, 0, 0.6);
@@ -38,6 +38,7 @@
 
 #add-project-content{
     margin: calc(45vh - 7.5rem) calc(50vw - 50%);
+    padding: 2.5rem 0;
 }
 
 #delete-modal, #delete-all-modal {
@@ -132,8 +133,15 @@
     margin-bottom: 0;
 }
 
+#add-project-field-div {
+    /* max-width: 24rem; */
+}
+
 #add-project-title-field{
     margin-bottom: 2rem;
+    position: relative;
+    top: 0.5rem;
+    max-width: 20rem;
 }
 
 .text-field:focus {
@@ -157,12 +165,14 @@
     bottom: 0.5rem;
     left: 0.5rem;
     font-size: 1.0rem;
-    /*width: 85%;*/
+    /* width: 85%; */
     max-width: 26rem;
     margin: 0.8rem auto;
-
-
     color: rgb(255, 190, 190);
+}
+
+#add-project-field-div .modal-error-message {
+    max-width: 20rem;
 }
 
 .select-container, .date-time-container{
@@ -220,6 +230,11 @@
     color: #111;
     outline: none;
     border-radius: 5px;
+}
+
+#add-project-submit {
+    position: relative;
+    top: 1rem;
 }
 
 #add-task-submit:hover {

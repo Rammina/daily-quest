@@ -56,13 +56,13 @@ class Tasklist {
 			taskElement.classList.add("low");
 		}
 		taskElement.insertAdjacentHTML("beforeend", `
-			<span class="checkbox-title-span">
+			<div class="checkbox-title-div">
 				<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
 				<span class="tasklist-title">${task.title}</span>
-			</span>
+			</div>
 			<span class="date-time-span">
 				<span class="tasklist-date">${task.date} </span>
-				<span class="span-hide-mobile"> - ${task.time}</span>
+				<span class="time-hide-mobile"> - ${task.time}</span>
 			</span>
 		`);
 		
@@ -115,13 +115,13 @@ class Tasklist {
 			}
 			tasksElement += `
 			<li class="tasklist-task ${task.priority}">
-				<span class="checkbox-title-span">
+				<div class="checkbox-title-div">
 					<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
 					<span class="tasklist-title">${task.title}</span>
-				</span>
+				</div>
 				<span class="date-time-span">
 					<span class="tasklist-date">${task.date} </span>
-					<span class="span-hide-mobile"> - ${task.time}</span>
+					<span class="time-hide-mobile"> - ${task.time}</span>
 				</span>
 			</li>
 		`;

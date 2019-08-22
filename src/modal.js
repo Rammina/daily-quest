@@ -50,7 +50,7 @@ class Modal {
                     </div>
                     <div class="date-time-container">
                         <label id="date-label" class="form-label" for="add-task-date-field">Task Deadline:</label>
-                        <input id="add-task-date-field" class="add-task-modal-required datetime-field text-field" type="text" placeholder="Date" name="task-date" onfocus="(this.type='date')" required="true" min="${today}">
+                        <input id="add-task-date-field" class="add-task-modal-required datetime-field text-field" type="text" placeholder="Date (optional)" name="task-date" onfocus="(this.type='date')" required="true" min="${today}">
                         <input id="add-task-time-field" class="add-task-modal-required datetime-field text-field" type="text" placeholder="Time (optional)" name="task-time" onfocus="(this.type='time')">
                     </div>
                     
@@ -265,7 +265,7 @@ class Modal {
                 <button id="add-project-modal-close">x</button>
                 <h1 class="modal-header">Add a Project</h1>
                 <form id="add-task-form">
-                    <div>
+                    <div id="add-project-field-div">
                         <input id="add-project-title-field" class="add-project-modal-required text-field" type="text" name="project-title" placeholder="Project Title" maxlength="30" required="true">
                     </div>
                     

@@ -182,7 +182,7 @@
 	align-items: center;
 	width: 100%;
 	min-height: 4rem;
-	font-size: 1.1rem;
+	font-size: 1rem;
 	border-bottom: 1px solid rgba(20, 20, 20, 0.5);
 	padding: 0 1rem;
 	background-color: #ffd;
@@ -197,9 +197,17 @@
 	background-color: #ffd;
 }
 
+.checkbox-title-div {
+	display: flex;
+	align-items: center;
+	align-content: center; 
+}
+
 .tasklist-title {
+	display: inline-block;
 	position: relative;
-	bottom: 0.8rem;
+	max-width: 12rem;
+	/* bottom: 0.8rem; */
 	left: 1rem;
 	text-shadow: 0px 0px 0.1px #111;
 	text-transform: capitalize;
@@ -221,7 +229,22 @@
 	#tasklist-paragraph-container{
 		padding: 2.5rem 1rem;
 	}
+	.tasklist-title {
+		max-width: 20rem;
+	}
 }
+
+@media screen and (min-width: 580px) {
+	.tasklist-task {
+		font-size: 1.1rem;
+	}
+}
+
+/* @media screen and (min-width: 620px) {
+	.tasklist-task {
+		font-size: 1.05rem;
+	}
+} */
 
 @media screen and (min-width: 650px) {
 	.tasklist-group-header {
@@ -230,16 +253,19 @@
 	#tasklist-header-break{
 		display: inline;
 	}
+	.tasklist-task {
+		font-size: 1.1rem;
+	}
 }
 
 @media screen and (min-width: 750px) {
 	.tasklist-spine {
-		padding-left: 3rem;
-		padding-right: 3rem;
+		padding-left: 2rem;
+		padding-right: 2rem;
 	}
 	.tasklist-task {
-		padding-right: 5rem;
-		padding-left: 5rem;
+		padding-right: 3rem;
+		padding-left: 3rem;
 	}
 }
 
@@ -293,14 +319,21 @@
 
 /*maximum width breakpoints*/
 /*Line breaks hidden on mobile*/
+
+@media screen and (max-width: 420px) {
+	.date-time-span {
+		display: none;
+	}
+}
+
 @media screen and (max-width: 450px) {
 	.linebreak-hide-mobile{
 		display: none;
 	}
 }
 /*Hide spends on mobile*/
-@media screen and (max-width: 850px) {
-	.span-hide-mobile{
+@media screen and (max-width: 650px) {
+	.time-hide-mobile{
 		display: none;
 	}
 }

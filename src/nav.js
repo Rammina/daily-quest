@@ -72,7 +72,6 @@ class Navigation {
 			projectitems.classList.add("show");
 			projectbutton.setAttribute("aria-expanded", "true");
 			let projectItems = document.querySelectorAll(".projects-item");
-			console.log(projectItems);
 			for(let i = 0; i < projectItems.length; i++) {
 				projectItems[i].classList.add("show");
 			}
@@ -82,7 +81,6 @@ class Navigation {
 			projectitems.classList.remove("show");
 			projectbutton.setAttribute("aria-expanded", "false");
 			let projectItems = document.querySelectorAll(".projects-item");
-			console.log(projectItems);
 			for(let i = 0; i < projectItems.length; i++) {
 				projectItems[i].classList.remove("show");
 			}
@@ -122,6 +120,12 @@ class Navigation {
 		addProjectButton.addEventListener("click", function(){
 			Modal.renderAddProjectModal();
 
+			document.getElementById("add-project-title-field").addEventListener("blur", function(event){
+				if(Modal.emptyFieldError(document.getElementById("add-project-title-field"))) {
+					return;
+				}
+			});
+
 			document.getElementById("add-project-submit").addEventListener("click", function(event){
 				event.preventDefault();
 
@@ -143,8 +147,12 @@ class Navigation {
 		projectElement.querySelector(".projects-item").addEventListener("click", function(){
 			Tasklist.renderTasks(projectTitle, projectTasks);
 		});
+		if(document.getElementById("projects-button").getAttribute("aria-expanded") === "true"){
+			projectElement.querySelector(".projects-item").classList.add("show");
+		}
 		document.querySelector(".projects-items").appendChild(projectElement);
-		// document.querySelector(".projects-item").classList.add("show");
+		
+		
 	}	
 	static showMenu(){
 		document.querySelector(".nav-items").classList.add("show");
@@ -164,6 +172,7 @@ class Navigation {
 		console.log(projectItems);
 		for(let i = 0; i < projectItems.length; i++) {
 			projectItems[i].classList.add("show");
+			console.log("projectShow 171");
 		}
 	}
 	

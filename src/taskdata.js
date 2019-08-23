@@ -1,8 +1,21 @@
 class TaskData {
 	projects = [];
 	projectId = 0;
+	taskId = 0;
 
-	addProject(projectTitle, projectTasks){
+	static addTask(projectTitle, task){
+		// Search the projects array and find a match
+		for (let project of projects){
+			// If a match is found proceed to pushing the task inside the project
+			if(project.title === projectTitle) {
+				project.tasks.push(task);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	static addProject(projectTitle, projectTasks){
 		// Check for any duplicates and titles before pushing
 		for (let project of projects){
 			if(projectTitle === project.title) {
@@ -16,26 +29,23 @@ class TaskData {
 			// string value
 			title: projectTitle, 
 			// array containing tasks(which are objects)
-			tasks: projectTasks,
+			tasks: [],
 			// Unique ID used to retrieve this project later on
 			uniqueId: projectId
+		}
+		for (let task of projectTasks){
+			task.uniqueId = taskId;
+			project.tasks.push(task);
+
+			taskId++;
 		}
 		projectId++;
 		projects.push(project);
 
 		return true;
 	}
-	addTask(projectTitle, task){
-		// Search the projects array and find a match
-		for (let project of projects){
-			// If a match is found proceeded to pushing the task inside the project
-			if(project.title === projectTitle) {
-				project.push(task);
-				return true;
-			}
-		}
-		return false;
-	}
+	
+	
 }
 
 export default TaskData;

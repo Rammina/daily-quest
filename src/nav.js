@@ -1,5 +1,6 @@
 import '!style-loader!css-loader!./nav.css';
 
+import TaskData from './taskdata.js';
 import Tasklist from './tasklist.js';
 import Modal from './modal.js';
 
@@ -143,13 +144,18 @@ class Navigation {
 		let projectElement = document.createElement("li");
 		projectElement.insertAdjacentHTML("beforeend", `
 			<button class="projects-item">${projectTitle}</button>
-			`);
+		`);
+
 		projectElement.querySelector(".projects-item").addEventListener("click", function(){
 			Tasklist.renderTasks(projectTitle, projectTasks);
 		});
 		if(document.getElementById("projects-button").getAttribute("aria-expanded") === "true"){
 			projectElement.querySelector(".projects-item").classList.add("show");
 		}
+		// Store the project title and tasks In a data structure
+		TaskData.addProject(projectTitle, projectTasks);
+
+		// Added to the document Dom
 		document.querySelector(".projects-items").appendChild(projectElement);
 		
 		

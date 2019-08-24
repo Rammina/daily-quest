@@ -1,7 +1,12 @@
+let projects = [];
+let projectId = 0;
+let taskId = 0;
+
 class TaskData {
-	projects = [];
-	projectId = 0;
-	taskId = 0;
+	
+	static printProjects(){
+		console.log(projects);
+	}
 
 	static addTask(projectTitle, task){
 		// Search the projects array and find a match
@@ -16,13 +21,14 @@ class TaskData {
 	}
 
 	static addProject(projectTitle, projectTasks){
+		console.log(projects);
 		// Check for any duplicates and titles before pushing
 		for (let project of projects){
 			if(projectTitle === project.title) {
 				// Abort adding this project and show an error
 				console.log("duplicate project title");
 				// Cancel the function or method
-				return;
+				return false;
 			}
 		}
 		let project = {

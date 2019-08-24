@@ -141,24 +141,28 @@ class Navigation {
 
 	}
 	static renderProject(projectTitle, projectTasks){
-		let projectElement = document.createElement("li");
-		projectElement.insertAdjacentHTML("beforeend", `
-			<button class="projects-item">${projectTitle}</button>
-		`);
-
-		projectElement.querySelector(".projects-item").addEventListener("click", function(){
-			Tasklist.renderTasks(projectTitle, projectTasks);
-		});
-		if(document.getElementById("projects-button").getAttribute("aria-expanded") === "true"){
-			projectElement.querySelector(".projects-item").classList.add("show");
-		}
 		// Store the project title and tasks In a data structure
-		TaskData.addProject(projectTitle, projectTasks);
+		// Only add it if there is no duplicate
+		if(TaskData.addProject(projectTitle, projectTasks)) {
+			let projectElement = document.createElement("li");
+			projectElement.insertAdjacentHTML("beforeend", `
+				<button class="projects-item">${projectTitle}</button>
+			`);
 
-		// Added to the document Dom
-		document.querySelector(".projects-items").appendChild(projectElement);
-		
-		
+			projectElement.querySelector(".projects-item").addEventListener("click", function(){
+				Tasklist.renderTasks(projectTitle, projectTasks);
+			});
+			if(document.getElementById("projects-button").getAttribute("aria-expanded") === "true"){
+				projectElement.querySelector(".projects-item").classList.add("show");
+			}
+			
+			// Added to the document Dom
+			document.querySelector(".projects-items").appendChild(projectElement);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}	
 	static showMenu(){
 		document.querySelector(".nav-items").classList.add("show");

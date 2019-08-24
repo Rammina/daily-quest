@@ -1,8 +1,5 @@
 import '!style-loader!css-loader!./tasklist.css';
-
 import Modal from './modal.js';
-
-// import ChatBubble from './images/chat-bubble.png';
 import RoboImage from './images/yumemi.png';
 
 
@@ -64,6 +61,7 @@ class Tasklist {
 				<span class="tasklist-date">${task.date} </span>
 				<span class="time-hide-mobile"> - ${task.time}</span>
 			</span>
+			
 		`);
 		
 		// Check if the container exists before inserting

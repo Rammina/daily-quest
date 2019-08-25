@@ -1,4 +1,6 @@
 import '!style-loader!css-loader!./tasklist.css';
+
+import TaskData from './taskdata.js';
 import Modal from './modal.js';
 import RoboImage from './images/yumemi.png';
 
@@ -169,7 +171,12 @@ class Tasklist {
 				// Check if the form values are valid before running
 				if(Modal.validAddTaskForm()) {
 					// Submit if valid
-					Tasklist.renderTask(Modal.retrieveTaskData());	
+					let task = Modal.retrieveTaskData();	
+					Tasklist.renderTask(task);	
+
+					let projectTitle = document.querySelector(".tasklist-group-header").textContent;
+					TaskData.addTask(projectTitle, task);
+
 					Modal.deleteModal(document.getElementById("add-task-backdrop"));
 				}
 				

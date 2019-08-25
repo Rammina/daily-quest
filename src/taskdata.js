@@ -13,6 +13,8 @@ class TaskData {
 		for (let project of projects){
 			// If a match is found proceed to pushing the task inside the project
 			if(project.title === projectTitle) {
+				task.uniqueId = taskId;
+				taskId++;
 				project.tasks.push(task);
 				return true;
 			}

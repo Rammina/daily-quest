@@ -68,6 +68,7 @@ class Tasklist {
 		
 		// Add Event listener for click to display task information
 		taskElement.addEventListener("click", function(){
+
 			Modal.renderTaskDescriptionModal(task);
 		});
 
@@ -107,9 +108,18 @@ class Tasklist {
 		if(tasklistSection.classList.contains("show-menu")){		
 			content.classList.add("show-menu");
 		}
-
-		let tasksElement = "";
-
+		content.insertAdjacentHTML("beforeend", `			
+			<div class="tasklist-group-content">
+				<div class="tasklist-spine">
+					<h2 class="tasklist-group-header">${projectTitle}</h2>
+					<button class="tasklist-add-button">+</button>
+				</div>
+				<ul class="tasklist-tasks">
+					
+				</ul>
+			</div>
+		`);
+		let taskElementContainer = content.querySelector(".tasklist-tasks");
 		// Generate a list item for every task
 		for (let task of projectTasks){
 			if(task.priority === undefined){
@@ -118,7 +128,11 @@ class Tasklist {
 			if(task.time === undefined){
 				task.time = "11:59PM";
 			}
-			tasksElement += `
+
+			let taskElement = document.createElement("li");
+			taskElement.classList.add("tasklist-test");
+			taskElement.classList.add(task.priority);
+			taskElement.insertAdjacentHTML("beforeend", `
 			<li class="tasklist-task ${task.priority}">
 				<div class="checkbox-title-div">
 					<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
@@ -129,20 +143,39 @@ class Tasklist {
 					<span class="time-hide-mobile"> - ${task.time}</span>
 				</span>
 			</li>
-		`;
-		}
-		content.insertAdjacentHTML("beforeend", `			
-			<div class="tasklist-group-content">
-				<div class="tasklist-spine">
-					<h2 class="tasklist-group-header">${projectTitle}</h2>
-					<button class="tasklist-add-button">+</button>
-				</div>
-				<ul class="tasklist-tasks">
-					${tasksElement}
-				</ul>
-			</div>
-		`);
+			`);	
+			taskElement.addEventListener("click", function(){
+			
+				Modal.renderTaskDescriptionModal(task);
 
+				let editButton = document.getElementById("task-details-edit");
+				let deleteButton = document.getElementById("task-details-delete");
+				let cancelButton = document.getElementById("task-details-cancel");
+				// Listener for edit task button
+				editButton.addEventListener("click", function(event){
+					event.preventDefault();
+
+					editButton.id = "task-details-submit";
+					let submitButton = document.getElementById("task-details-submit");
+					submitButton.classList.add("form-submit");
+					submitButton.textContent = "Apply Changes";
+
+					deleteButton.classList.add("hide");
+					cancelButton.classList.remove("hide");
+
+					// transform the disabled buttons into enabled ones
+					let inputFields =  document.querySelectorAll(".task-details-modal-required");
+					for (let input of inputFields){
+						input.disabled = false;
+
+					}
+				});
+
+			});
+			taskElementContainer.insertBefore(taskElement, taskElementContainer.firstChild);
+			
+
+		}
 		
 
 		function openAddTaskModal() {
@@ -176,7 +209,7 @@ class Tasklist {
 				// Check if the form values are valid before running
 				if(Modal.validAddTaskForm()) {
 					// Submit if valid
-					let task = Modal.retrieveTaskData();	
+					let task = Modal.retrieveAddTaskData();	
 					Tasklist.renderTask(task);	
 
 					let projectTitle = document.querySelector(".tasklist-group-header").textContent;

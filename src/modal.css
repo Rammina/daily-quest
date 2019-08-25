@@ -22,7 +22,7 @@
     border-radius: 5px;
     /*overflow: hidden;*/
     overflow-y: auto;
-    max-height: calc(100vh - 2rem);
+    max-height: calc(75vh);
     color: aliceblue;
     font-family: 'Raleway', sans-serif;
 }
@@ -106,7 +106,7 @@
     border: solid 1.5px #beffff; 
     border-radius: 5px;
     padding-left: 0.6rem;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     /*right: 0.5rem; */
     font-family: 'Raleway', sans-serif;
 }
@@ -117,14 +117,9 @@
     border: none;
     border-bottom: 1px solid #beffff;
     border-radius: 0px;
-    /* text-align: center; */
+    padding-left: 1rem;
+     /*text-align: center; */
 }
-
-.form-label {
-    position: relative;
-    left: 0.5rem;
-}
-
 #task-details-date-label {
     display: block;
 }
@@ -139,7 +134,13 @@
     margin-bottom: 0rem;
     display: inline-block;
     margin-left: 0;
-    max-width: 12.5rem;
+    max-width: 12rem;
+    /*text-align: center;*/
+}
+.datetime-field:disabled{
+    max-width: 8rem;
+    text-align: center;
+    padding-left: 0;
 }
 #add-task-date-field{
 
@@ -178,6 +179,10 @@
 
 #task-details-description-field {
     padding-top: 0.5rem;
+    height: 6rem;
+}
+#task-details-description-field:disabled {
+    height: auto;
 }
 
 .modal-error-message{
@@ -210,8 +215,14 @@
 .date-time-container{
     margin-bottom: 1rem;
 }
+#task-details-select-container{
+    position: relative;
+    left: 0.5rem;
+}
 
 .form-select{
+    position: relative;
+    left: 1rem;
     font-family: 'Raleway', sans-serif;
     outline: none;
     border-radius: 5px;
@@ -240,33 +251,59 @@ select:disabled {
     text-indent: 1px;
     text-overflow: '';
 }
-
+#task-details-priority-menu:disabled.high {
+    color: #fcc;
+    text-shadow: 0 0 0.1px red;
+}
+#task-details-priority-menu:disabled.medium {
+    color: #fdb;
+    text-shadow: 0 0 0.1px orange;
+}
+#task-details-priority-menu:disabled.low {
+    color: #ffd;
+    text-shadow: 0 0 0.1px yellow;
+}
 .form-label{
     display: inline-block;
     position: relative;
-    font-size: 1.05rem;   
+    font-size: 1.1rem;   
     bottom: 0rem;
     margin-bottom: 0.4rem;
+    position: relative;
+    left: 0.5rem;
 }
 
-.form-label:hover{
-    text-shadow: 0 0 0.1px #111;
+
+.block-label{
+    display: block;
+    width: 85%;
+    margin: 0 auto;
+    max-width: 26rem;
+    margin-bottom: 0.3rem;
+}
+
+.task-details-label{
+    font-size: 1.2rem;
+    text-shadow: 0 0 0.1px white;
+    /*text-align: center;*/
 }
 
 #task-details-priority-label {
     left: 0;
 }
 
+
 .form-submit {
     display: block;
     width: 82%;
-    max-width: 16rem;
+    max-width: 13rem;
     height: 3rem;
     font-size: 1.3rem;
     font-family: 'Raleway', sans-serif;
     margin: 1rem auto;
     background-color: #dfd;
     color: #111;
+    border: 1px solid rgba(0, 0, 0, 0);
     outline: none;
     border-radius: 5px;
 }
@@ -276,11 +313,10 @@ select:disabled {
     top: 1rem;
 }
 
-#add-task-submit:hover {
+#add-task-submit:hover, #add-project-submit:hover {
     border: 1px solid #beffff;
     background-color: rgb(175, 224, 175);
 }
-
 
 .modal-paragraph {
     width: 90%;
@@ -300,6 +336,44 @@ select:disabled {
     color: #922;
 }
 
+.two-buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 30rem;
+    margin: 0 auto;
+}
+
+.task-details-button{
+    display: block;
+    width: 82%;
+    max-width: 10rem;
+    height: 3rem;
+    font-size: 1.3rem;
+    font-family: 'Raleway', sans-serif;
+    margin: 1rem auto;
+    
+    border: 1px solid rgba(0, 0, 0, 0);
+    outline: none;
+    border-radius: 5px;
+    background-color: #fefefe;
+    color: #111;
+}
+
+.task-details-button.hide {
+    display: none;
+}
+
+#task-details-edit{
+
+}
+
+#task-details-delete{
+    background-color: #b22;
+    color: white;
+}
+
 .button-container {
     display: flex;
     flex-direction: row;
@@ -310,40 +384,8 @@ select:disabled {
     max-width: 20rem;
 }
 
-#delete-modal-button, #delete-all-modal-button {
-    position: relative;
-    margin: 0 auto;
-    left: 0.5rem;
-    background-color: #af0b0b;
-    color: white;
-    width: 42%;
-    border: none;
-}
 
-#delete-modal-button:hover, #delete-all-modal-button:hover {
-    background-color: #bf1b1b; 
-    /*color: #111;*/
-    text-shadow: 1px 1px 0 #111;
-}
-
-
-#cancel-modal-button, #cancel-all-modal-button {
-    position: relative;
-    margin: 0 auto;
-    margin-right: 1rem;
-    padding: 0.2rem 0.3rem;
-    right: 0.3rem;
-    width: 42%;
-    background-color: #c0c0c0;
-    color: #141414;
-    border: none;
-    font-size: 1rem;
-}
-
-#cancel-modal-button:hover, #cancel-all-modal-button:hover {
-    background-color: #b0b0b0;
-    text-shadow: 0 0 0.1px #111;
-}
+/*minimum breakpoints*/
 @media screen and (min-width: 545px){
     #add-task-date-field{    
         margin-bottom: 0rem;
@@ -360,3 +402,10 @@ select:disabled {
         margin: calc(48vh - 16rem) calc(50vw - 20rem);
     }
 }   
+
+/*Max breakpoints*/
+@media screen and (max-width: 450px){
+    .linebreak-mobile{
+        display: block;
+    }
+}

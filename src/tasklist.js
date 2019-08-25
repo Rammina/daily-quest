@@ -66,6 +66,11 @@ class Tasklist {
 			
 		`);
 		
+		// Add Event listener for click to display task information
+		taskElement.addEventListener("click", function(){
+			Modal.renderTaskDescriptionModal(task);
+		});
+
 		// Check if the container exists before inserting
 		// If it is not, just make a new one first then insert
 		let taskContainer = document.querySelector(".tasklist-tasks");

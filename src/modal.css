@@ -1,4 +1,4 @@
-#add-task-backdrop, #add-project-backdrop {
+.modal-backdrop {
     /*visibility: visible;*/
     /*opacity: 1;*/
     background-color: rgba(0, 0, 0, 0.6);
@@ -50,8 +50,7 @@
     -webkit-box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
     box-shadow: 0 0 0 1px #111, 0 0 0 2px #555, 0 0 0 4px #eee;
 }
-
-#add-task-modal-close, #add-project-modal-close { 
+.modal-close { 
     /*z-index: 102;*/
     display: inline-block;
     position: absolute;
@@ -109,8 +108,27 @@
     padding-left: 0.6rem;
     font-size: 1.05rem;
     /*right: 0.5rem; */
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
+
+.text-field:disabled {
+    background-color: #333;
+    color: #eee;
+    border: none;
+    border-bottom: 1px solid #beffff;
+    border-radius: 0px;
+    /* text-align: center; */
+}
+
+.form-label {
+    position: relative;
+    left: 0.5rem;
+}
+
+#task-details-date-label {
+    display: block;
+}
+
 #date-label{
     display: block;
     margin: 0;
@@ -122,7 +140,6 @@
     display: inline-block;
     margin-left: 0;
     max-width: 12.5rem;
-
 }
 #add-task-date-field{
 
@@ -157,6 +174,10 @@
 #add-task-description-field{
     padding-top: 0.5rem;
     height: 6rem;
+}
+
+#task-details-description-field {
+    padding-top: 0.5rem;
 }
 
 .modal-error-message{
@@ -206,6 +227,20 @@
 .form-select:focus{
 
 }
+.form-select:disabled {
+    background-color: #333;
+    color: #eee;
+    border: none;
+    text-align: center;
+}
+
+select:disabled {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
 .form-label{
     display: inline-block;
     position: relative;
@@ -218,7 +253,11 @@
     text-shadow: 0 0 0.1px #111;
 }
 
-#add-task-submit, #add-project-submit{
+#task-details-priority-label {
+    left: 0;
+}
+
+.form-submit {
     display: block;
     width: 82%;
     max-width: 16rem;

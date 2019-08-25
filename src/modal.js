@@ -31,7 +31,8 @@ class Modal {
 		// let taskContainer = document.getElementById("tasklist-container");
 		let modal = document.createElement("div");
 		modal.id = "add-task-backdrop";
-		modal.classList.add("backdrop");
+        modal.classList.add("backdrop");
+        modal.classList.add("modal-backdrop");
 
         // Retrieve current date just to use it As a limiter
         // Today becomes the minimum date
@@ -39,7 +40,7 @@ class Modal {
         let yesterday = endOfYesterday();
 		modal.insertAdjacentHTML("beforeend", `
 			<section class="modal-container" id="add-task-content" tabindex="-1" role="dialog" aria-hidden="true">
-                <button id="add-task-modal-close">x</button>
+                <button class="modal-close" id="add-task-modal-close">x</button>
                 <h1 class="modal-header">Add a Task</h1>
                 <form id="add-task-form">
                     <div>
@@ -260,9 +261,10 @@ class Modal {
         let modal = document.createElement("div");
         modal.id = "add-project-backdrop";
         modal.classList.add("backdrop");
+        modal.classList.add("modal-backdrop");
         modal.insertAdjacentHTML("beforeend", `
             <section class="modal-container" id="add-project-content" tabindex="-1" role="dialog" aria-hidden="true">
-                <button id="add-project-modal-close">x</button>
+                <button class="modal-close" id="add-project-modal-close">x</button>
                 <h1 class="modal-header">Add a Project</h1>
                 <form id="add-task-form">
                     <div id="add-project-field-div">
@@ -323,6 +325,96 @@ class Modal {
             return false;
         }
         return true;
+    }
+    // ***********************TaskDescriptionModal here************** ****************************
+    static renderTaskDescriptionModal(task){
+
+        let modal = document.createElement("div");
+		modal.id = "task-details-backdrop";
+		modal.classList.add("backdrop");
+        modal.classList.add("modal-backdrop");
+
+        // Retrieve current date just to use it As a limiter
+        // Today becomes the minimum date
+        let today = format(new Date(), "YYYY-MM-DD");
+        let yesterday = endOfYesterday();
+		modal.insertAdjacentHTML("beforeend", `
+			<section class="modal-container" id="task-details-content" tabindex="-1" role="dialog" aria-hidden="true">
+                <button class="modal-close" id="task-details-modal-close">x</button>
+                
+                <form id="task-details-form">
+                    <div>
+                        <input id="task-details-title-field" class="task-details-modal-required text-field" type="text" name="task-title" value="Task Title:  ${task.title}" maxlength="40" required="true" disabled>
+                    </div>
+                    <div>
+                        <textarea id="task-details-description-field" class="task-details-modal-required text-field" name="task-description" maxlength="200" required="true" disabled>Task Description:  ${task.description}</textarea>
+                    </div>
+                    <div class="date-time-container">
+                        <label id="task-details-date-label" class="form-label" for="task-details-date-field">Task Deadline:</label>
+                        <input id="task-details-date-field" class="task-details-modal-required datetime-field text-field" type="text" value="${task.date}" name="task-date" onfocus="(this.type='date')" required="true" min="${today}" disabled>
+                        <input id="task-details-time-field" class="task-details-modal-required datetime-field text-field" type="text" value="${task.time}" name="task-time" onfocus="(this.type='time')" disabled>
+                    </div>
+                    
+                    <div class="select-container">
+                        <label id="task-details-priority-label" class="form-label" for="task-details-priority-menu">Task Priority:</label>
+                        <select class="task-details-modal-required form-select" name="task-priority" id="task-details-priority-menu" disabled>
+                            <option value="">--Priority Level--</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                        
+                        
+                    </div>
+                    <input type="submit" class="form-submit" id="task-details-submit" value="Edit This Task">
+                </form>
+            
+            </section>
+            `);
+            
+        if(task.priority === "high"){
+            modal.querySelector("#task-details-priority-menu").value = "high";
+        }
+        else if (task.priority === "medium"){
+            modal.querySelector("#task-details-priority-menu").value = "medium";
+        }
+        else if (task.priority === "low"){
+            modal.querySelector("#task-details-priority-menu").value = "low";
+        }
+
+
+		document.getElementById("content").appendChild(modal);
+
+        // Assigning variable names to elements
+
+        let backdrop = document.getElementById("task-details-backdrop");
+        let sectionContainer = document.getElementById("task-details-content");
+        let submit = document.getElementById("task-details-submit");
+        let closeButton = document.getElementById("task-details-modal-close");
+
+        // Effects
+        // Try making universal function for this since it is recycled
+        setTimeout(function(){
+            backdrop.classList.add("show");
+            sectionContainer.classList.add("show");
+            sectionContainer.setAttribute("aria-hidden", "false");
+            setTimeout(function(){
+                sectionContainer.focus();
+            }, 301);
+        }, 0);
+		
+
+        // event listeners
+        backdrop.addEventListener("click", function(event){
+            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+        closeButton.addEventListener("click", function(event){
+            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
+                Modal.deleteModal(backdrop);
+            }
+        });
     }
 }
 

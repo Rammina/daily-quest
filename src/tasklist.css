@@ -199,6 +199,19 @@
 	background-color: #ffd;
 }
 
+.tasklist-task.high:hover{
+	background-color: rgb(224, 180, 180);
+	cursor: pointer;
+}
+.tasklist-task.medium:hover{
+	background-color: rgb(221, 192, 163);
+	cursor: pointer;
+}
+.tasklist-task.low:hover{
+	background-color: rgb(221, 221, 182);
+	cursor: pointer;
+}
+
 .checkbox-title-div {
 	display: flex;
 	align-items: center;

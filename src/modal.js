@@ -2,6 +2,10 @@ import {format, endOfYesterday, isBefore} from 'date-fns';
 
 import '!style-loader!css-loader!./modal.css';
 
+import EditImg from './images/edit.png';
+import DeleteImg from './images/delete.png';
+import ApplyImg from './images/apply.png';
+
 class Modal {
     // General helpers here
     static deleteModal(modal){
@@ -344,11 +348,11 @@ class Modal {
                 
                 <form id="task-details-form">
                     <div>
-                    <label id="task-details-title-label" class="block-label form-label task-details-label" for="task-details-date-field">Task Title:</label>
+                    <label id="task-details-title-label" class="block-label form-label task-details-label" for="task-details-title-field">Task Title:</label>
                         <input id="task-details-title-field" class="task-details-modal-required text-field" type="text" name="task-title" value="${task.title}" maxlength="40" required="true" disabled>
                     </div>
                     <div>
-                        <label id="task-details-description-label" class="block-label form-label task-details-label" for="task-details-date-field">Task Description:</label>
+                        <label id="task-details-description-label" class="block-label form-label task-details-label" for="task-details-description-field">Task Description:</label>
                         <textarea id="task-details-description-field" class="task-details-modal-required text-field" name="task-description" maxlength="200" required="true" disabled>${task.description}</textarea>
                     </div>
                     <div class="date-time-container">
@@ -369,9 +373,10 @@ class Modal {
                         
                     </div>
                     <div class="two-buttons-container">
-                        <button class="task-details-button" id="task-details-delete">Delete Task</button>
-                        <button class="task-details-button" id="task-details-edit">Edit Task</button>                        
+                        <button class="task-details-button" id="task-details-delete"><img id="trash-image" class="task-details-button-image" src="${DeleteImg}" alt="Trashcan">Delete Task</button>
+                        <button class="task-details-button" id="task-details-edit"><img id="wrench-image" class="task-details-button-image" src="${EditImg}" alt="Wrench">Edit Task</button>
                         <button class="task-details-button hide" id="task-details-cancel">Cancel</button>
+                        <button class="task-details-button hide" id="task-details-apply"><img id="apply-image" class="task-details-button-image" src="${ApplyImg}" alt="Check mark">Apply Changes</button>                   
                     </div>
                 </form>
             
@@ -426,6 +431,129 @@ class Modal {
             }
         });
     }
+    static validEditTaskTime(timeField){
+        let dateField = document.getElementById("task-details-date-field");
+        let today = new Date();
+        let parent = timeField.parentElement;
+        let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
+        let inputDateTime;
+
+        function generateDateTimeError() {
+            if(errorMessage) {
+                parent.removeChild(errorMessage);
+            }
+            parent.insertAdjacentHTML("beforeend", `
+                <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
+            `);
+        }
+        // Ignore or skip if time field is empty
+        if(!(timeField.value)) {
+            return true;
+        }
+        // start by checking if the date is valid
+        if(dateField.value) {
+            if(Modal.validAddTaskDate(dateField)) {
+                inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
+                if(isBefore(today, inputDateTime)) {
+                    return true;
+                }
+                else{
+                    generateDateTimeError();
+                    return false;
+                }
+            }
+            else{
+                generateDateTimeError();
+                return false;
+            }            
+
+        }
+        else{
+            let currentDate = format(new Date(), 'YYYY-MM-DD');
+            inputDateTime = new Date(`${currentDate}T${timeField.value}`);
+            if(isBefore(today, inputDateTime)) {
+                return true;
+            }
+            else{
+                generateDateTimeError();
+                return false;
+            }
+        }
+    }
+    static validEditTaskForm(){
+        
+        // Assigning variable names to field elements
+        let titleField = document.getElementById("task-details-title-field");
+        let descriptionField = document.getElementById("task-details-description-field");
+        let dateField = document.getElementById("task-details-date-field");
+        let timeField = document.getElementById("task-details-time-field");
+        let priorityField = document.getElementById("task-details-priority-menu");
+
+        // Place them all inside an array for easy iteration
+        
+        let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
+
+        // If the field is empty, inserts an error message <span>, and returns true
+        // Otherwise it returns false and does nothing
+        let errors = 0;
+
+        // Run all error checks for each required field
+        for (let field of inputFields){
+            // Check first if it is a date field, as it is not required to be filled up
+			if(field === dateField) {
+                //Check if it is a valid date 
+				if(!(Modal.validAddTaskDate(field))) {
+                    errors++;
+                }
+			}
+            else if(field === timeField) {
+                //Check if it is a valid time
+                if(!(Modal.validEditTaskTime(field))) {
+                    errors++;
+                }
+            }
+            else if(Modal.emptyFieldError(field)) {
+                console.log("emptyError");
+                errors++;
+            }
+        }
+
+        if(errors > 0) {
+            return false;
+        }
+        return true;
+    }
+    static retrieveEditTaskData(){
+        let task = {};
+        task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
+
+        let today = format(new Date(), "MM/DD/YYYY");
+
+        task.title = document.getElementById("task-details-title-field").value;
+        task.description = document.getElementById("task-details-description-field").value;
+
+        // Check if date is empty, If so give it a default value of
+        if(document.getElementById("task-details-date-field").value) {
+            task.date = format(document.getElementById("task-details-date-field").value, 'MM/DD/YYYY');
+        }
+        else{
+            task.date = today;
+        }
+        // Check if time is empty, If so give it a default value of
+        if(document.getElementById("task-details-time-field").value) {
+            // Do something that lets me convert time into a date structure
+            // concatenate The date value To the time value
+            let datetime = new Date(`${document.getElementById("task-details-date-field").value}T${document.getElementById("task-details-time-field").value}`);
+            task.time = format(datetime, 'hh:mmA');
+        }
+        else{
+            task.time = "11:59PM";
+        }
+        task.priority = document.getElementById("task-details-priority-menu").value;
+
+        return task;
+    }
 }
+
 
 export default Modal;

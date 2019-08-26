@@ -61,7 +61,7 @@ class Tasklist {
 			</div>
 			<span class="date-time-span">
 				<span class="tasklist-date">${task.date} </span>
-				<span class="time-hide-mobile"> - ${task.time}</span>
+				<span class="time-hide-mobile tasklist-time"> - ${task.time}</span>
 			</span>
 			
 		`);
@@ -140,7 +140,7 @@ class Tasklist {
 				</div>
 				<span class="date-time-span">
 					<span class="tasklist-date">${task.date} </span>
-					<span class="time-hide-mobile"> - ${task.time}</span>
+					<span class="time-hide-mobile tasklist-time"> - ${task.time}</span>
 				</span>
 			</li>
 			`);	
@@ -150,17 +150,15 @@ class Tasklist {
 
 				let editButton = document.getElementById("task-details-edit");
 				let deleteButton = document.getElementById("task-details-delete");
+				let applyButton = document.getElementById("task-details-apply");
 				let cancelButton = document.getElementById("task-details-cancel");
 				// Listener for edit task button
 				editButton.addEventListener("click", function(event){
 					event.preventDefault();
 
-					editButton.id = "task-details-submit";
-					let submitButton = document.getElementById("task-details-submit");
-					submitButton.classList.add("form-submit");
-					submitButton.textContent = "Apply Changes";
-
+					editButton.classList.add("hide");
 					deleteButton.classList.add("hide");
+					applyButton.classList.remove("hide");
 					cancelButton.classList.remove("hide");
 
 					// transform the disabled buttons into enabled ones
@@ -169,6 +167,34 @@ class Tasklist {
 						input.disabled = false;
 
 					}
+					applyButton.addEventListener("click", function(event){
+						event.preventDefault();
+						 
+						if(Modal.validEditTaskForm()) {
+							// Submit if valid
+							// let oldPriority = task.priority;
+							taskElement.classList.remove("high");
+							taskElement.classList.remove("medium");
+							taskElement.classList.remove("low");
+
+							let task = Modal.retrieveEditTaskData();
+
+							let oldTitle = taskElement.querySelector(".tasklist-title");
+							let oldDate = taskElement.querySelector(".tasklist-date");
+							let oldTime = taskElement.querySelector(".tasklist-time");
+							
+							
+							oldTitle.textContent = task.title;
+							oldDate.textContent = task.date;
+							oldTime.textContent = task.time;
+							taskElement.classList.add(task.priority);
+
+							let projectTitle = document.querySelector(".tasklist-group-header").textContent;
+							TaskData.addTask(projectTitle, task);
+
+							Modal.deleteModal(document.getElementById("task-details-backdrop"));
+						}
+					});
 				});
 
 			});

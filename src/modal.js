@@ -235,6 +235,7 @@ class Modal {
         task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
 
         let today = format(new Date(), "MM/DD/YYYY");
+        let placeholderDate = format(new Date(), "YYYY-MM-DD");
 
         task.title = document.getElementById("add-task-title-field").value;
         task.description = document.getElementById("add-task-description-field").value;
@@ -250,7 +251,7 @@ class Modal {
         if(document.getElementById("add-task-time-field").value) {
             // Do something that lets me convert time into a date structure
             // concatenate The date value To the time value
-            let datetime = new Date(`${document.getElementById("add-task-date-field").value}T${document.getElementById("add-task-time-field").value}`);
+            let datetime = new Date(`${placeholderDate}T${document.getElementById("add-task-time-field").value}`);
             task.time = format(datetime, 'hh:mmA');
         }
         else{
@@ -270,7 +271,7 @@ class Modal {
             <section class="modal-container" id="add-project-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="add-project-modal-close">x</button>
                 <h1 class="modal-header">Add a Project</h1>
-                <form id="add-task-form">
+                <form id="add-project-form">
                     <div id="add-project-field-div">
                         <input id="add-project-title-field" class="add-project-modal-required text-field" type="text" name="project-title" placeholder="Project Title" maxlength="30" required="true">
                     </div>
@@ -372,14 +373,16 @@ class Modal {
                         
                         
                     </div>
-                    <div class="two-buttons-container">
+                    
+                    
+                </form>
+                
+                <div class="two-buttons-container">
                         <button class="task-details-button" id="task-details-delete"><img id="trash-image" class="task-details-button-image" src="${DeleteImg}" alt="Trashcan">Delete Task</button>
                         <button class="task-details-button" id="task-details-edit"><img id="wrench-image" class="task-details-button-image" src="${EditImg}" alt="Wrench">Edit Task</button>
                         <button class="task-details-button hide" id="task-details-cancel">Cancel</button>
                         <button class="task-details-button hide" id="task-details-apply"><img id="apply-image" class="task-details-button-image" src="${ApplyImg}" alt="Check mark">Apply Changes</button>                   
-                    </div>
-                </form>
-            
+                </div>
             </section>
             `);
             
@@ -528,6 +531,7 @@ class Modal {
         task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
 
         let today = format(new Date(), "MM/DD/YYYY");
+        let placeholderDate = format(new Date(), "YYYY-MM-DD");
 
         task.title = document.getElementById("task-details-title-field").value;
         task.description = document.getElementById("task-details-description-field").value;
@@ -543,15 +547,65 @@ class Modal {
         if(document.getElementById("task-details-time-field").value) {
             // Do something that lets me convert time into a date structure
             // concatenate The date value To the time value
-            let datetime = new Date(`${document.getElementById("task-details-date-field").value}T${document.getElementById("task-details-time-field").value}`);
+            let datetime = new Date(`${placeholderDate}T${document.getElementById("task-details-time-field").value}`);
+            console.log(datetime);
             task.time = format(datetime, 'hh:mmA');
+
         }
         else{
-            task.time = "11:59PM";
+            console.log(`${placeholderDate}T23:59:00`);
+            task.time = format(`${placeholderDate}T23:59:00`, 'hh:mmA');
         }
         task.priority = document.getElementById("task-details-priority-menu").value;
 
         return task;
+    }
+    static renderDeleteTaskModal(taskTitle){
+        let modal = document.createElement("div");
+        modal.id = "delete-task-backdrop";
+        modal.classList.add("backdrop");
+        modal.classList.add("modal-backdrop");
+        modal.insertAdjacentHTML("beforeend", `
+            <section class="modal-container" id="delete-task-content" tabindex="-1" role="dialog" aria-hidden="true">
+                <button class="modal-close" id="delete-task-modal-close">x</button>
+                <h1 class="modal-header">Delete Task</h1>
+                <p class="modal-paragraph">Would you like to delete this task? </p>
+                <p class="modal-paragraph" id="delete-task-title">${taskTitle}</p>
+                <div id="delete-task-buttons-container" class="two-buttons-container">
+                    <button class="delete-task-button" id="delete-task-cancel">Cancel</button>
+                    <button class="delete-task-button" id="delete-task-confirm">Delete Task</button>
+                </div>
+            </section>
+        `);
+        document.getElementById("content").appendChild(modal);
+
+        let backdrop = document.getElementById("delete-task-backdrop");
+        let sectionContainer = document.getElementById("delete-task-content");
+        let closeButton = document.getElementById("delete-task-modal-close");
+
+        // Effects
+        // Try making universal function for this since it is recycled
+        setTimeout(function(){
+            backdrop.classList.add("show");
+            sectionContainer.classList.add("show");
+            sectionContainer.setAttribute("aria-hidden", "false");
+            setTimeout(function(){
+                sectionContainer.focus();
+            }, 301);
+        }, 0);
+        
+
+        // event listeners
+        backdrop.addEventListener("click", function(event){
+            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+        closeButton.addEventListener("click", function(event){
+            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
+                Modal.deleteModal(backdrop);
+            }
+        });
     }
 }
 

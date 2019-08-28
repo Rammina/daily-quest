@@ -41,9 +41,9 @@
     padding: 2.5rem 0;
 }
 
-#delete-modal, #delete-all-modal {
-    position: relative;
-    top: 8%;
+#delete-task-content{
+    max-width: 35rem;
+    margin: calc(45vh - 7.5rem) calc(50vw - 50%);
 }
 
 .modal-container:focus{
@@ -93,6 +93,21 @@
     font-size: 1.6rem;
     font-family: 'Raleway', sans-serif;
 }
+
+.modal-paragraph {
+    width: 85%;
+    max-width: 28.5rem;
+    margin: 1.3rem auto;
+    margin-top: 0;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+#delete-task-title{
+    font-size: 1.6rem;
+    color: #fdb;
+}
+
 
 .text-field {
     position: relative;
@@ -320,12 +335,6 @@ select:disabled {
     background-color: rgb(175, 224, 175);
 }
 
-.modal-paragraph {
-    width: 90%;
-    max-width: 28.5rem;
-    margin: 1.5rem auto;
-    text-align: center;
-}
 
 #remove-all{
     text-transform: uppercase;
@@ -347,7 +356,11 @@ select:disabled {
     margin: 0 auto;
 }
 
-.task-details-button{
+#delete-task-buttons-container{
+    max-width: 23rem;
+}
+
+.task-details-button, .delete-task-button{
     display: block;
     width: 82%;
     max-width: 11rem;
@@ -362,7 +375,7 @@ select:disabled {
     color: #111;
 }
 
-.task-details-button:hover {
+.task-details-button:hover, .delete-task-button:hover{
     cursor: pointer;
 }
 
@@ -382,9 +395,10 @@ select:disabled {
     max-width: 9.5rem;
 }
 
-#task-details-delete{
+#task-details-delete, #delete-task-confirm{
     background-color: #a11;
     color: white;
+
 }
 
 #trash-image {
@@ -399,8 +413,9 @@ select:disabled {
     filter: invert(0%) sepia(12%) saturate(6327%) hue-rotate(350deg) brightness(93%) contrast(87%);
 }
 
-#task-details-cancel {
+#task-details-cancel, #delete-task-cancel {
     background-color: rgb(187, 187, 187);
+    max-width: 7rem;
 }
 
 #task-details-apply {
@@ -411,6 +426,13 @@ select:disabled {
 #apply-image {
     filter: invert(0%) sepia(12%) saturate(6327%) hue-rotate(350deg) brightness(93%) contrast(87%);
     top: 0.2rem;
+}
+
+#delete-task-cancel{
+
+}
+#delete-task-confirm{
+
 }
 
 .button-container {
@@ -437,7 +459,12 @@ select:disabled {
         margin: calc(48vh - 16rem) calc(50vw - 50%);
     }
     #add-project-content{
-        margin: calc(48vh - 7.5rem) calc(50vw - 16rem);
+
+        margin: calc(45vh - 7.5rem) calc(50vw - 16rem);
+    }
+    #delete-task-content{
+        
+        margin: calc(42vh - 9.06rem) calc(50vw - 16.5rem);
     }
     .text-field{
         font-size: 1.1rem;

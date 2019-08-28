@@ -1,5 +1,8 @@
+import {format} from 'date-fns';
+
 import '!style-loader!css-loader!./tasklist.css';
 
+import standardToMilitary from './timeconverter.js';
 import TaskData from './taskdata.js';
 import Modal from './modal.js';
 import RoboImage from './images/yumemi.png';
@@ -68,9 +71,130 @@ class Tasklist {
 		
 		// Add Event listener for click to display task information
 		taskElement.addEventListener("click", function(){
+			
+				Modal.renderTaskDescriptionModal(task);
 
-			Modal.renderTaskDescriptionModal(task);
-		});
+				// old values are stored for future use
+				let oldTitle = titleField.value;
+				let oldDescription = descriptionField.value;				
+				let oldDate = dateField.value;
+				let oldTime = timeField.value;
+				let oldPriority = priorityField.value;
+
+				let editButton = document.getElementById("task-details-edit");
+				let deleteButton = document.getElementById("task-details-delete");
+				let applyButton = document.getElementById("task-details-apply");
+				let cancelButton = document.getElementById("task-details-cancel");
+
+				deleteButton.addEventListener("click", function(event){
+					event.preventDefault();					
+					Modal.renderDeleteTaskModal(task.title);
+
+					let confirmDeleteButton = document.getElementById("delete-task-confirm");
+					let cancelDeleteButton = document.getElementById("delete-task-cancel");
+
+					confirmDeleteButton.addEventListener("click", function(event){
+						event.preventDefault();
+
+						taskElementContainer.removeChild(taskElement); 
+						Modal.deleteModal(document.getElementById("delete-task-backdrop"));
+						Modal.deleteModal(document.getElementById("task-details-backdrop"));
+					});
+
+					cancelDeleteButton.addEventListener("click", function(event){
+						event.preventDefault();
+						
+						Modal.deleteModal(document.getElementById("delete-task-backdrop"));
+					});
+
+				});
+				// Listener for edit task button
+				editButton.addEventListener("click", function(event){
+					event.preventDefault();
+
+					editButton.classList.add("hide");
+					deleteButton.classList.add("hide");
+					applyButton.classList.remove("hide");
+					cancelButton.classList.remove("hide");
+
+					// transform the disabled buttons into enabled ones
+					let inputFields =  document.querySelectorAll(".task-details-modal-required");
+					for (let input of inputFields){
+						input.disabled = false;
+
+					}
+					// Clear both the date & time fields
+					// document.getElementById("task-details-date-field").value = "Date (optional)";
+					// document.getElementById("task-details-time-field").value = "Time (optional)";
+					
+					let inputDate = format(task.date, 'YYYY-MM-DD');
+					document.getElementById("task-details-date-field").value = inputDate;
+					// document.getElementById("task-details-date-field").value = "2020-01-15";
+{
+					// let placeholderDate = new Date(`${inputDate} ${task.time}`);
+					// console.log(placeholderDate);
+					// let inputTime = format(new Date(`${inputDate} ${task.time}`), 'hh:mmA');
+					let inputTime = standardToMilitary(task.time);
+					document.getElementById("task-details-time-field").value = inputTime;
+}
+
+					applyButton.addEventListener("click", function(event){
+						event.preventDefault();
+						 
+						if(Modal.validEditTaskForm()) {
+							// Submit if valid
+							// let oldPriority = task.priority;
+							taskElement.classList.remove("high");
+							taskElement.classList.remove("medium");
+							taskElement.classList.remove("low");
+
+							// This is done to replace the values of the task object
+							// that is located in the data structure
+							let oldTask = task;
+							let newTask = Modal.retrieveEditTaskData();
+							TaskData.updateTaskProperties(oldTask, newTask);
+
+							// Replacing the old text content of the Dom elements of the item
+							let oldTitle = taskElement.querySelector(".tasklist-title");
+							let oldDate = taskElement.querySelector(".tasklist-date");
+							let oldTime = taskElement.querySelector(".tasklist-time");
+
+							oldTitle.textContent = newTask.title;
+							oldDate.textContent = newTask.date;
+							oldTime.textContent = ` - ${newTask.time}`;							
+							taskElement.classList.add(task.priority);
+
+							let projectTitle = document.querySelector(".tasklist-group-header").textContent;
+							
+							Modal.deleteModal(document.getElementById("task-details-backdrop"));
+						}
+					});
+					cancelButton.addEventListener("click", function(event){
+						event.preventDefault();
+						
+						// do the opposite of the edit button (reverse its effects)
+						editButton.classList.remove("hide");
+						deleteButton.classList.remove("hide");
+						applyButton.classList.add("hide");
+						cancelButton.classList.add("hide");
+
+						// transform the enabled buttons into disabled ones
+						let inputFields =  document.querySelectorAll(".task-details-modal-required");
+						for (let input of inputFields){
+							input.disabled = true;
+						}
+
+						// Restore the original values before editing
+						titleField.value = oldTitle;
+						descriptionField.value = oldDescription;
+						dateField.value = oldDate;
+						timeField.value = oldTime;
+						priorityField.value = oldPriority;
+					});
+					
+				});
+
+			});
 
 		// Check if the container exists before inserting
 		// If it is not, just make a new one first then insert
@@ -130,10 +254,9 @@ class Tasklist {
 			}
 
 			let taskElement = document.createElement("li");
-			taskElement.classList.add("tasklist-test");
+			taskElement.classList.add("tasklist-task");
 			taskElement.classList.add(task.priority);
 			taskElement.insertAdjacentHTML("beforeend", `
-			<li class="tasklist-task ${task.priority}">
 				<div class="checkbox-title-div">
 					<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
 					<span class="tasklist-title">${task.title}</span>
@@ -141,20 +264,62 @@ class Tasklist {
 				<span class="date-time-span">
 					<span class="tasklist-date">${task.date} </span>
 					<span class="time-hide-mobile tasklist-time"> - ${task.time}</span>
-				</span>
-			</li>
+				</span>		
 			`);	
 			taskElement.addEventListener("click", function(){
 			
 				Modal.renderTaskDescriptionModal(task);
 
+				// field element variables
+				let titleField = document.getElementById("task-details-title-field");
+				let descriptionField = document.getElementById("task-details-description-field");
+				let dateField = document.getElementById("task-details-date-field");
+				let timeField = document.getElementById("task-details-time-field");
+				let priorityField = document.getElementById("task-details-priority-menu");
+
+				// old values are stored for future use
+				let oldTitle = titleField.value;
+				let oldDescription = descriptionField.value;				
+				let oldDate = dateField.value;
+				let oldTime = timeField.value;
+				let oldPriority = priorityField.value;
+
+				// button element variables
 				let editButton = document.getElementById("task-details-edit");
 				let deleteButton = document.getElementById("task-details-delete");
 				let applyButton = document.getElementById("task-details-apply");
 				let cancelButton = document.getElementById("task-details-cancel");
+
+				deleteButton.addEventListener("click", function(event){
+					event.preventDefault();					
+					Modal.renderDeleteTaskModal(task.title);
+
+					let confirmDeleteButton = document.getElementById("delete-task-confirm");
+					let cancelDeleteButton = document.getElementById("delete-task-cancel");
+
+					confirmDeleteButton.addEventListener("click", function(event){
+						event.preventDefault();
+
+						let projectTitle = document.querySelector(".tasklist-group-header").textContent;
+
+						TaskData.deleteTask(projectTitle, task);
+						taskElementContainer.removeChild(taskElement); 
+						Modal.deleteModal(document.getElementById("delete-task-backdrop"));
+						Modal.deleteModal(document.getElementById("task-details-backdrop"));
+					});
+
+					cancelDeleteButton.addEventListener("click", function(event){
+						event.preventDefault();
+
+						Modal.deleteModal(document.getElementById("delete-task-backdrop"));
+					});
+
+				});
 				// Listener for edit task button
 				editButton.addEventListener("click", function(event){
 					event.preventDefault();
+
+
 
 					editButton.classList.add("hide");
 					deleteButton.classList.add("hide");
@@ -165,8 +330,18 @@ class Tasklist {
 					let inputFields =  document.querySelectorAll(".task-details-modal-required");
 					for (let input of inputFields){
 						input.disabled = false;
-
 					}
+
+					let inputDate = format(task.date, 'YYYY-MM-DD');
+					document.getElementById("task-details-date-field").value = inputDate;
+					// document.getElementById("task-details-date-field").value = "2020-01-15";
+					
+					// let placeholderDate = new Date(`${inputDate} ${task.time}`);
+					// console.log(placeholderDate);
+					// let inputTime = format(new Date(`${inputDate} ${task.time}`), 'hh:mmA');
+					let inputTime = standardToMilitary(task.time);
+					document.getElementById("task-details-time-field").value = inputTime;
+
 					applyButton.addEventListener("click", function(event){
 						event.preventDefault();
 						 
@@ -177,25 +352,52 @@ class Tasklist {
 							taskElement.classList.remove("medium");
 							taskElement.classList.remove("low");
 
-							let task = Modal.retrieveEditTaskData();
+							// This is done to replace the values of the task object
+							// that is located in the data structure
+							let oldTask = task;
+							let newTask = Modal.retrieveEditTaskData();
+							TaskData.updateTaskProperties(oldTask, newTask);
 
+							// Replacing the old text content of the Dom elements of the item
 							let oldTitle = taskElement.querySelector(".tasklist-title");
 							let oldDate = taskElement.querySelector(".tasklist-date");
 							let oldTime = taskElement.querySelector(".tasklist-time");
-							
-							
-							oldTitle.textContent = task.title;
-							oldDate.textContent = task.date;
-							oldTime.textContent = task.time;
+
+							oldTitle.textContent = newTask.title;
+							oldDate.textContent = newTask.date;
+							oldTime.textContent = ` - ${newTask.time}`;							
 							taskElement.classList.add(task.priority);
 
 							let projectTitle = document.querySelector(".tasklist-group-header").textContent;
-							TaskData.addTask(projectTitle, task);
-
+							
 							Modal.deleteModal(document.getElementById("task-details-backdrop"));
 						}
 					});
+
+					cancelButton.addEventListener("click", function(event){
+						event.preventDefault();
+						
+						// do the opposite of the edit button (reverse its effects)
+						editButton.classList.remove("hide");
+						deleteButton.classList.remove("hide");
+						applyButton.classList.add("hide");
+						cancelButton.classList.add("hide");
+
+						// transform the enabled buttons into disabled ones
+						let inputFields =  document.querySelectorAll(".task-details-modal-required");
+						for (let input of inputFields){
+							input.disabled = true;
+						}
+
+						// Restore the original values before editing
+						titleField.value = oldTitle;
+						descriptionField.value = oldDescription;
+						dateField.value = oldDate;
+						timeField.value = oldTime;
+						priorityField.value = oldPriority;
+					});
 				});
+
 
 			});
 			taskElementContainer.insertBefore(taskElement, taskElementContainer.firstChild);

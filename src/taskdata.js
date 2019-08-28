@@ -16,10 +16,26 @@ class TaskData {
 				task.uniqueId = taskId;
 				taskId++;
 				project.tasks.push(task);
-				return true;
+				return task;
 			}
 		}
 		return false;
+	}
+	static updateTaskProperties(oldTask, newTask){
+		for (var prop in oldTask) {
+        	// skip loop if the property is from prototype
+        	if (!oldTask.hasOwnProperty(prop)) {continue;}
+        	// do not change the unique ID
+        	if(prop === 'uniqueId') {console.log("uniqueId remains as is"); continue;}
+
+        	console.log(prop);
+        	// your code
+        	console.log(`${oldTask[prop]} is now `);
+        	oldTask[prop] = newTask[prop];
+        	console.log(`${oldTask[prop]}`);
+    	}
+    	console.log(oldTask);
+    	return true;
 	}
 
 	static addProject(projectTitle, projectTasks){
@@ -50,10 +66,19 @@ class TaskData {
 		projectId++;
 		projects.push(project);
 
-		return true;
+		return project;
 	}
 	
-	
+	static deleteTask(projectTitle, task){
+		console.log(projects);
+		console.log(projects[projects.findIndex(project => project.title === projectTitle)]);
+		console.log(projects.findIndex(project => project.title === projectTitle));
+		let taskContainer = projects[projects.findIndex(project => project.title === projectTitle)].tasks;
+		console.log(taskContainer);
+		console.log(taskContainer.findIndex(storedTask => storedTask.uniqueId === task.uniqueId));
+		taskContainer.splice(taskContainer.findIndex(storedTask => storedTask.uniqueId === task.uniqueId), 1);
+		console.log(projects);
+	}
 }
 
 export default TaskData;

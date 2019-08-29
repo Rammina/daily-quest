@@ -137,6 +137,11 @@
     /*text-align: center; */
     resize: none;
 }
+
+#task-details-title-field {
+
+}
+
 #task-details-date-label {
     display: block;
 }

@@ -258,6 +258,7 @@ class Modal {
             task.time = "11:59PM";
         }
         task.priority = document.getElementById("add-task-priority-menu").value;
+        task.checked = false;
 
         return task;
     }
@@ -569,7 +570,7 @@ class Modal {
             <section class="modal-container" id="delete-task-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="delete-task-modal-close">x</button>
                 <h1 class="modal-header">Delete Task</h1>
-                <p class="modal-paragraph">Would you like to delete this task? </p>
+                <p class="modal-paragraph">Would you like to remove this task? </p>
                 <p class="modal-paragraph" id="delete-task-title">${taskTitle}</p>
                 <div id="delete-task-buttons-container" class="two-buttons-container">
                     <button class="delete-task-button" id="delete-task-cancel">Cancel</button>

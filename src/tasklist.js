@@ -59,7 +59,7 @@ class Tasklist {
 		}
 		taskElement.insertAdjacentHTML("beforeend", `
 			<div class="checkbox-title-div">
-				<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
+				<input class="tasklist-checkbox" type="checkbox" name="finished">
 				<span class="tasklist-title">${task.title}</span>
 			</div>
 			<span class="date-time-span">
@@ -69,10 +69,33 @@ class Tasklist {
 			
 		`);
 		
+		let checkbox = taskElement.querySelector(".tasklist-checkbox");
+		checkbox.addEventListener("click", function(){
+			task.checked = !(task.checked);
+			if(task.checked === true) {
+				taskElement.classList.add("checked");
+				taskElement.classList.add("crossout");
+			}
+			else if(task.checked === false) {
+				taskElement.classList.remove("checked");
+				taskElement.classList.remove("crossout");
+			}
+		})
+
 		// Add Event listener for click to display task information
 		taskElement.addEventListener("click", function(){
-			
+				// If you click the checkbox do not run commands
+				if(event.target === checkbox){
+					return;
+				}
 				Modal.renderTaskDescriptionModal(task);
+
+				// field element variables
+				let titleField = document.getElementById("task-details-title-field");
+				let descriptionField = document.getElementById("task-details-description-field");
+				let dateField = document.getElementById("task-details-date-field");
+				let timeField = document.getElementById("task-details-time-field");
+				let priorityField = document.getElementById("task-details-priority-menu");
 
 				// old values are stored for future use
 				let oldTitle = titleField.value;
@@ -258,7 +281,7 @@ class Tasklist {
 			taskElement.classList.add(task.priority);
 			taskElement.insertAdjacentHTML("beforeend", `
 				<div class="checkbox-title-div">
-					<input class="tasklist-checkbox" type="checkbox" name="finished" checked="${task.checked}">
+					<input class="tasklist-checkbox" type="checkbox" name="finished">
 					<span class="tasklist-title">${task.title}</span>
 				</div>
 				<span class="date-time-span">
@@ -266,8 +289,26 @@ class Tasklist {
 					<span class="time-hide-mobile tasklist-time"> - ${task.time}</span>
 				</span>		
 			`);	
-			taskElement.addEventListener("click", function(){
-			
+
+			let checkbox = taskElement.querySelector(".tasklist-checkbox"); 
+			checkbox.addEventListener("click", function(){
+				task.checked = !(task.checked);
+				if(task.checked === true) {
+					taskElement.classList.add("checked");
+					taskElement.classList.add("crossout");
+				}
+				else if(task.checked === false) {
+					taskElement.classList.remove("checked");
+					taskElement.classList.remove("crossout");
+				}
+			});
+
+			taskElement.addEventListener("click", function(event){
+				// If you click the checkbox do not run commands
+				if(event.target === checkbox){
+					return;
+				}
+
 				Modal.renderTaskDescriptionModal(task);
 
 				// field element variables

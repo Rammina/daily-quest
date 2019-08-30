@@ -90,6 +90,7 @@
     transform: translate(-15rem);
     transition: visibility 0.2s ease-in, transform 0.2s ease-in;
     visibility: hidden;
+    overflow-y: auto;
 }
 
 #nav-backdrop{
@@ -173,13 +174,15 @@
     color: aliceblue;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    width: 100%;
-    padding: 0.5rem 1.2rem;
+    width: 7rem;
+    padding: 0.7rem 1.2rem;
+    padding-right: 0rem;
     font-size: 1rem;
     text-align: left;
     opacity: 0;
     transform: translateX(-150px);
     transition: all 0.15s ease-in;
+    overflow-wrap: break-word;
 }
 
 .projects-item.show {

@@ -379,7 +379,7 @@ class Modal {
                 </form>
                 
                 <div class="two-buttons-container">
-                        <button class="task-details-button" id="task-details-delete"><img id="trash-image" class="task-details-button-image" src="${DeleteImg}" alt="Trashcan">Delete Task</button>
+                        <button class="task-details-button" id="task-details-delete"><img class="task-details-button-image trash-image" src="${DeleteImg}" alt="Trashcan">Delete Task</button>
                         <button class="task-details-button" id="task-details-edit"><img id="wrench-image" class="task-details-button-image" src="${EditImg}" alt="Wrench">Edit Task</button>
                         <button class="task-details-button hide" id="task-details-cancel">Cancel</button>
                         <button class="task-details-button hide" id="task-details-apply"><img id="apply-image" class="task-details-button-image" src="${ApplyImg}" alt="Check mark">Apply Changes</button>                   
@@ -574,7 +574,7 @@ class Modal {
                 <p class="modal-paragraph" id="delete-task-title">${taskTitle}</p>
                 <div id="delete-task-buttons-container" class="two-buttons-container">
                     <button class="delete-task-button" id="delete-task-cancel">Cancel</button>
-                    <button class="delete-task-button" id="delete-task-confirm">Delete Task</button>
+                    <button class="delete-task-button" id="delete-task-confirm"><img class="delete-task-button-image trash-image" src="${DeleteImg}" alt="Trashcan">Delete Task</button>
                 </div>
             </section>
         `);

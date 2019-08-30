@@ -44,6 +44,7 @@ class Tasklist {
 	// task is an object that contains information about a task
 	static renderTask(task){
 
+		let taskElementContainer = document.querySelector(".tasklist-tasks");
 		let taskElement = document.createElement("li");
 		taskElement.classList.add("tasklist-task");
 
@@ -70,17 +71,37 @@ class Tasklist {
 		`);
 		
 		let checkbox = taskElement.querySelector(".tasklist-checkbox");
+
+		// Visual effect functions for toggling task completion
+		function indicateChecked() {
+			checkbox.checked === true;
+			taskElement.classList.add("checked"); 
+			taskElement.classList.add("crossout");
+		}
+		function indicateUnchecked() {
+			checkbox.checked === false;
+			taskElement.classList.remove("checked"); 
+			taskElement.classList.remove("crossout");
+		}
+
+		// Make an initial check depending on task data
+		if(task.checked === true) {
+			indicateChecked();
+		}
+		else if(task.checked === false){
+			indicateUnchecked();
+		}
+
+		// Toggle both values And visual appearance upon clicking the checkbox
 		checkbox.addEventListener("click", function(){
 			task.checked = !(task.checked);
 			if(task.checked === true) {
-				taskElement.classList.add("checked");
-				taskElement.classList.add("crossout");
+				indicateChecked();
 			}
 			else if(task.checked === false) {
-				taskElement.classList.remove("checked");
-				taskElement.classList.remove("crossout");
-			}
-		})
+				indicateUnchecked();
+			}			
+		});
 
 		// Add Event listener for click to display task information
 		taskElement.addEventListener("click", function(){
@@ -119,7 +140,9 @@ class Tasklist {
 					confirmDeleteButton.addEventListener("click", function(event){
 						event.preventDefault();
 
+						let projectTitle = document.querySelector(".tasklist-group-header").textContent;
 						taskElementContainer.removeChild(taskElement); 
+						TaskData.deleteTask(projectTitle, task);
 						Modal.deleteModal(document.getElementById("delete-task-backdrop"));
 						Modal.deleteModal(document.getElementById("task-details-backdrop"));
 					});
@@ -291,17 +314,40 @@ class Tasklist {
 			`);	
 
 			let checkbox = taskElement.querySelector(".tasklist-checkbox"); 
-			checkbox.addEventListener("click", function(){
-				task.checked = !(task.checked);
-				if(task.checked === true) {
-					taskElement.classList.add("checked");
-					taskElement.classList.add("crossout");
-				}
-				else if(task.checked === false) {
-					taskElement.classList.remove("checked");
-					taskElement.classList.remove("crossout");
-				}
-			});
+
+		// Visual effect functions for toggling task completion
+		function indicateChecked() {
+			checkbox.checked === true;
+			taskElement.classList.add("checked"); 
+			taskElement.classList.add("crossout");
+		}
+		function indicateUnchecked() {
+			checkbox.checked === false;
+			taskElement.classList.remove("checked"); 
+			taskElement.classList.remove("crossout");
+		}
+
+		// Make an initial check depending on task data
+		if(task.checked === true) {
+			indicateChecked();
+
+		}
+		else if(task.checked === false){
+			indicateUnchecked();
+		}
+
+		// Toggle both values And visual appearance upon clicking the checkbox
+		checkbox.addEventListener("click", function(){
+			task.checked = !(task.checked);
+			if(task.checked === true) {
+				indicateChecked();
+			}
+			else if(task.checked === false) {
+				indicateUnchecked();
+			}
+				
+		});
+				
 
 			taskElement.addEventListener("click", function(event){
 				// If you click the checkbox do not run commands

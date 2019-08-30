@@ -132,8 +132,16 @@ class Navigation {
 
 				if(Modal.validAddProjectForm()) {
 					let projectTitle = document.getElementById("add-project-title-field").value;
-					Navigation.renderProject(projectTitle, []);
-					Modal.deleteModal(document.getElementById("add-project-backdrop"));
+					let projectTasks = [];
+					let newProject = TaskData.addProject(projectTitle, projectTasks);
+					
+					if(newProject) {
+						Navigation.renderProject(newProject.title, newProject.tasks);
+						Modal.deleteModal(document.getElementById("add-project-backdrop"));
+						showProject();
+					}
+					
+					
 
 				}
 			});
@@ -141,9 +149,6 @@ class Navigation {
 
 	}
 	static renderProject(projectTitle, projectTasks){
-		// Store the project title and tasks In a data structure
-		// Only add it if there is no duplicate
-		if(TaskData.addProject(projectTitle, projectTasks)) {
 			let projectElement = document.createElement("li");
 			projectElement.insertAdjacentHTML("beforeend", `
 				<button class="projects-item">${projectTitle}</button>
@@ -159,10 +164,7 @@ class Navigation {
 			// Added to the document Dom
 			document.querySelector(".projects-items").appendChild(projectElement);
 			return true;
-		}
-		else {
-			return false;
-		}
+		
 	}	
 	static showMenu(){
 		document.querySelector(".nav-items").classList.add("show");

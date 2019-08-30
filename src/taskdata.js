@@ -10,12 +10,14 @@ class TaskData {
 
 	static addTask(projectTitle, task){
 		// Search the projects array and find a match
+		console.log(projects);
 		for (let project of projects){
 			// If a match is found proceed to pushing the task inside the project
 			if(project.title === projectTitle) {
 				task.uniqueId = taskId;
 				taskId++;
 				project.tasks.push(task);
+				console.log(projects);
 				return task;
 			}
 		}
@@ -65,6 +67,7 @@ class TaskData {
 		}
 		projectId++;
 		projects.push(project);
+		console.log(projects);
 
 		return project;
 	}

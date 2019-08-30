@@ -262,7 +262,7 @@
 	width: 2.5rem;
 	height: 2.5rem;
 	background-color: rgb(251, 243, 131);
-	box-shadow: 0px 0px 0px 1px #050505a1;
+	
 }
 
 @media screen and (min-width: 550px) {

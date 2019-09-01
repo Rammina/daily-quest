@@ -552,6 +552,7 @@ class Modal {
 
 		return task;
 	}
+    // ***********************DeleteTaskModal here************** ****************************
 	static renderDeleteTaskModal(taskTitle) {
 		let modal = document.createElement("div");
 		modal.id = "delete-task-backdrop";
@@ -601,6 +602,56 @@ class Modal {
 			}
 		});
 	}
+    // ***********************DeleteProjectModal here************** ****************************
+    static renderDeleteProjectModal(project) {
+        let modal = document.createElement("div");
+        modal.id = "delete-project-backdrop";
+        modal.classList.add("backdrop");
+        modal.classList.add("modal-backdrop");
+        modal.insertAdjacentHTML(
+            "beforeend",
+            `
+            <section class="modal-container" id="delete-project-content" tabindex="-1" role="dialog" aria-hidden="true">
+                <button class="modal-close" id="delete-project-modal-close">x</button>
+                <h1 class="modal-header">Delete Project</h1>
+                <p class="modal-paragraph">Would you like to remove this project? </p>
+                <p class="modal-paragraph" id="delete-project-title">${project.title}</p>
+                <div id="delete-project-buttons-container" class="two-buttons-container">
+                    <button class="delete-project-button" id="delete-project-cancel">Cancel</button>
+                    <button class="delete-project-button" id="delete-project-confirm"><img class="delete-project-button-image trash-image" src="${DeleteImg}" alt="Trashcan">Delete Project</button>
+                </div>
+            </section>
+        `
+        );
+        document.getElementById("content").appendChild(modal);
+
+        let backdrop = document.getElementById("delete-project-backdrop");
+        let sectionContainer = document.getElementById("delete-project-content");
+        let closeButton = document.getElementById("delete-project-modal-close");
+
+        // Effects
+        // Try making universal function for this since it is recycled
+        setTimeout(function() {
+            backdrop.classList.add("show");
+            sectionContainer.classList.add("show");
+            sectionContainer.setAttribute("aria-hidden", "false");
+            setTimeout(function() {
+                sectionContainer.focus();
+            }, 301);
+        }, 0);
+
+        // event listeners
+        backdrop.addEventListener("click", function(event) {
+            if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+        closeButton.addEventListener("click", function(event) {
+            if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+    }
 }
 
 export default Modal;

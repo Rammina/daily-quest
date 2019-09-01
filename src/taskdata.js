@@ -90,6 +90,17 @@ class TaskData {
 		);
 		console.log(projects);
 	}
+	static deleteProject(targetProject) {
+		console.log(projects);		
+		let projectToBeDeleted = projects[projects.findIndex(project => project.uniqueId === targetProject.uniqueId)];
+		console.log(projectToBeDeleted);
+		console.log(projects.findIndex(project => project.uniqueId === targetProject.uniqueId));
+		
+		projects.splice(projects.findIndex(project => project.uniqueId === targetProject.uniqueId), 1);
+		console.log(projectToBeDeleted);
+		console.log(projects);
+
+	}
 }
 
 export default TaskData;

@@ -106,7 +106,7 @@
     text-align: center;
 }
 
-#delete-task-title{
+#delete-task-title, #delete-project-title{
     font-size: 1.6rem;
     color: #fdb;
 }
@@ -364,11 +364,11 @@ select:disabled {
     margin: 0 auto;
 }
 
-#delete-task-buttons-container{
+#delete-task-buttons-container, #delete-project-buttons-container{
     max-width: 23rem;
 }
 
-.task-details-button, .delete-task-button{
+.task-details-button, .delete-task-button, .delete-project-button{
     display: block;
     width: 82%;
     max-width: 11rem;
@@ -383,7 +383,7 @@ select:disabled {
     color: #111;
 }
 
-.task-details-button:hover, .delete-task-button:hover{
+.task-details-button:hover, .delete-task-button:hover, .delete-project-button:hover{
     cursor: pointer;
 }
 
@@ -391,7 +391,7 @@ select:disabled {
     display: none;
 }
 
-.task-details-button-image, .delete-task-button-image {
+.task-details-button-image, .delete-task-button-image, .delete-project-button-image {
     position: relative;
     height: 1.3rem;
     width: 1.3rem;
@@ -409,13 +409,16 @@ select:disabled {
     box-shadow: 0px 0px 3px 2px #525252;
 }
 
-#task-details-delete, #delete-task-confirm{
+#task-details-delete, #delete-task-confirm, #delete-project-confirm{
     background-color: #a11;
     color: white;
 
 }
+#delete-project-confirm{
+    max-width: 13rem;
+}
 
-#task-details-delete:hover, #delete-task-confirm:hover{
+#task-details-delete:hover, #delete-task-confirm:hover, #delete-project-confirm:hover{
     background-color: rgb(144, 17, 17);
     /* background-color: rgb(195, 29, 29); */
     color: white;
@@ -435,12 +438,12 @@ select:disabled {
     filter: invert(0%) sepia(12%) saturate(6327%) hue-rotate(350deg) brightness(93%) contrast(87%);
 }
 
-#task-details-cancel, #delete-task-cancel {
+#task-details-cancel, #delete-task-cancel, #delete-project-cancel {
     background-color: rgb(187, 187, 187);
     max-width: 7rem;
 }
 
-#task-details-cancel:hover, #delete-task-cancel:hover {
+#task-details-cancel:hover, #delete-task-cancel:hover, #delete-project-cancel:hover {
     background-color: rgb(224, 224, 224);
     -webkit-box-shadow: 0px 0px 3px 2px #666666; 
     box-shadow: 0px 0px 3px 2px #666666;

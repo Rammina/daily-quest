@@ -142,31 +142,68 @@ class Navigation {
 						let newProject = TaskData.addProject(projectTitle, projectTasks);
 
 						if (newProject) {
-							Navigation.renderProject(newProject.title, newProject.tasks);
+							Navigation.renderProject(newProject);
 							Modal.deleteModal(document.getElementById("add-project-backdrop"));
 							showProject();
+
+
 						}
 					}
 				});
 		});
 	}
-	static renderProject(projectTitle, projectTasks) {
+	static renderProject(project) {
 		let projectElement = document.createElement("li");
 		projectElement.classList.add("projects-item-container");
 
 		projectElement.insertAdjacentHTML(
 			"beforeend",
 			`
-				<button class="projects-item">${projectTitle}</button>
+				<button class="projects-item">${project.title}</button>
 				<button class="projects-item-delete"><img class="delete-projects-icon trash-image" src="${DeleteImg}" alt="Trashcan"></button>
 			`
 		);
 
+		// Render the task upon clicking the project name
 		projectElement.querySelector(".projects-item").addEventListener("click", function() {
-			Tasklist.renderTasks(projectTitle, projectTasks);
+			Tasklist.renderTasks(project.title, project.tasks);
+		});
+
+		// show the trashcan icon when hovering over the project item
+		projectElement.querySelector(".projects-item").addEventListener("mouseleave", function() {
+
+			projectElement.querySelector(".projects-item-delete").classList.remove("show");
+		});
+
+		projectElement.querySelector(".projects-item").addEventListener("mouseenter", function() {
+			
+			projectElement.querySelector(".projects-item-delete").classList.add("show");
+		});
+
+		// open the delete project prompt upon clicking the trashbin button
+		projectElement.querySelector(".projects-item-delete").addEventListener("click", function() {
+			Modal.renderDeleteProjectModal(project);
+
+			// close the modal if cancel button was clicked
+			document.getElementById("delete-project-cancel").addEventListener("click", function(event){
+				event.preventDefault();
+				Modal.deleteModal(document.getElementById("delete-project-backdrop"));				
+			});			
+
+			// delete the project item if confirm was clicked
+			document.getElementById("delete-project-confirm").addEventListener("click", function(event){
+				event.preventDefault();
+
+				document.querySelector(".projects-items").removeChild(projectElement);		
+				TaskData.deleteProject(project);
+				Modal.deleteModal(document.getElementById("delete-project-backdrop"));
+			});
+
+
 		});
 		if (document.getElementById("projects-button").getAttribute("aria-expanded") === "true") {
 			projectElement.querySelector(".projects-item").classList.add("show");
+			projectElement.querySelector(".projects-item-delete").classList.add("show");
 		}
 
 		// Added to the document Dom

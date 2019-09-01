@@ -25,7 +25,7 @@ let testProject = [
 
 let testProjectTitle = "I want to hug you";
 let newProject = TaskData.addProject(testProjectTitle, testProject);
-Navigation.renderProject(newProject.title, newProject.tasks);
+Navigation.renderProject(newProject);
 
 // Next priority would be to render projects in the navigation bar
 // Preferably with a for loop

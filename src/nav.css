@@ -85,7 +85,7 @@
     margin: 0;
     /*padding-top: calc(50vh - 6rem);*/
     padding-top: 1rem;
-    color: aliceblue;
+    color: #eff7ff;
     background-color: rgb(30, 30, 30);
     transform: translate(-15rem);
     transition: visibility 0.2s ease-in, transform 0.2s ease-in;
@@ -168,6 +168,15 @@
     border-bottom: solid 1px #beffff;
    
 }
+
+.projects-item-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
 .projects-item{
     display: block;
     font-family: 'Raleway', sans-serif;
@@ -189,6 +198,39 @@
     transform: translateX(0px);
     opacity: 1;
 } 
+
+.projects-item-delete {
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    color: rgb(245, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateX(-150px);
+    transition: all 0.15s ease-in;
+    overflow-wrap: break-word;
+}
+
+.projects-item-delete.show {
+    transform: translateX(0px);
+    opacity: 1;
+} 
+
+.delete-projects-icon {
+    position: relative;
+    height: 1.3rem;
+    width: 1.3rem;
+    margin-right: 0.3rem;
+    top: 0.1rem;
+}
+
+.delete-projects-icon.trash-image{
+    filter: invert(91%) sepia(3%) saturate(1683%) hue-rotate(193deg) brightness(104%) contrast(105%);
+}
 
 .nav-item.current {
     color: #fbe16a;

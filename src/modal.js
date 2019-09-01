@@ -1,48 +1,53 @@
-import {format, endOfYesterday, isBefore} from 'date-fns';
+import { format, endOfYesterday, isBefore } from "date-fns";
 
-import '!style-loader!css-loader!./modal.css';
+import "!style-loader!css-loader!./modal.css";
 
-import EditImg from './images/edit.png';
-import DeleteImg from './images/delete.png';
-import ApplyImg from './images/apply.png';
+import EditImg from "./images/edit.png";
+import DeleteImg from "./images/delete.png";
+import ApplyImg from "./images/apply.png";
 
 class Modal {
-    // General helpers here
-    static deleteModal(modal){
-        modal.classList.remove("show");
-        modal.firstElementChild.classList.remove("show");
-        setTimeout(function(){
-            document.getElementById("content").removeChild(modal);
-        }, 301); 
-    }
-    static emptyFieldError(field){
-            let parent = field.parentElement;
-            let errorMessage = parent.querySelector(".modal-error-message.empty-error");
-            if(errorMessage) {
-                parent.removeChild(errorMessage);
-            }
-            if(field.value) {
-                return false;
-            }
-            
-            parent.insertAdjacentHTML("beforeend", `
+	// General helpers here
+	static deleteModal(modal) {
+		modal.classList.remove("show");
+		modal.firstElementChild.classList.remove("show");
+		setTimeout(function() {
+			document.getElementById("content").removeChild(modal);
+		}, 301);
+	}
+	static emptyFieldError(field) {
+		let parent = field.parentElement;
+		let errorMessage = parent.querySelector(".modal-error-message.empty-error");
+		if (errorMessage) {
+			parent.removeChild(errorMessage);
+		}
+		if (field.value) {
+			return false;
+		}
+
+		parent.insertAdjacentHTML(
+			"beforeend",
+			`
                 <span class="modal-error-message empty-error">Please fill out this field.</span>
-            `);
-            return true;
-    }
-    // ***********************AddTaskModal here************** ****************************
-	static renderAddTaskModal(){
+            `
+		);
+		return true;
+	}
+	// ***********************AddTaskModal here************** ****************************
+	static renderAddTaskModal() {
 		// let taskContainer = document.getElementById("tasklist-container");
 		let modal = document.createElement("div");
 		modal.id = "add-task-backdrop";
-        modal.classList.add("backdrop");
-        modal.classList.add("modal-backdrop");
+		modal.classList.add("backdrop");
+		modal.classList.add("modal-backdrop");
 
-        // Retrieve current date just to use it As a limiter
-        // Today becomes the minimum date
-        let today = format(new Date(), "YYYY-MM-DD");
-        let yesterday = endOfYesterday();
-		modal.insertAdjacentHTML("beforeend", `
+		// Retrieve current date just to use it As a limiter
+		// Today becomes the minimum date
+		let today = format(new Date(), "YYYY-MM-DD");
+		let yesterday = endOfYesterday();
+		modal.insertAdjacentHTML(
+			"beforeend",
+			`
 			<section class="modal-container" id="add-task-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="add-task-modal-close">x</button>
                 <h1 class="modal-header">Add a Task</h1>
@@ -74,201 +79,194 @@ class Modal {
                 </form>
             
             </section>
-			`);
+			`
+		);
 		document.getElementById("content").appendChild(modal);
 
-        // Assigning variable names to elements
+		// Assigning variable names to elements
 
-        let backdrop = document.getElementById("add-task-backdrop");
-        let sectionContainer = document.getElementById("add-task-content");
-        let submit = document.getElementById("add-task-submit");
-        let closeButton = document.getElementById("add-task-modal-close");
+		let backdrop = document.getElementById("add-task-backdrop");
+		let sectionContainer = document.getElementById("add-task-content");
+		let submit = document.getElementById("add-task-submit");
+		let closeButton = document.getElementById("add-task-modal-close");
 
-        // Effects
-        // Try making universal function for this since it is recycled
-        setTimeout(function(){
-            backdrop.classList.add("show");
-            sectionContainer.classList.add("show");
-            sectionContainer.setAttribute("aria-hidden", "false");
-            setTimeout(function(){
-                sectionContainer.focus();
-            }, 301);
-        }, 0);
-		
+		// Effects
+		// Try making universal function for this since it is recycled
+		setTimeout(function() {
+			backdrop.classList.add("show");
+			sectionContainer.classList.add("show");
+			sectionContainer.setAttribute("aria-hidden", "false");
+			setTimeout(function() {
+				sectionContainer.focus();
+			}, 301);
+		}, 0);
 
-        // event listeners
-        backdrop.addEventListener("click", function(event){
-            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-        closeButton.addEventListener("click", function(event){
-            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-        console.log("modal is add-tasked to the Dom");
-	}    
-    static validAddTaskDate(dateField){
-        let yesterday = endOfYesterday();
-        let parent = dateField.parentElement;
-        let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
-
-        // delete any date error messages
-        if(errorMessage) {
-            parent.removeChild(errorMessage);            
-        }
-
-        if(dateField.value === "") {
-            return true;
-        }
-
-        if(isBefore(yesterday, dateField.value)) {
-            return true;
-        }
-        else{
-            parent.insertAdjacentHTML("beforeend", `
-               <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span> 
-            `);
-            return false;    
-        }
-        
-    }
-    static validAddTaskTime(timeField){
-        let dateField = document.getElementById("add-task-date-field");
-        let today = new Date();
-        let parent = timeField.parentElement;
-        let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
-        let inputDateTime;
-
-        function generateDateTimeError() {
-            if(errorMessage) {
-                parent.removeChild(errorMessage);
-            }
-            parent.insertAdjacentHTML("beforeend", `
-                <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
-            `);
-        }
-        // Ignore or skip if time field is empty
-        if(!(timeField.value)) {
-            return true;
-        }
-        // start by checking if the date is valid
-        if(dateField.value) {
-            if(Modal.validAddTaskDate(dateField)) {
-                inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
-                if(isBefore(today, inputDateTime)) {
-                    return true;
-                }
-                else{
-                    generateDateTimeError();
-                    return false;
-                }
-            }
-            else{
-                generateDateTimeError();
-                return false;
-            }            
-
-        }
-        else{
-            let currentDate = format(new Date(), 'YYYY-MM-DD');
-            inputDateTime = new Date(`${currentDate}T${timeField.value}`);
-            if(isBefore(today, inputDateTime)) {
-                return true;
-            }
-            else{
-                generateDateTimeError();
-                return false;
-            }
-        }
-        
-        
-
-
-
-    }
-    static validAddTaskForm(){
-        
-        // Assigning variable names to field elements
-        let titleField = document.getElementById("add-task-title-field");
-        let descriptionField = document.getElementById("add-task-description-field");
-        let dateField = document.getElementById("add-task-date-field");
-        let timeField = document.getElementById("add-task-time-field");
-        let priorityField = document.getElementById("add-task-priority-menu");
-
-        // Place them all inside an array for easy iteration
-        let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
-
-        // If the field is empty, inserts an error message <span>, and returns true
-        // Otherwise it returns false and does nothing
-        let errors = 0;
-
-        // Run all error checks for each required field
-        for (let field of inputFields){
-            // Check first if it is a date field, as it is not required to be filled up
-			if(field === dateField) {
-                //Check if it is a valid date 
-				if(!(Modal.validAddTaskDate(field))) {
-                    errors++;
-                }
+		// event listeners
+		backdrop.addEventListener("click", function(event) {
+			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
+				Modal.deleteModal(backdrop);
 			}
-            else if(field === timeField) {
-                //Check if it is a valid time
-                if(!(Modal.validAddTaskTime(field))) {
-                    errors++;
-                }
-            }
-            else if(Modal.emptyFieldError(field)) {
-                console.log("emptyError");
-                errors++;
-            }
-        }
+		});
+		closeButton.addEventListener("click", function(event) {
+			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
+				Modal.deleteModal(backdrop);
+			}
+		});
+		console.log("modal is add-tasked to the Dom");
+	}
+	static validAddTaskDate(dateField) {
+		let yesterday = endOfYesterday();
+		let parent = dateField.parentElement;
+		let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
 
-        if(errors > 0) {
-            return false;
-        }
-        return true;
-    }
-    static retrieveAddTaskData(){
-        let task = {};
-        task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
+		// delete any date error messages
+		if (errorMessage) {
+			parent.removeChild(errorMessage);
+		}
 
-        let today = format(new Date(), "MM/DD/YYYY");
-        let placeholderDate = format(new Date(), "YYYY-MM-DD");
+		if (dateField.value === "") {
+			return true;
+		}
 
-        task.title = document.getElementById("add-task-title-field").value;
-        task.description = document.getElementById("add-task-description-field").value;
+		if (isBefore(yesterday, dateField.value)) {
+			return true;
+		} else {
+			parent.insertAdjacentHTML(
+				"beforeend",
+				`
+               <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span> 
+            `
+			);
+			return false;
+		}
+	}
+	static validAddTaskTime(timeField) {
+		let dateField = document.getElementById("add-task-date-field");
+		let today = new Date();
+		let parent = timeField.parentElement;
+		let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
+		let inputDateTime;
 
-        // Check if date is empty, If so give it a default value of
-        if(document.getElementById("add-task-date-field").value) {
-            task.date = format(document.getElementById("add-task-date-field").value, 'MM/DD/YYYY');
-        }
-        else{
-            task.date = today;
-        }
-        // Check if time is empty, If so give it a default value of
-        if(document.getElementById("add-task-time-field").value) {
-            // Do something that lets me convert time into a date structure
-            // concatenate The date value To the time value
-            let datetime = new Date(`${placeholderDate}T${document.getElementById("add-task-time-field").value}`);
-            task.time = format(datetime, 'hh:mmA');
-        }
-        else{
-            task.time = "11:59PM";
-        }
-        task.priority = document.getElementById("add-task-priority-menu").value;
-        task.checked = false;
+		function generateDateTimeError() {
+			if (errorMessage) {
+				parent.removeChild(errorMessage);
+			}
+			parent.insertAdjacentHTML(
+				"beforeend",
+				`
+                <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
+            `
+			);
+		}
+		// Ignore or skip if time field is empty
+		if (!timeField.value) {
+			return true;
+		}
+		// start by checking if the date is valid
+		if (dateField.value) {
+			if (Modal.validAddTaskDate(dateField)) {
+				inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
+				if (isBefore(today, inputDateTime)) {
+					return true;
+				} else {
+					generateDateTimeError();
+					return false;
+				}
+			} else {
+				generateDateTimeError();
+				return false;
+			}
+		} else {
+			let currentDate = format(new Date(), "YYYY-MM-DD");
+			inputDateTime = new Date(`${currentDate}T${timeField.value}`);
+			if (isBefore(today, inputDateTime)) {
+				return true;
+			} else {
+				generateDateTimeError();
+				return false;
+			}
+		}
+	}
+	static validAddTaskForm() {
+		// Assigning variable names to field elements
+		let titleField = document.getElementById("add-task-title-field");
+		let descriptionField = document.getElementById("add-task-description-field");
+		let dateField = document.getElementById("add-task-date-field");
+		let timeField = document.getElementById("add-task-time-field");
+		let priorityField = document.getElementById("add-task-priority-menu");
 
-        return task;
-    }
-    // ***********************AddProjectModal here************** ****************************
-    static renderAddProjectModal(){
-        let modal = document.createElement("div");
-        modal.id = "add-project-backdrop";
-        modal.classList.add("backdrop");
-        modal.classList.add("modal-backdrop");
-        modal.insertAdjacentHTML("beforeend", `
+		// Place them all inside an array for easy iteration
+		let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
+
+		// If the field is empty, inserts an error message <span>, and returns true
+		// Otherwise it returns false and does nothing
+		let errors = 0;
+
+		// Run all error checks for each required field
+		for (let field of inputFields) {
+			// Check first if it is a date field, as it is not required to be filled up
+			if (field === dateField) {
+				//Check if it is a valid date
+				if (!Modal.validAddTaskDate(field)) {
+					errors++;
+				}
+			} else if (field === timeField) {
+				//Check if it is a valid time
+				if (!Modal.validAddTaskTime(field)) {
+					errors++;
+				}
+			} else if (Modal.emptyFieldError(field)) {
+				console.log("emptyError");
+				errors++;
+			}
+		}
+
+		if (errors > 0) {
+			return false;
+		}
+		return true;
+	}
+	static retrieveAddTaskData() {
+		let task = {};
+		task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
+
+		let today = format(new Date(), "MM/DD/YYYY");
+		let placeholderDate = format(new Date(), "YYYY-MM-DD");
+
+		task.title = document.getElementById("add-task-title-field").value;
+		task.description = document.getElementById("add-task-description-field").value;
+
+		// Check if date is empty, If so give it a default value of
+		if (document.getElementById("add-task-date-field").value) {
+			task.date = format(document.getElementById("add-task-date-field").value, "MM/DD/YYYY");
+		} else {
+			task.date = today;
+		}
+		// Check if time is empty, If so give it a default value of
+		if (document.getElementById("add-task-time-field").value) {
+			// Do something that lets me convert time into a date structure
+			// concatenate The date value To the time value
+			let datetime = new Date(
+				`${placeholderDate}T${document.getElementById("add-task-time-field").value}`
+			);
+			task.time = format(datetime, "hh:mmA");
+		} else {
+			task.time = "11:59PM";
+		}
+		task.priority = document.getElementById("add-task-priority-menu").value;
+		task.checked = false;
+
+		return task;
+	}
+	// ***********************AddProjectModal here************** ****************************
+	static renderAddProjectModal() {
+		let modal = document.createElement("div");
+		modal.id = "add-project-backdrop";
+		modal.classList.add("backdrop");
+		modal.classList.add("modal-backdrop");
+		modal.insertAdjacentHTML(
+			"beforeend",
+			`
             <section class="modal-container" id="add-project-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="add-project-modal-close">x</button>
                 <h1 class="modal-header">Add a Project</h1>
@@ -281,70 +279,69 @@ class Modal {
                 </form>
             
             </section>
-        `);
-        document.getElementById("content").appendChild(modal);
+        `
+		);
+		document.getElementById("content").appendChild(modal);
 
-        let backdrop = document.getElementById("add-project-backdrop");
-        let sectionContainer = document.getElementById("add-project-content");
-        let submit = document.getElementById("add-project-submit");
-        let closeButton = document.getElementById("add-project-modal-close");
+		let backdrop = document.getElementById("add-project-backdrop");
+		let sectionContainer = document.getElementById("add-project-content");
+		let submit = document.getElementById("add-project-submit");
+		let closeButton = document.getElementById("add-project-modal-close");
 
-        // Effects
-        // Try making universal function for this since it is recycled
-        setTimeout(function(){
-            backdrop.classList.add("show");
-            sectionContainer.classList.add("show");
-            sectionContainer.setAttribute("aria-hidden", "false");
-            setTimeout(function(){
-                sectionContainer.focus();
-            }, 301);
-        }, 0);
-        
+		// Effects
+		// Try making universal function for this since it is recycled
+		setTimeout(function() {
+			backdrop.classList.add("show");
+			sectionContainer.classList.add("show");
+			sectionContainer.setAttribute("aria-hidden", "false");
+			setTimeout(function() {
+				sectionContainer.focus();
+			}, 301);
+		}, 0);
 
-        // event listeners
-        backdrop.addEventListener("click", function(event){
-            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-        closeButton.addEventListener("click", function(event){
-            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-    }
-    static validAddProjectForm(){
-        
-        // Assigning variable names to field elements
-        let titleField = document.getElementById("add-project-title-field");
+		// event listeners
+		backdrop.addEventListener("click", function(event) {
+			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
+				Modal.deleteModal(backdrop);
+			}
+		});
+		closeButton.addEventListener("click", function(event) {
+			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
+				Modal.deleteModal(backdrop);
+			}
+		});
+	}
+	static validAddProjectForm() {
+		// Assigning variable names to field elements
+		let titleField = document.getElementById("add-project-title-field");
 
-        // If the field is empty, inserts an error message <span>, and returns true
-        // Otherwise it returns false and does nothing
-        let errors = 0;
+		// If the field is empty, inserts an error message <span>, and returns true
+		// Otherwise it returns false and does nothing
+		let errors = 0;
 
-            
-        if(Modal.emptyFieldError(titleField)) {
-                console.log("emptyError");
-                errors++;
-            }
-        if(errors > 0) {
-            return false;
-        }
-        return true;
-    }
-    // ***********************TaskDescriptionModal here************** ****************************
-    static renderTaskDescriptionModal(task){
-
-        let modal = document.createElement("div");
+		if (Modal.emptyFieldError(titleField)) {
+			console.log("emptyError");
+			errors++;
+		}
+		if (errors > 0) {
+			return false;
+		}
+		return true;
+	}
+	// ***********************TaskDescriptionModal here************** ****************************
+	static renderTaskDescriptionModal(task) {
+		let modal = document.createElement("div");
 		modal.id = "task-details-backdrop";
 		modal.classList.add("backdrop");
-        modal.classList.add("modal-backdrop");
+		modal.classList.add("modal-backdrop");
 
-        // Retrieve current date just to use it As a limiter
-        // Today becomes the minimum date
-        let today = format(new Date(), "YYYY-MM-DD");
-        let yesterday = endOfYesterday();
-		modal.insertAdjacentHTML("beforeend", `
+		// Retrieve current date just to use it As a limiter
+		// Today becomes the minimum date
+		let today = format(new Date(), "YYYY-MM-DD");
+		let yesterday = endOfYesterday();
+		modal.insertAdjacentHTML(
+			"beforeend",
+			`
 			<section class="modal-container" id="task-details-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="task-details-modal-close">x</button>
                 
@@ -385,188 +382,184 @@ class Modal {
                         <button class="task-details-button hide" id="task-details-apply"><img id="apply-image" class="task-details-button-image" src="${ApplyImg}" alt="Check mark">Apply Changes</button>                   
                 </div>
             </section>
-            `);
-            
-        let priorityMenu = modal.querySelector("#task-details-priority-menu");
-        if(task.priority === "high"){
-            priorityMenu.value = "high";
-            priorityMenu.classList.add("high");
-        }
-        else if (task.priority === "medium"){
-            priorityMenu.value = "medium";
-            priorityMenu.classList.add("medium");
-        }
-        else if (task.priority === "low"){
-            priorityMenu.value = "low";
-            priorityMenu.classList.add("low");
-        }
+            `
+		);
 
+		let priorityMenu = modal.querySelector("#task-details-priority-menu");
+		if (task.priority === "high") {
+			priorityMenu.value = "high";
+			priorityMenu.classList.add("high");
+		} else if (task.priority === "medium") {
+			priorityMenu.value = "medium";
+			priorityMenu.classList.add("medium");
+		} else if (task.priority === "low") {
+			priorityMenu.value = "low";
+			priorityMenu.classList.add("low");
+		}
 
 		document.getElementById("content").appendChild(modal);
 
-        // Assigning variable names to elements
+		// Assigning variable names to elements
 
-        let backdrop = document.getElementById("task-details-backdrop");
-        let sectionContainer = document.getElementById("task-details-content");
-        let submit = document.getElementById("task-details-edit");
-        let closeButton = document.getElementById("task-details-modal-close");
+		let backdrop = document.getElementById("task-details-backdrop");
+		let sectionContainer = document.getElementById("task-details-content");
+		let submit = document.getElementById("task-details-edit");
+		let closeButton = document.getElementById("task-details-modal-close");
 
-        // Effects
-        // Try making universal function for this since it is recycled
-        setTimeout(function(){
-            backdrop.classList.add("show");
-            sectionContainer.classList.add("show");
-            sectionContainer.setAttribute("aria-hidden", "false");
-            setTimeout(function(){
-                sectionContainer.focus();
-            }, 301);
-        }, 0);
-		
+		// Effects
+		// Try making universal function for this since it is recycled
+		setTimeout(function() {
+			backdrop.classList.add("show");
+			sectionContainer.classList.add("show");
+			sectionContainer.setAttribute("aria-hidden", "false");
+			setTimeout(function() {
+				sectionContainer.focus();
+			}, 301);
+		}, 0);
 
-        // event listeners
-        backdrop.addEventListener("click", function(event){
-            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-        closeButton.addEventListener("click", function(event){
-            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-    }
-    static validEditTaskTime(timeField){
-        let dateField = document.getElementById("task-details-date-field");
-        let today = new Date();
-        let parent = timeField.parentElement;
-        let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
-        let inputDateTime;
-
-        function generateDateTimeError() {
-            if(errorMessage) {
-                parent.removeChild(errorMessage);
-            }
-            parent.insertAdjacentHTML("beforeend", `
-                <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
-            `);
-        }
-        // Ignore or skip if time field is empty
-        if(!(timeField.value)) {
-            return true;
-        }
-        // start by checking if the date is valid
-        if(dateField.value) {
-            if(Modal.validAddTaskDate(dateField)) {
-                inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
-                if(isBefore(today, inputDateTime)) {
-                    return true;
-                }
-                else{
-                    generateDateTimeError();
-                    return false;
-                }
-            }
-            else{
-                generateDateTimeError();
-                return false;
-            }            
-
-        }
-        else{
-            let currentDate = format(new Date(), 'YYYY-MM-DD');
-            inputDateTime = new Date(`${currentDate}T${timeField.value}`);
-            if(isBefore(today, inputDateTime)) {
-                return true;
-            }
-            else{
-                generateDateTimeError();
-                return false;
-            }
-        }
-    }
-    static validEditTaskForm(){
-        
-        // Assigning variable names to field elements
-        let titleField = document.getElementById("task-details-title-field");
-        let descriptionField = document.getElementById("task-details-description-field");
-        let dateField = document.getElementById("task-details-date-field");
-        let timeField = document.getElementById("task-details-time-field");
-        let priorityField = document.getElementById("task-details-priority-menu");
-
-        // Place them all inside an array for easy iteration
-        
-        let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
-
-        // If the field is empty, inserts an error message <span>, and returns true
-        // Otherwise it returns false and does nothing
-        let errors = 0;
-
-        // Run all error checks for each required field
-        for (let field of inputFields){
-            // Check first if it is a date field, as it is not required to be filled up
-			if(field === dateField) {
-                //Check if it is a valid date 
-				if(!(Modal.validAddTaskDate(field))) {
-                    errors++;
-                }
+		// event listeners
+		backdrop.addEventListener("click", function(event) {
+			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
+				Modal.deleteModal(backdrop);
 			}
-            else if(field === timeField) {
-                //Check if it is a valid time
-                if(!(Modal.validEditTaskTime(field))) {
-                    errors++;
-                }
-            }
-            else if(Modal.emptyFieldError(field)) {
-                console.log("emptyError");
-                errors++;
-            }
-        }
+		});
+		closeButton.addEventListener("click", function(event) {
+			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
+				Modal.deleteModal(backdrop);
+			}
+		});
+	}
+	static validEditTaskTime(timeField) {
+		let dateField = document.getElementById("task-details-date-field");
+		let today = new Date();
+		let parent = timeField.parentElement;
+		let errorMessage = parent.querySelector(".modal-error-message.datetime-passed-error");
+		let inputDateTime;
 
-        if(errors > 0) {
-            return false;
-        }
-        return true;
-    }
-    static retrieveEditTaskData(){
-        let task = {};
-        task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
+		function generateDateTimeError() {
+			if (errorMessage) {
+				parent.removeChild(errorMessage);
+			}
+			parent.insertAdjacentHTML(
+				"beforeend",
+				`
+                <span class="modal-error-message datetime-passed-error">This date/time has passed already.</span>  
+            `
+			);
+		}
+		// Ignore or skip if time field is empty
+		if (!timeField.value) {
+			return true;
+		}
+		// start by checking if the date is valid
+		if (dateField.value) {
+			if (Modal.validAddTaskDate(dateField)) {
+				inputDateTime = new Date(`${dateField.value}T${timeField.value}`);
+				if (isBefore(today, inputDateTime)) {
+					return true;
+				} else {
+					generateDateTimeError();
+					return false;
+				}
+			} else {
+				generateDateTimeError();
+				return false;
+			}
+		} else {
+			let currentDate = format(new Date(), "YYYY-MM-DD");
+			inputDateTime = new Date(`${currentDate}T${timeField.value}`);
+			if (isBefore(today, inputDateTime)) {
+				return true;
+			} else {
+				generateDateTimeError();
+				return false;
+			}
+		}
+	}
+	static validEditTaskForm() {
+		// Assigning variable names to field elements
+		let titleField = document.getElementById("task-details-title-field");
+		let descriptionField = document.getElementById("task-details-description-field");
+		let dateField = document.getElementById("task-details-date-field");
+		let timeField = document.getElementById("task-details-time-field");
+		let priorityField = document.getElementById("task-details-priority-menu");
 
-        let today = format(new Date(), "MM/DD/YYYY");
-        let placeholderDate = format(new Date(), "YYYY-MM-DD");
+		// Place them all inside an array for easy iteration
 
-        task.title = document.getElementById("task-details-title-field").value;
-        task.description = document.getElementById("task-details-description-field").value;
+		let inputFields = [titleField, descriptionField, dateField, timeField, priorityField];
 
-        // Check if date is empty, If so give it a default value of
-        if(document.getElementById("task-details-date-field").value) {
-            task.date = format(document.getElementById("task-details-date-field").value, 'MM/DD/YYYY');
-        }
-        else{
-            task.date = today;
-        }
-        // Check if time is empty, If so give it a default value of
-        if(document.getElementById("task-details-time-field").value) {
-            // Do something that lets me convert time into a date structure
-            // concatenate The date value To the time value
-            let datetime = new Date(`${placeholderDate}T${document.getElementById("task-details-time-field").value}`);
-            console.log(datetime);
-            task.time = format(datetime, 'hh:mmA');
+		// If the field is empty, inserts an error message <span>, and returns true
+		// Otherwise it returns false and does nothing
+		let errors = 0;
 
-        }
-        else{
-            console.log(`${placeholderDate}T23:59:00`);
-            task.time = format(`${placeholderDate}T23:59:00`, 'hh:mmA');
-        }
-        task.priority = document.getElementById("task-details-priority-menu").value;
+		// Run all error checks for each required field
+		for (let field of inputFields) {
+			// Check first if it is a date field, as it is not required to be filled up
+			if (field === dateField) {
+				//Check if it is a valid date
+				if (!Modal.validAddTaskDate(field)) {
+					errors++;
+				}
+			} else if (field === timeField) {
+				//Check if it is a valid time
+				if (!Modal.validEditTaskTime(field)) {
+					errors++;
+				}
+			} else if (Modal.emptyFieldError(field)) {
+				console.log("emptyError");
+				errors++;
+			}
+		}
 
-        return task;
-    }
-    static renderDeleteTaskModal(taskTitle){
-        let modal = document.createElement("div");
-        modal.id = "delete-task-backdrop";
-        modal.classList.add("backdrop");
-        modal.classList.add("modal-backdrop");
-        modal.insertAdjacentHTML("beforeend", `
+		if (errors > 0) {
+			return false;
+		}
+		return true;
+	}
+	static retrieveEditTaskData() {
+		let task = {};
+		task.projectTitle = document.querySelector(".tasklist-group-header").textContent;
+
+		let today = format(new Date(), "MM/DD/YYYY");
+		let placeholderDate = format(new Date(), "YYYY-MM-DD");
+
+		task.title = document.getElementById("task-details-title-field").value;
+		task.description = document.getElementById("task-details-description-field").value;
+
+		// Check if date is empty, If so give it a default value of
+		if (document.getElementById("task-details-date-field").value) {
+			task.date = format(
+				document.getElementById("task-details-date-field").value,
+				"MM/DD/YYYY"
+			);
+		} else {
+			task.date = today;
+		}
+		// Check if time is empty, If so give it a default value of
+		if (document.getElementById("task-details-time-field").value) {
+			// Do something that lets me convert time into a date structure
+			// concatenate The date value To the time value
+			let datetime = new Date(
+				`${placeholderDate}T${document.getElementById("task-details-time-field").value}`
+			);
+			console.log(datetime);
+			task.time = format(datetime, "hh:mmA");
+		} else {
+			console.log(`${placeholderDate}T23:59:00`);
+			task.time = format(`${placeholderDate}T23:59:00`, "hh:mmA");
+		}
+		task.priority = document.getElementById("task-details-priority-menu").value;
+
+		return task;
+	}
+	static renderDeleteTaskModal(taskTitle) {
+		let modal = document.createElement("div");
+		modal.id = "delete-task-backdrop";
+		modal.classList.add("backdrop");
+		modal.classList.add("modal-backdrop");
+		modal.insertAdjacentHTML(
+			"beforeend",
+			`
             <section class="modal-container" id="delete-task-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="delete-task-modal-close">x</button>
                 <h1 class="modal-header">Delete Task</h1>
@@ -577,38 +570,37 @@ class Modal {
                     <button class="delete-task-button" id="delete-task-confirm"><img class="delete-task-button-image trash-image" src="${DeleteImg}" alt="Trashcan">Delete Task</button>
                 </div>
             </section>
-        `);
-        document.getElementById("content").appendChild(modal);
+        `
+		);
+		document.getElementById("content").appendChild(modal);
 
-        let backdrop = document.getElementById("delete-task-backdrop");
-        let sectionContainer = document.getElementById("delete-task-content");
-        let closeButton = document.getElementById("delete-task-modal-close");
+		let backdrop = document.getElementById("delete-task-backdrop");
+		let sectionContainer = document.getElementById("delete-task-content");
+		let closeButton = document.getElementById("delete-task-modal-close");
 
-        // Effects
-        // Try making universal function for this since it is recycled
-        setTimeout(function(){
-            backdrop.classList.add("show");
-            sectionContainer.classList.add("show");
-            sectionContainer.setAttribute("aria-hidden", "false");
-            setTimeout(function(){
-                sectionContainer.focus();
-            }, 301);
-        }, 0);
-        
+		// Effects
+		// Try making universal function for this since it is recycled
+		setTimeout(function() {
+			backdrop.classList.add("show");
+			sectionContainer.classList.add("show");
+			sectionContainer.setAttribute("aria-hidden", "false");
+			setTimeout(function() {
+				sectionContainer.focus();
+			}, 301);
+		}, 0);
 
-        // event listeners
-        backdrop.addEventListener("click", function(event){
-            if(!((event.target === sectionContainer) || (sectionContainer.contains(event.target)))) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-        closeButton.addEventListener("click", function(event){
-            if((event.target !== sectionContainer) || sectionContainer.contains(event.target)) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-    }
+		// event listeners
+		backdrop.addEventListener("click", function(event) {
+			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
+				Modal.deleteModal(backdrop);
+			}
+		});
+		closeButton.addEventListener("click", function(event) {
+			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
+				Modal.deleteModal(backdrop);
+			}
+		});
+	}
 }
-
 
 export default Modal;

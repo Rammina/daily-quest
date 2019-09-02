@@ -106,6 +106,13 @@
     text-align: center;
 }
 
+.modal-warning {
+    position: relative;
+    bottom: 0.5rem;
+    color: #fbb;
+    font-size: 1rem;
+}
+
 #delete-task-title, #delete-project-title{
     font-size: 1.6rem;
     color: #fdb;
@@ -341,6 +348,7 @@ select:disabled {
 #add-task-submit:hover, #add-project-submit:hover {
     border: 1px solid #beffff;
     background-color: rgb(175, 224, 175);
+    cursor: pointer;
 }
 
 

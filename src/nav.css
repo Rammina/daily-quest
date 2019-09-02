@@ -59,6 +59,10 @@
 
 }
 
+#nav-menu:hover {
+    cursor: pointer;
+}
+
 #nav-menu[aria-expanded="true"] {
     -webkit-box-shadow: 0px 0px 0px 0.5px #fff9b5, 0px 0px 0px 1px #FFC9B8, 0px 0px 1px 1px #ffc580; 
     box-shadow: 0px 0px 0px 0.5px #fff9b5, 0px 0px 0px 1px #FFC9B8, 0px 0px 1px 1px #ffc580;
@@ -102,11 +106,20 @@
     transform: translate(0rem);
 }
 
+.nav-item-container {
+    color: aliceblue;
+}
+
+.nav-item-container:hover {
+    background-color: rgba(255, 255, 255, 0.103);
+    color: #b3f8f8;
+}
+
 .nav-item {
     font-family: 'Raleway', sans-serif;
     display: block;
     background-color: rgba(219, 244, 251, 0); 
-    color: aliceblue;
+    color: inherit;
     padding: 0.75rem 0.7rem;
     text-align: left;
     font-size: 1.05rem;
@@ -118,7 +131,6 @@
     text-transform: uppercase;
     /*border-bottom: solid 1px #beffff;*/
     border: none;
-
 }
 
 .nav-item:focus {
@@ -146,12 +158,17 @@
     font-size: 2.5rem;
 }
 
+#add-project-button:hover {
+    cursor: pointer;
+    color: rgb(140, 212, 140);
+}
+
 .projects-items{
     display: block;
     width: 100%;
     height: auto;
     max-height: 0;
-    background-color: #333;
+    background-color: rgba(51, 51, 51);
     font-size: 1rem;
     /* opacity: 0; */
     border-top: solid 0px #beffff00;
@@ -178,8 +195,8 @@
 }
 
 .projects-item-container:hover{
-    
-    background-color: rgba(255, 255, 255 0.8);
+    background-color: rgba(255, 255, 255, 0.15);
+    cursor: pointer;
 }
 
 .projects-item{
@@ -206,6 +223,10 @@
     opacity: 1;
 } 
 
+.projects-item:hover {
+    cursor: pointer;
+}
+
 .projects-item-delete {
     position: relative;
     display: block;
@@ -223,9 +244,13 @@
     
 }
 
-.projects-item-delete.show {
+.projects-item-delete.show, .projects-item-delete.modal-active {
     opacity: 1;
 } 
+
+.projects-item-delete:hover {
+    cursor: pointer;
+}
 
 .delete-projects-icon {
     position: relative;
@@ -280,7 +305,6 @@
     .nav-items{
         /*transition: visibility 0s ease-in, transform 0s ease-in;*/
         /*visibility: visible;*/
-        top: 3.5rem;
         /*opacity: 1;*/
         /*transform: translate(0);*/
     }
@@ -302,6 +326,9 @@
 @media screen and (min-width: 950px) {
     #nav-backdrop{
         display: none;
+    }
+    .nav-items {
+        top: 3.5rem;
     }
 }
 

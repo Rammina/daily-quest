@@ -15,6 +15,31 @@ class Modal {
 			document.getElementById("content").removeChild(modal);
 		}, 301);
 	}
+
+	static showAndFocusModal(backdrop, modalContent) {
+		setTimeout(function() {
+            backdrop.classList.add("show");
+            modalContent.classList.add("show");
+            modalContent.setAttribute("aria-hidden", "false");
+            setTimeout(function() {
+                modalContent.focus();
+            }, 301);
+        }, 0);
+	}
+	static addBackdropClick(backdrop, modalContent) {
+		backdrop.addEventListener("click", function(event) {
+            if (!(event.target === modalContent || modalContent.contains(event.target))) {
+                Modal.deleteModal(backdrop);
+            }
+        });
+	}
+	static addCloseButtonClick(backdrop, closeButton) {
+		closeButton.addEventListener("click", function(event) {
+                Modal.deleteModal(backdrop);
+        });
+	}
+	
+
 	static emptyFieldError(field) {
 		let parent = field.parentElement;
 		let errorMessage = parent.querySelector(".modal-error-message.empty-error");
@@ -87,32 +112,15 @@ class Modal {
 
 		let backdrop = document.getElementById("add-task-backdrop");
 		let sectionContainer = document.getElementById("add-task-content");
-		let submit = document.getElementById("add-task-submit");
 		let closeButton = document.getElementById("add-task-modal-close");
 
 		// Effects
-		// Try making universal function for this since it is recycled
-		setTimeout(function() {
-			backdrop.classList.add("show");
-			sectionContainer.classList.add("show");
-			sectionContainer.setAttribute("aria-hidden", "false");
-			setTimeout(function() {
-				sectionContainer.focus();
-			}, 301);
-		}, 0);
+		Modal.showAndFocusModal(backdrop, sectionContainer);
 
 		// event listeners
-		backdrop.addEventListener("click", function(event) {
-			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
-				Modal.deleteModal(backdrop);
-			}
-		});
-		closeButton.addEventListener("click", function(event) {
-			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
-				Modal.deleteModal(backdrop);
-			}
-		});
-		console.log("modal is add-tasked to the Dom");
+		Modal.addBackdropClick(backdrop, sectionContainer);
+		Modal.addCloseButtonClick(backdrop, closeButton);
+		
 	}
 	static validAddTaskDate(dateField) {
 		let yesterday = endOfYesterday();
@@ -285,31 +293,14 @@ class Modal {
 
 		let backdrop = document.getElementById("add-project-backdrop");
 		let sectionContainer = document.getElementById("add-project-content");
-		let submit = document.getElementById("add-project-submit");
 		let closeButton = document.getElementById("add-project-modal-close");
 
 		// Effects
-		// Try making universal function for this since it is recycled
-		setTimeout(function() {
-			backdrop.classList.add("show");
-			sectionContainer.classList.add("show");
-			sectionContainer.setAttribute("aria-hidden", "false");
-			setTimeout(function() {
-				sectionContainer.focus();
-			}, 301);
-		}, 0);
+		Modal.showAndFocusModal(backdrop, sectionContainer);
 
 		// event listeners
-		backdrop.addEventListener("click", function(event) {
-			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
-				Modal.deleteModal(backdrop);
-			}
-		});
-		closeButton.addEventListener("click", function(event) {
-			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
-				Modal.deleteModal(backdrop);
-			}
-		});
+		Modal.addBackdropClick(backdrop, sectionContainer);
+		Modal.addCloseButtonClick(backdrop, closeButton);
 	}
 	static validAddProjectForm() {
 		// Assigning variable names to field elements
@@ -403,31 +394,14 @@ class Modal {
 
 		let backdrop = document.getElementById("task-details-backdrop");
 		let sectionContainer = document.getElementById("task-details-content");
-		let submit = document.getElementById("task-details-edit");
 		let closeButton = document.getElementById("task-details-modal-close");
 
 		// Effects
-		// Try making universal function for this since it is recycled
-		setTimeout(function() {
-			backdrop.classList.add("show");
-			sectionContainer.classList.add("show");
-			sectionContainer.setAttribute("aria-hidden", "false");
-			setTimeout(function() {
-				sectionContainer.focus();
-			}, 301);
-		}, 0);
+		Modal.showAndFocusModal(backdrop, sectionContainer);
 
 		// event listeners
-		backdrop.addEventListener("click", function(event) {
-			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
-				Modal.deleteModal(backdrop);
-			}
-		});
-		closeButton.addEventListener("click", function(event) {
-			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
-				Modal.deleteModal(backdrop);
-			}
-		});
+		Modal.addBackdropClick(backdrop, sectionContainer);
+		Modal.addCloseButtonClick(backdrop, closeButton);
 	}
 	static validEditTaskTime(timeField) {
 		let dateField = document.getElementById("task-details-date-field");
@@ -564,7 +538,8 @@ class Modal {
             <section class="modal-container" id="delete-task-content" tabindex="-1" role="dialog" aria-hidden="true">
                 <button class="modal-close" id="delete-task-modal-close">x</button>
                 <h1 class="modal-header">Delete Task</h1>
-                <p class="modal-paragraph">Would you like to remove this task? </p>
+				<p class="modal-paragraph">Would you like to remove this task? </p>
+				<p class="modal-paragraph modal-warning">WARNING: All deleted tasks' data cannot be recovered!</p>
                 <p class="modal-paragraph" id="delete-task-title">${taskTitle}</p>
                 <div id="delete-task-buttons-container" class="two-buttons-container">
                     <button class="delete-task-button" id="delete-task-cancel">Cancel</button>
@@ -580,27 +555,11 @@ class Modal {
 		let closeButton = document.getElementById("delete-task-modal-close");
 
 		// Effects
-		// Try making universal function for this since it is recycled
-		setTimeout(function() {
-			backdrop.classList.add("show");
-			sectionContainer.classList.add("show");
-			sectionContainer.setAttribute("aria-hidden", "false");
-			setTimeout(function() {
-				sectionContainer.focus();
-			}, 301);
-		}, 0);
+		Modal.showAndFocusModal(backdrop, sectionContainer);
 
 		// event listeners
-		backdrop.addEventListener("click", function(event) {
-			if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
-				Modal.deleteModal(backdrop);
-			}
-		});
-		closeButton.addEventListener("click", function(event) {
-			if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
-				Modal.deleteModal(backdrop);
-			}
-		});
+		Modal.addBackdropClick(backdrop, sectionContainer);
+		Modal.addCloseButtonClick(backdrop, closeButton);
 	}
     // ***********************DeleteProjectModal here************** ****************************
     static renderDeleteProjectModal(project) {
@@ -615,7 +574,8 @@ class Modal {
                 <button class="modal-close" id="delete-project-modal-close">x</button>
                 <h1 class="modal-header">Delete Project</h1>
                 <p class="modal-paragraph">Would you like to remove this project? </p>
-                <p class="modal-paragraph" id="delete-project-title">${project.title}</p>
+				<p class="modal-paragraph modal-warning">WARNING: All deleted projects' data cannot be recovered!</p>
+				<p class="modal-paragraph" id="delete-project-title">${project.title}</p>
                 <div id="delete-project-buttons-container" class="two-buttons-container">
                     <button class="delete-project-button" id="delete-project-cancel">Cancel</button>
                     <button class="delete-project-button" id="delete-project-confirm"><img class="delete-project-button-image trash-image" src="${DeleteImg}" alt="Trashcan">Delete Project</button>
@@ -630,27 +590,11 @@ class Modal {
         let closeButton = document.getElementById("delete-project-modal-close");
 
         // Effects
-        // Try making universal function for this since it is recycled
-        setTimeout(function() {
-            backdrop.classList.add("show");
-            sectionContainer.classList.add("show");
-            sectionContainer.setAttribute("aria-hidden", "false");
-            setTimeout(function() {
-                sectionContainer.focus();
-            }, 301);
-        }, 0);
+		Modal.showAndFocusModal(backdrop, sectionContainer);
 
-        // event listeners
-        backdrop.addEventListener("click", function(event) {
-            if (!(event.target === sectionContainer || sectionContainer.contains(event.target))) {
-                Modal.deleteModal(backdrop);
-            }
-        });
-        closeButton.addEventListener("click", function(event) {
-            if (event.target !== sectionContainer || sectionContainer.contains(event.target)) {
-                Modal.deleteModal(backdrop);
-            }
-        });
+		// event listeners
+		Modal.addBackdropClick(backdrop, sectionContainer);
+		Modal.addCloseButtonClick(backdrop, closeButton);
     }
 }
 

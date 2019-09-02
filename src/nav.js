@@ -22,13 +22,13 @@ class Navigation {
             
             <div class="backdrop" id="nav-backdrop"></div>
             <ul class="nav-items" id="navbarResponsive">
-            	<li><button id="projects-button" class="nav-item" aria-expanded="false" href="#">Projects <button id="add-project-button">+</button></button>
+            	<li class="nav-item-container"><button id="projects-button" class="nav-item" aria-expanded="false" href="#">Projects <button id="add-project-button">+</button></button>
             		<ul class="projects-items">
 						
             		</ul>
             	</li>
-                <li><button class="nav-item" aria-expanded="false">Due Today</button></li>
-                <li><button class="nav-item" aria-expanded="false">Finished Tasks</button></li>
+                <li class="nav-item-container"><button class="nav-item" aria-expanded="false">Due Today</button></li>
+                <li class="nav-item-container"><button class="nav-item" aria-expanded="false">Finished Tasks</button></li>
                 
             </ul>
             
@@ -77,7 +77,6 @@ class Navigation {
 			let projectDelete = document.querySelectorAll(".projects-item-delete");
 			for (let i = 0; i < projectItems.length; i++) {
 				projectItems[i].classList.add("show");
-				projectDelete[i].classList.add("show");
 			}
 		}
 
@@ -88,7 +87,6 @@ class Navigation {
 			let projectDelete = document.querySelectorAll(".projects-item-delete");
 			for (let i = 0; i < projectItems.length; i++) {
 				projectItems[i].classList.remove("show");
-				projectDelete[i].classList.remove("show");
 			}
 		}
 
@@ -145,8 +143,6 @@ class Navigation {
 							Navigation.renderProject(newProject);
 							Modal.deleteModal(document.getElementById("add-project-backdrop"));
 							showProject();
-
-
 						}
 					}
 				});
@@ -164,46 +160,70 @@ class Navigation {
 			`
 		);
 
+		//Variable declarations for elements
+		let deleteButton = projectElement.querySelector(".projects-item-delete");
+
 		// Render the task upon clicking the project name
 		projectElement.querySelector(".projects-item").addEventListener("click", function() {
 			Tasklist.renderTasks(project.title, project.tasks);
 		});
 
 		// show the trashcan icon when hovering over the project item
-		projectElement.querySelector(".projects-item").addEventListener("mouseleave", function() {
-
-			projectElement.querySelector(".projects-item-delete").classList.remove("show");
+		projectElement.addEventListener("mouseleave", function() {
+			deleteButton.classList.remove("show");
 		});
 
-		projectElement.querySelector(".projects-item").addEventListener("mouseenter", function() {
-			
-			projectElement.querySelector(".projects-item-delete").classList.add("show");
+		projectElement.addEventListener("mouseenter", function() {
+			deleteButton.classList.add("show");
 		});
 
 		// open the delete project prompt upon clicking the trashbin button
-		projectElement.querySelector(".projects-item-delete").addEventListener("click", function() {
+		deleteButton.addEventListener("click", function() {
 			Modal.renderDeleteProjectModal(project);
+			deleteButton.classList.add("modal-active");
+
+			document
+				.getElementById("delete-project-backdrop")
+				.addEventListener("click", function(event) {
+					if (
+						!(
+							event.target === document.getElementById("delete-project-content") ||
+							document.getElementById("delete-project-content").contains(event.target)
+						)
+					) {
+						deleteButton.classList.remove("modal-active");
+					}
+				});
+
+			document
+				.getElementById("delete-project-modal-close")
+				.addEventListener("click", function(event) {
+					deleteButton.classList.remove("modal-active");
+				});
 
 			// close the modal if cancel button was clicked
-			document.getElementById("delete-project-cancel").addEventListener("click", function(event){
-				event.preventDefault();
-				Modal.deleteModal(document.getElementById("delete-project-backdrop"));				
-			});			
+			document
+				.getElementById("delete-project-cancel")
+				.addEventListener("click", function(event) {
+					event.preventDefault();
+					Modal.deleteModal(document.getElementById("delete-project-backdrop"));
+					deleteButton.classList.remove("modal-active");
+				});
 
 			// delete the project item if confirm was clicked
-			document.getElementById("delete-project-confirm").addEventListener("click", function(event){
-				event.preventDefault();
+			document
+				.getElementById("delete-project-confirm")
+				.addEventListener("click", function(event) {
+					event.preventDefault();
 
-				document.querySelector(".projects-items").removeChild(projectElement);		
-				TaskData.deleteProject(project);
-				Modal.deleteModal(document.getElementById("delete-project-backdrop"));
-			});
-
-
+					document.querySelector(".projects-items").removeChild(projectElement);
+					TaskData.deleteProject(project);
+					Modal.deleteModal(document.getElementById("delete-project-backdrop"));
+					deleteButton.classList.remove("modal-active");
+				});
 		});
 		if (document.getElementById("projects-button").getAttribute("aria-expanded") === "true") {
 			projectElement.querySelector(".projects-item").classList.add("show");
-			projectElement.querySelector(".projects-item-delete").classList.add("show");
 		}
 
 		// Added to the document Dom

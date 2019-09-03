@@ -170,7 +170,8 @@
     max-height: 0;
     background-color: rgba(51, 51, 51);
     font-size: 1rem;
-    /* opacity: 0; */
+    visibility: hidden;
+    opacity: 0;
     border-top: solid 0px #beffff00;
     border-bottom: solid 0px #beffff00;
     transition: max-height 0.15s ease-in, padding 0.15s ease-in, border 0.2s ease-in;
@@ -180,6 +181,7 @@
     max-height: 100rem;
     display: block;
     padding: 0.5rem 0;
+    visibility: visible;
     opacity: 1;
     border-top: solid 1px #beffff;
     border-bottom: solid 1px #beffff;
@@ -206,19 +208,21 @@
     color: aliceblue;
     background-color: rgba(0, 0, 0, 0);
     border: none;
-    width: 7rem;
+    width: 7.4rem;
     padding: 0.7rem 0.3rem;
     padding-right: 0.3rem;
     left: 0.8rem;
     font-size: 1rem;
     text-align: left;
     opacity: 0;
+    visibility: hidden;
     transform: translateX(-150px);
     transition: all 0.15s ease-in;
     overflow-wrap: break-word;
 }
 
 .projects-item.show {
+    visibility: visible;
     transform: translateX(0px);
     opacity: 1;
 } 
@@ -242,6 +246,7 @@
     text-align: center;
     margin: 0;
     right: 0.5rem;
+    /* visibility: hidden; */
     opacity: 0;
     transition: all 0.15s ease-in;
     
@@ -252,6 +257,7 @@
 }
 
 .projects-item-button.show, .projects-item-button.modal-active {
+    /* visibility: visible; */
     opacity: 1;
 } 
 
@@ -259,13 +265,13 @@
     cursor: pointer;
 }
 
-.delete-projects-icon {
+.projects-item-button-icon {
     position: relative;
-    height: 1.5rem;
-    width: 1.5rem;
+    height: 1.6rem;
+    width: 1.6rem;
     /*margin-right: 0.3rem;*/
     /*top: 0.1rem;*/
-
+    filter: invert(91%) sepia(3%) saturate(1683%) hue-rotate(193deg) brightness(104%) contrast(105%);
 }
 
 .delete-projects-icon.trash-image{
@@ -351,8 +357,12 @@
     .nav-items{
         width: 17.5rem;
     }
+    .nav-item {
+        font-size: 1.2rem;
+    }
     .projects-item{
-        width: 8.5rem;
+        width: 9.5rem;
+        font-size: 1.1rem;
     }
     .projects-item-button-container{
         width: 6.3rem;

@@ -6,6 +6,8 @@ import Modal from "./modal.js";
 
 import HamburgerIcon from "./images/hamburger-icon.png";
 import DeleteImg from "./images/delete.png";
+// <div>Icons made by <a href="https://www.flaticon.com/authors/those-icons" title="Those Icons">Those Icons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+import SettingsImg from "./images/settings.png";
 
 class Navigation {
 	render() {
@@ -158,16 +160,17 @@ class Navigation {
 				<button class="projects-item">${project.title}</button>
 				<div class="projects-item-button-container">
 					<button class="projects-item-button projects-item-settings">
-						<img class="delete-projects-icon trash-image" src="${DeleteImg}" alt="Trashcan">
-						<ul class="projects-item-settings-container">
-							<li class="projects-item-setting">Rename</li>
-							<li class="projects-item-setting">Delete</li>
-						</ul>
+						<img class="projects-item-button-icon gear-image" src="${SettingsImg}" alt="Gear Icon">
 					</button>
-					<button class="projects-item-button projects-item-delete"><img class="delete-projects-icon trash-image" src="${DeleteImg}" alt="Trashcan"></button>
+					<button class="projects-item-button projects-item-delete"><img class="projects-item-button-icon trash-image" src="${DeleteImg}" alt="Trashcan"></button>
 				</div>
 			`
 		);
+		// This is the window that opens when you click settings button
+		// <ul class="projects-item-settings-container">
+		// 					<li class="projects-item-setting">Rename</li>
+		// 					<li class="projects-item-setting">Delete</li>
+		// 				</ul>
 
 		//Variable declarations for elements
 		let settingsButton = projectElement.querySelector(".projects-item-settings");

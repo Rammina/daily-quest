@@ -227,28 +227,35 @@
     cursor: pointer;
 }
 
-.projects-item-delete {
+.projects-item-button-container{
+    width: 3.1rem;
+}
+.projects-item-button {
     position: relative;
-    display: block;
+    display: inline-block;
     font-family: 'Raleway', sans-serif;
     color: rgb(245, 0, 0);
     background-color: rgba(0, 0, 0, 0);
     border: none;
     width: 3rem;
     height: 3rem;
-    font-size: 2rem;
     text-align: center;
+    margin: 0;
     right: 0.5rem;
     opacity: 0;
     transition: all 0.15s ease-in;
     
 }
 
-.projects-item-delete.show, .projects-item-delete.modal-active {
+.projects-item-delete{
+    display: none;
+}
+
+.projects-item-button.show, .projects-item-button.modal-active {
     opacity: 1;
 } 
 
-.projects-item-delete:hover {
+.projects-item-button:hover {
     cursor: pointer;
 }
 
@@ -265,9 +272,14 @@
     filter: invert(91%) sepia(3%) saturate(1683%) hue-rotate(193deg) brightness(104%) contrast(105%);
 }
 
-.nav-item.current {
-    color: #fbe16a;
+.projects-item-settings-container{
+    z-index: 1000;
+    position: fixed;
+    background-color: white;
+    color: #111;
+    font-size: 1.1rem;
 }
+
 
 /*breakpoints*/
 
@@ -335,5 +347,17 @@
 @media screen and (min-width: 1100px) {
     .main-nav {
         /*max-width: 80rem;*/
+    }
+    .nav-items{
+        width: 17.5rem;
+    }
+    .projects-item{
+        width: 8.5rem;
+    }
+    .projects-item-button-container{
+        width: 6.3rem;
+    }
+    .projects-item-delete {
+        display: inline-block;
     }
 }

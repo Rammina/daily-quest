@@ -41,7 +41,7 @@
     padding: 2.5rem 0;
 }
 
-#delete-task-content{
+#delete-task-content, #delete-project-content {
     max-width: 35rem;
     margin: calc(45vh - 7.5rem) calc(50vw - 50%);
 }
@@ -501,15 +501,15 @@ select:disabled {
 }
 @media screen and (min-width: 545px){
     .modal-container{
-        margin: calc(48vh - 16rem) calc(50vw - 50%);
+        /*margin: calc(48vh - 10rem) calc(50vw - 50%);*/
     }
     #add-project-content{
 
         margin: calc(45vh - 7.5rem) calc(50vw - 16rem);
     }
-    #delete-task-content{
+    #delete-task-content, #delete-project-content {
         
-        margin: calc(42vh - 9.06rem) calc(50vw - 16.5rem);
+        margin: calc(42vh - 9.06rem) calc(50vw - 16.7rem);
     }
     .text-field{
         font-size: 1.1rem;
@@ -526,6 +526,14 @@ select:disabled {
     }
 }
 @media screen and (min-width: 650px){
+    .modal-container{
+        margin-right: calc(50vw - 20rem);
+        margin-left: calc(50vw - 20rem);
+    }
+}
+
+/*combined min-width and min-height breakpoints*/
+@media screen and (min-width: 650px) and (min-height: 650px){
     .modal-container{
         margin: calc(48vh - 16rem) calc(50vw - 20rem);
     }

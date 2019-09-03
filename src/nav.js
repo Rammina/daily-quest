@@ -156,26 +156,76 @@ class Navigation {
 			"beforeend",
 			`
 				<button class="projects-item">${project.title}</button>
-				<button class="projects-item-delete"><img class="delete-projects-icon trash-image" src="${DeleteImg}" alt="Trashcan"></button>
+				<div class="projects-item-button-container">
+					<button class="projects-item-button projects-item-settings">
+						<img class="delete-projects-icon trash-image" src="${DeleteImg}" alt="Trashcan">
+						<ul class="projects-item-settings-container">
+							<li class="projects-item-setting">Rename</li>
+							<li class="projects-item-setting">Delete</li>
+						</ul>
+					</button>
+					<button class="projects-item-button projects-item-delete"><img class="delete-projects-icon trash-image" src="${DeleteImg}" alt="Trashcan"></button>
+				</div>
 			`
 		);
 
 		//Variable declarations for elements
+		let settingsButton = projectElement.querySelector(".projects-item-settings");
 		let deleteButton = projectElement.querySelector(".projects-item-delete");
+		let openProjectButton = projectElement.querySelector(".projects-item");
 
 		// Render the task upon clicking the project name
-		projectElement.querySelector(".projects-item").addEventListener("click", function() {
+		openProjectButton.addEventListener("click", function() {
 			Tasklist.renderTasks(project.title, project.tasks);
 		});
 
-		// show the trashcan icon when hovering over the project item
+		
 		projectElement.addEventListener("mouseleave", function() {
 			deleteButton.classList.remove("show");
+			settingsButton.classList.remove("show");
 		});
-
+		// show the trashcan icon when hovering over the project item
 		projectElement.addEventListener("mouseenter", function() {
 			deleteButton.classList.add("show");
+			settingsButton.classList.add("show");
 		});
+
+		openProjectButton.addEventListener("focus", function() {
+
+			deleteButton.classList.add("show");
+			settingsButton.classList.add("show");
+		});
+
+		openProjectButton.addEventListener("blur", function() {
+			
+			deleteButton.classList.remove("show");
+			settingsButton.classList.remove("show");
+		});
+
+		deleteButton.addEventListener("focus", function() {
+
+			deleteButton.classList.add("show");
+			settingsButton.classList.add("show");
+		});
+
+		deleteButton.addEventListener("blur", function() {
+			
+			deleteButton.classList.remove("show");
+			settingsButton.classList.remove("show");
+		});
+
+		settingsButton.addEventListener("focus", function() {
+
+			deleteButton.classList.add("show");
+			settingsButton.classList.add("show");
+		});
+
+		settingsButton.addEventListener("blur", function() {
+			
+			deleteButton.classList.remove("show");
+			settingsButton.classList.remove("show");
+		});
+
 
 		// open the delete project prompt upon clicking the trashbin button
 		deleteButton.addEventListener("click", function() {

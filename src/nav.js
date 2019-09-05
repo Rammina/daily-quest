@@ -166,11 +166,7 @@ class Navigation {
 				</div>
 			`
 		);
-		// This is the window that opens when you click settings button
-		// <ul class="projects-item-settings-container">
-		// 					<li class="projects-item-setting">Rename</li>
-		// 					<li class="projects-item-setting">Delete</li>
-		// 				</ul>
+		
 
 		//Variable declarations for elements
 		let settingsButton = projectElement.querySelector(".projects-item-settings");
@@ -229,6 +225,40 @@ class Navigation {
 			settingsButton.classList.remove("show");
 		});
 
+		// Upon clicking the settings button open a menu containing 
+		// add task, rename, and delete
+		settingsButton.addEventListener("click", function(event){
+			event.preventDefault();
+
+			// check if settings menu is already present in the document
+			// if so, delete it to prevent duplicates
+			let menu = document.querySelector(".settings-menu");
+			if(menu) {
+				document.getElementById("content").removeChild(menu);
+
+			}
+
+			let settingsMenu = document.createElement("ul");
+			settingsMenu.classList.add("settings-menu");
+			settingsMenu.insertAdjacentHTML("beforeend", `
+				<li id="settings-add" class="settings-menu-item">Add Task</li>
+				<li id="settings-rename" class="settings-menu-item">Rename</li>
+				<li id="settings-delete" class="settings-menu-item">Delete</li>
+			`);
+
+			let mouseX = event.clientX;
+			let mouseY = event.clientY;
+
+			settingsMenu.style.left = mouseX + "px";
+			settingsMenu.style.top = mouseY + "px";
+
+			document.getElementById("content").appendChild(settingsMenu);
+
+			let projectsMenu = document.querySelector(".nav-item-container");
+			settingsButton.classList.add("settings-active");
+			projectsMenu.classList.add("settings-active");
+			projectElement.classList.add("settings-active");
+		});
 
 		// open the delete project prompt upon clicking the trashbin button
 		deleteButton.addEventListener("click", function() {
